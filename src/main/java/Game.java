@@ -1,7 +1,7 @@
 
 import javax.swing.*;
 
-public class Game implements Runnable {
+public class  Game implements Runnable {
     public void run() {
         SwingUtilities.invokeLater(new StartMenu());
     }
