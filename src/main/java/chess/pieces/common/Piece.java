@@ -1,7 +1,7 @@
-package chesspieces.common;
+package chess.pieces.common;
 
-import chesspieces.Board;
-import chesspieces.Square;
+import chess.board.Board;
+import chess.board.Square;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
@@ -22,12 +23,10 @@ public abstract class Piece {
         this.currentSquare = initSq;
         
         try {
-            if (this.img == null) {
-              this.img = ImageIO.read(getClass().getResource(img_file));
-            }
-          } catch (IOException e) {
+            this.img = ImageIO.read(Objects.requireNonNull(getClass().getResource(img_file)));
+        } catch (IOException | NullPointerException e) {
             System.out.println("File not found: " + e.getMessage());
-          }
+        }
     }
     
     public boolean move(Square fin) {
@@ -51,15 +50,15 @@ public abstract class Piece {
     public void setPosition(Square sq) {
         this.currentSquare = sq;
     }
-    
+
     public int getColor() {
         return color;
     }
-    
+
     public Image getImage() {
         return img;
     }
-    
+
     public void draw(Graphics g) {
         int x = currentSquare.getX();
         int y = currentSquare.getY();

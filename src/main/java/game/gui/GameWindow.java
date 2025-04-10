@@ -1,7 +1,9 @@
-package game;
+package game.gui;
 
-import chesspieces.Board;
-import static game.ImagePath.RESOURCES_WPAWN_PNG;
+import chess.board.Board;
+import game.control.Clock;
+
+import static game.enums.ImagePath.RESOURCES_WPAWN_PNG;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

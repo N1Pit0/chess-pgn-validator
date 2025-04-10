@@ -1,4 +1,4 @@
-package game;
+package game.control;
 
 public class Clock {
     private int hh;

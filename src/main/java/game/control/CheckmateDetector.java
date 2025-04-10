@@ -1,7 +1,11 @@
-package game;
+package game.control;
 
-import chesspieces.*;
-import chesspieces.common.Piece;
+import chess.board.Board;
+import chess.board.Square;
+import chess.pieces.Bishop;
+import chess.pieces.King;
+import chess.pieces.Queen;
+import chess.pieces.common.Piece;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +33,7 @@ public class CheckmateDetector {
     private HashMap<Square,List<Piece>> bMoves;
     
     /**
-     * Constructs a new instance of game.CheckmateDetector on a given board. By
+     * Constructs a new instance of game.control.CheckmateDetector on a given board. By
      * convention should be called when the board is in its initial state.
      * 
      * @param b The board which the detector monitors

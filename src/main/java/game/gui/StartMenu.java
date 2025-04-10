@@ -1,7 +1,7 @@
-package game;
+package game.gui;
 
-import static game.ImagePath.RESOURCES_BPAWN_PNG;
-import static game.ImagePath.RESOURCES_WPAWN_PNG;
+import static game.enums.ImagePath.RESOURCES_BPAWN_PNG;
+import static game.enums.ImagePath.RESOURCES_WPAWN_PNG;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

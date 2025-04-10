@@ -1,9 +1,14 @@
-package chesspieces;
+package chess.board;
 
-import chesspieces.common.Piece;
-import game.CheckmateDetector;
-import game.GameWindow;
-import static game.ImagePath.*;
+import chess.board.mousehandler.BoardMouseHandler;
+import chess.board.mousehandler.BoardMouseMotionHandler;
+import chess.pieces.*;
+import chess.pieces.common.Piece;
+import game.control.CheckmateDetector;
+import game.gui.GameWindow;
+import lombok.Getter;
+
+import static game.enums.ImagePath.*;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -19,10 +24,10 @@ import java.util.List;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class Board extends JPanel implements MouseListener, MouseMotionListener {
+public class Board extends JPanel implements CustomBoardMouseListener{
 	// Logical and graphical representations of board
 	private final Square[][] board;
-    private final GameWindow g;
+    private final GameWindow gameWindow;
     
     // List of pieces and whether they are movable
     public final LinkedList<Piece> Bpieces;
@@ -31,21 +36,28 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     
     private boolean whiteTurn;
 
+    @Getter
     private Piece currPiece;
     private int currX;
     private int currY;
     
     private CheckmateDetector cmd;
+
+    private BoardMouseHandler boardMouseHandler;
+    private BoardMouseMotionHandler boardMouseMotionHandler;
     
-    public Board(GameWindow g) {
-        this.g = g;
+    public Board(GameWindow gameWindow) {
+        this.gameWindow = gameWindow;
         board = new Square[8][8];
         Bpieces = new LinkedList<Piece>();
         Wpieces = new LinkedList<Piece>();
         setLayout(new GridLayout(8, 8, 0, 0));
 
-        this.addMouseListener(this);
-        this.addMouseMotionListener(this);
+        this.boardMouseHandler = new BoardMouseHandler(this);
+        this.boardMouseMotionHandler = new BoardMouseMotionHandler(this);
+
+        this.addMouseListener(boardMouseHandler);
+        this.addMouseMotionListener(boardMouseMotionHandler);
 
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -122,14 +134,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         return whiteTurn;
     }
 
-    public void setCurrPiece(Piece p) {
-        this.currPiece = p;
-    }
-
-    public Piece getCurrPiece() {
-        return this.currPiece;
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         // super.paintComponent(g);
@@ -151,7 +155,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void handleMousePressed(MouseEvent e) {
         currX = e.getX();
         currY = e.getY();
 
@@ -169,7 +173,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void handleMouseReleased(MouseEvent e) {
         Square sq = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
 
         if (currPiece != null) {
@@ -190,15 +194,15 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 if (cmd.blackCheckMated()) {
                     currPiece = null;
                     repaint();
-                    this.removeMouseListener(this);
-                    this.removeMouseMotionListener(this);
-                    g.checkmateOccurred(0);
+                    this.removeMouseListener(boardMouseHandler);
+                    this.removeMouseMotionListener(boardMouseMotionHandler);
+                    gameWindow.checkmateOccurred(0);
                 } else if (cmd.whiteCheckMated()) {
                     currPiece = null;
                     repaint();
-                    this.removeMouseListener(this);
-                    this.removeMouseMotionListener(this);
-                    g.checkmateOccurred(1);
+                    this.removeMouseListener(boardMouseHandler);
+                    this.removeMouseMotionListener(boardMouseMotionHandler);
+                    gameWindow.checkmateOccurred(1);
                 } else {
                     currPiece = null;
                     whiteTurn = !whiteTurn;
@@ -215,28 +219,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void handleMouseDragged(MouseEvent e) {
         currX = e.getX() - 24;
         currY = e.getY() - 24;
 
         repaint();
-    }
-
-    // Irrelevant methods, do nothing for these mouse behaviors
-    @Override
-    public void mouseMoved(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
     }
 
 }
