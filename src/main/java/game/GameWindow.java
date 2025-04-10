@@ -1,3 +1,7 @@
+package game;
+
+import chesspieces.Board;
+import static game.ImagePath.RESOURCES_WPAWN_PNG;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -31,10 +35,10 @@ public class GameWindow {
         
 
         try {
-            Image whiteImg = ImageIO.read(getClass().getResource(ImagePath.RESOURCES_WPAWN_PNG.label));
+            Image whiteImg = ImageIO.read(getClass().getResource(RESOURCES_WPAWN_PNG.label));
             gameWindow.setIconImage(whiteImg);
         } catch (Exception e) {
-            System.out.println("Game file wp.png not found");
+            System.out.println("game.Game file wp.png not found");
         }
 
         gameWindow.setLocation(100, 100);
@@ -42,7 +46,7 @@ public class GameWindow {
         
         gameWindow.setLayout(new BorderLayout(20,20));
        
-        // Game Data window
+        // game.Game Data window
         JPanel gameData = gameDataPanel(blackName, whiteName, hh, mm, ss);
         gameData.setSize(gameData.getPreferredSize());
         gameWindow.add(gameData, BorderLayout.NORTH);

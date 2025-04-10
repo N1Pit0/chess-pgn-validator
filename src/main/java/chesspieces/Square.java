@@ -1,4 +1,6 @@
+package chesspieces;
 
+import chesspieces.common.Piece;
 
 import java.awt.Color;
 import java.awt.Graphics;

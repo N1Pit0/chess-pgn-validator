@@ -1,3 +1,7 @@
+package game;
+
+import static game.ImagePath.RESOURCES_BPAWN_PNG;
+import static game.ImagePath.RESOURCES_WPAWN_PNG;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -27,7 +31,7 @@ public class StartMenu implements Runnable {
         Box components = Box.createVerticalBox();
         startWindow.add(components);
         
-        // Game title
+        // game.Game title
         final JPanel titlePanel = new JPanel();
         components.add(titlePanel);
         final JLabel titleLabel = new JLabel("Chess");
@@ -38,7 +42,7 @@ public class StartMenu implements Runnable {
         components.add(blackPanel, BorderLayout.EAST);
         final JLabel blackPiece = new JLabel();
         try {
-            Image blackImg = ImageIO.read(getClass().getResource(ImagePath.RESOURCES_BPAWN_PNG.label));
+            Image blackImg = ImageIO.read(getClass().getResource(RESOURCES_BPAWN_PNG.label));
             blackPiece.setIcon(new ImageIcon(blackImg));
             blackPanel.add(blackPiece);
         } catch (Exception e) {
@@ -56,7 +60,7 @@ public class StartMenu implements Runnable {
         final JLabel whitePiece = new JLabel();
         
         try {
-            Image whiteImg = ImageIO.read(getClass().getResource(ImagePath.RESOURCES_WPAWN_PNG.label));
+            Image whiteImg = ImageIO.read(getClass().getResource(RESOURCES_WPAWN_PNG.label));
             whitePiece.setIcon(new ImageIcon(whiteImg));
             whitePanel.add(whitePiece);
             startWindow.setIconImage(whiteImg);

@@ -1,4 +1,6 @@
+package chesspieces;
 
+import chesspieces.common.Piece;
 
 import java.util.List;
 

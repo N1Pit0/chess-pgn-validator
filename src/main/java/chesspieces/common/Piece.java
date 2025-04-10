@@ -1,4 +1,7 @@
+package chesspieces.common;
 
+import chesspieces.Board;
+import chesspieces.Square;
 
 import java.awt.Graphics;
 import java.awt.Image;
