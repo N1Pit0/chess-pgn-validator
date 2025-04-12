@@ -2,6 +2,8 @@ package chess.pieces.common;
 
 import chess.board.Board;
 import chess.board.Square;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -13,6 +15,8 @@ import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
+@Getter
+@Setter
 public abstract class Piece {
     private final int color;
     private Square currentSquare;
@@ -41,22 +45,6 @@ public abstract class Piece {
         this.currentSquare = fin;
         currentSquare.put(this);
         return true;
-    }
-    
-    public Square getPosition() {
-        return currentSquare;
-    }
-    
-    public void setPosition(Square sq) {
-        this.currentSquare = sq;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public Image getImage() {
-        return img;
     }
 
     public void draw(Graphics g) {

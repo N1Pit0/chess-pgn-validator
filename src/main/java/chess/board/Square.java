@@ -2,62 +2,45 @@ package chess.board;
 
 import chess.pieces.common.Piece;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"board", "color", "occupyingPiece", "displayPiece"}, callSuper = false)
 public class Square extends JComponent {
-    private Board b;
+    private Board board;
     
     private final int color;
     private Piece occupyingPiece;
-    private boolean dispPiece;
+    private boolean displayPiece;
     
     private int xNum;
     private int yNum;
     
-    public Square(Board b, int c, int xNum, int yNum) {
+    public Square(Board board, int c, int xNum, int yNum) {
         
-        this.b = b;
+        this.board = board;
         this.color = c;
-        this.dispPiece = true;
+        this.displayPiece = true;
         this.xNum = xNum;
         this.yNum = yNum;
-        
-        
+
         this.setBorder(BorderFactory.createEmptyBorder());
     }
-    
-    public int getColor() {
-        return this.color;
-    }
-    
-    public Piece getOccupyingPiece() {
-        return occupyingPiece;
-    }
-    
+
     public boolean isOccupied() {
         return (this.occupyingPiece != null);
     }
-    
-    public int getXNum() {
-        return this.xNum;
-    }
-    
-    public int getYNum() {
-        return this.yNum;
-    }
-    
-    public void setDisplay(boolean v) {
-        this.dispPiece = v;
-    }
-    
+
     public void put(Piece p) {
         this.occupyingPiece = p;
-        p.setPosition(this);
+        p.setCurrentSquare(this);
     }
     
     public Piece removePiece() {
@@ -68,8 +51,8 @@ public class Square extends JComponent {
     
     public void capture(Piece p) {
         Piece k = getOccupyingPiece();
-        if (k.getColor() == 0) b.Bpieces.remove(k);
-        if (k.getColor() == 1) b.Wpieces.remove(k);
+        if (k.getColor() == 0) board.getBlackPieces().remove(k);
+        if (k.getColor() == 1) board.getWhitePieces().remove(k);
         this.occupyingPiece = p;
     }
     
@@ -84,18 +67,9 @@ public class Square extends JComponent {
         
         g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         
-        if(occupyingPiece != null && dispPiece) {
+        if(occupyingPiece != null && displayPiece) {
             occupyingPiece.draw(g);
         }
     }
 
-    @Override
-    public int hashCode() {
-        int prime = 31;
-        int result = 1;
-        result = prime * result + xNum;
-        result = prime * result + yNum;
-        return result;
-    }
-    
 }

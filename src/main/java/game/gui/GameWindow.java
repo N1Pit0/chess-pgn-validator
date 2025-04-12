@@ -29,8 +29,6 @@ public class GameWindow {
 
     private CustomBoardMouseListener customBoardMouseListener;
     
-    
-    
     public GameWindow(String blackName, String whiteName, int hh,
             int mm, int ss) {
 
@@ -59,7 +57,7 @@ public class GameWindow {
         
         this.board = new Board(this);
 
-        CustomBoardMouseListener customBoardMouseListener = new CustomBoardMouseListenerImpl(board);
+        this.customBoardMouseListener = new CustomBoardMouseListenerImpl(board);
         
         gameWindow.add(board, BorderLayout.CENTER);
         

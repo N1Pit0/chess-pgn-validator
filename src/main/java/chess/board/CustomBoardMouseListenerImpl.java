@@ -35,7 +35,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
                 return;
             if (board.getCurrPiece().getColor() == 1 && !board.isWhiteTurn())
                 return;
-            square.setDisplay(false);
+            square.setDisplayPiece(false);
         }
         board.repaint();
     }
@@ -54,20 +54,20 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
         List<Square> legalMoves = board.getCurrPiece().getLegalMoves(board);
 
-        List<Square> movableSquares = board.getCmd().getAllowableSquares(board.isWhiteTurn());
+        List<Square> movableSquares = board.getCkeckmateDetector().getAllowableSquares(board.isWhiteTurn());
         board.setMovable(movableSquares);
 
         if (legalMoves.contains(sq) && board.getMovable().contains(sq)
-                && board.getCmd().testMove(board.getCurrPiece(), sq)) {
-            sq.setDisplay(true);
+                && board.getCkeckmateDetector().testMove(board.getCurrPiece(), sq)) {
+            sq.setDisplayPiece(true);
             board.getCurrPiece().move(sq);
-            board.getCmd().update();
+            board.getCkeckmateDetector().update();
 
-            if (board.getCmd().blackCheckMated()) {
+            if (board.getCkeckmateDetector().blackCheckMated()) {
 
                 setupBoardForCheckmate(board, 0);
 
-            } else if (board.getCmd().blackCheckMated()) {
+            } else if (board.getCkeckmateDetector().blackCheckMated()) {
 
                 setupBoardForCheckmate(board, 1);
 
@@ -76,11 +76,11 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
                 board.setWhiteTurn(!board.isWhiteTurn());
 
-                board.setMovable(board.getCmd().getAllowableSquares(board.isWhiteTurn()));
+                board.setMovable(board.getCkeckmateDetector().getAllowableSquares(board.isWhiteTurn()));
             }
 
         } else {
-            board.getCurrPiece().getPosition().setDisplay(true);
+            board.getCurrPiece().getCurrentSquare().setDisplayPiece(true);
             board.setCurrPiece(null);
         }
 

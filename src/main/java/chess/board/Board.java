@@ -31,25 +31,23 @@ public class Board extends JPanel{
     private final GameWindow gameWindow;
     
     // List of pieces and whether they are movable
-    public final LinkedList<Piece> Bpieces;
-    public final LinkedList<Piece> Wpieces;
-    public List<Square> movable;
+    private final LinkedList<Piece> blackPieces;
+    private final LinkedList<Piece> whitePieces;
 
+    private List<Square> movable;
     private boolean whiteTurn;
-
-    @Getter
     private Piece currPiece;
-    @Getter
+
     private int currX;
     private int currY;
     
-    private CheckmateDetector cmd;
+    private CheckmateDetector ckeckmateDetector;
 
     public Board(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         board = new Square[8][8];
-        Bpieces = new LinkedList<Piece>();
-        Wpieces = new LinkedList<Piece>();
+        blackPieces = new LinkedList<Piece>();
+        whitePieces = new LinkedList<Piece>();
         setLayout(new GridLayout(8, 8, 0, 0));
 
         for (int x = 0; x < 8; x++) {
@@ -111,12 +109,12 @@ public class Board extends JPanel{
         
         for(int y = 0; y < 2; y++) {
             for (int x = 0; x < 8; x++) {
-                Bpieces.add(board[y][x].getOccupyingPiece());
-                Wpieces.add(board[7-y][x].getOccupyingPiece());
+                blackPieces.add(board[y][x].getOccupyingPiece());
+                whitePieces.add(board[7-y][x].getOccupyingPiece());
             }
         }
-        
-        cmd = new CheckmateDetector(this, Wpieces, Bpieces, wk, bk);
+
+        ckeckmateDetector = new CheckmateDetector(this, whitePieces, blackPieces, wk, bk);
     }
 
     public Square[][] getSquareArray() {
@@ -141,7 +139,7 @@ public class Board extends JPanel{
         if (currPiece != null) {
             if ((currPiece.getColor() == 1 && whiteTurn)
                     || (currPiece.getColor() == 0 && !whiteTurn)) {
-                final Image i = currPiece.getImage();
+                final Image i = currPiece.getImg();
                 g.drawImage(i, currX, currY, null);
             }
         }

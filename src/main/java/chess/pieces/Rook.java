@@ -18,8 +18,8 @@ public class Rook extends Piece {
         LinkedList<Square> legalMoves = new LinkedList<Square>();
         Square[][] board = b.getSquareArray();
         
-        int x = this.getPosition().getXNum();
-        int y = this.getPosition().getYNum();
+        int x = this.getCurrentSquare().getXNum();
+        int y = this.getCurrentSquare().getYNum();
         
         int[] occups = getLinearOccupations(board, x, y);
         
