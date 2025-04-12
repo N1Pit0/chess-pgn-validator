@@ -89,7 +89,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
     @Override
     public void handleMouseDragged(MouseEvent e) {
-        board.setCurrY(e.getX() - 24);
+        board.setCurrX(e.getX() - 24);
         board.setCurrY(e.getY() - 24);
 
         board.repaint();
