@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-@EqualsAndHashCode(callSuper = false)
 public class Square extends JComponent {
     private Board b;
     
@@ -88,6 +87,15 @@ public class Square extends JComponent {
         if(occupyingPiece != null && dispPiece) {
             occupyingPiece.draw(g);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        int result = 1;
+        result = prime * result + xNum;
+        result = prime * result + yNum;
+        return result;
     }
     
 }

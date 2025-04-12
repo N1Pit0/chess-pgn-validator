@@ -5,11 +5,11 @@ import chess.board.CustomBoardMouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-public class BoardMouseMotionHandler extends MouseMotionAdapter {
+public class BoardMouseMotionListener extends MouseMotionAdapter {
 
     private final CustomBoardMouseListener mouseListener;
 
-    public BoardMouseMotionHandler(CustomBoardMouseListener mouseListener) {
+    public BoardMouseMotionListener(CustomBoardMouseListener mouseListener) {
         this.mouseListener = mouseListener;
     }
 

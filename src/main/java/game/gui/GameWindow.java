@@ -1,6 +1,8 @@
 package game.gui;
 
 import chess.board.Board;
+import chess.board.CustomBoardMouseListener;
+import chess.board.CustomBoardMouseListenerImpl;
 import game.control.Clock;
 
 import static game.enums.ImagePath.RESOURCES_WPAWN_PNG;
@@ -24,12 +26,14 @@ public class GameWindow {
     private Timer timer;
     
     private Board board;
+
+    private CustomBoardMouseListener customBoardMouseListener;
     
     
     
-    public GameWindow(String blackName, String whiteName, int hh, 
+    public GameWindow(String blackName, String whiteName, int hh,
             int mm, int ss) {
-        
+
         blackClock = new Clock(hh, ss, mm);
         whiteClock = new Clock(hh, ss, mm);
         
@@ -54,6 +58,8 @@ public class GameWindow {
         gameWindow.add(gameData, BorderLayout.NORTH);
         
         this.board = new Board(this);
+
+        CustomBoardMouseListener customBoardMouseListener = new CustomBoardMouseListenerImpl(board);
         
         gameWindow.add(board, BorderLayout.CENTER);
         

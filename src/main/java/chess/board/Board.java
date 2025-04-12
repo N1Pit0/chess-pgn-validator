@@ -1,12 +1,11 @@
 package chess.board;
 
-import chess.board.mousehandler.BoardMouseHandler;
-import chess.board.mousehandler.BoardMouseMotionHandler;
 import chess.pieces.*;
 import chess.pieces.common.Piece;
 import game.control.CheckmateDetector;
 import game.gui.GameWindow;
 import lombok.Getter;
+import lombok.Setter;
 
 import static game.enums.ImagePath.*;
 
@@ -24,7 +23,9 @@ import java.util.List;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class Board extends JPanel implements CustomBoardMouseListener{
+@Getter
+@Setter
+public class Board extends JPanel{
 	// Logical and graphical representations of board
 	private final Square[][] board;
     private final GameWindow gameWindow;
@@ -33,31 +34,23 @@ public class Board extends JPanel implements CustomBoardMouseListener{
     public final LinkedList<Piece> Bpieces;
     public final LinkedList<Piece> Wpieces;
     public List<Square> movable;
-    
+
     private boolean whiteTurn;
 
     @Getter
     private Piece currPiece;
+    @Getter
     private int currX;
     private int currY;
     
     private CheckmateDetector cmd;
 
-    private BoardMouseHandler boardMouseHandler;
-    private BoardMouseMotionHandler boardMouseMotionHandler;
-    
     public Board(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         board = new Square[8][8];
         Bpieces = new LinkedList<Piece>();
         Wpieces = new LinkedList<Piece>();
         setLayout(new GridLayout(8, 8, 0, 0));
-
-        this.boardMouseHandler = new BoardMouseHandler(this);
-        this.boardMouseMotionHandler = new BoardMouseMotionHandler(this);
-
-        this.addMouseListener(boardMouseHandler);
-        this.addMouseMotionListener(boardMouseMotionHandler);
 
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -152,78 +145,6 @@ public class Board extends JPanel implements CustomBoardMouseListener{
                 g.drawImage(i, currX, currY, null);
             }
         }
-    }
-
-    @Override
-    public void handleMousePressed(MouseEvent e) {
-        currX = e.getX();
-        currY = e.getY();
-
-        Square sq = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
-
-        if (sq.isOccupied()) {
-            currPiece = sq.getOccupyingPiece();
-            if (currPiece.getColor() == 0 && whiteTurn)
-                return;
-            if (currPiece.getColor() == 1 && !whiteTurn)
-                return;
-            sq.setDisplay(false);
-        }
-        repaint();
-    }
-
-    @Override
-    public void handleMouseReleased(MouseEvent e) {
-        Square sq = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
-
-        if (currPiece != null) {
-            if (currPiece.getColor() == 0 && whiteTurn)
-                return;
-            if (currPiece.getColor() == 1 && !whiteTurn)
-                return;
-
-            List<Square> legalMoves = currPiece.getLegalMoves(this);
-            movable = cmd.getAllowableSquares(whiteTurn);
-
-            if (legalMoves.contains(sq) && movable.contains(sq)
-                    && cmd.testMove(currPiece, sq)) {
-                sq.setDisplay(true);
-                currPiece.move(sq);
-                cmd.update();
-
-                if (cmd.blackCheckMated()) {
-                    currPiece = null;
-                    repaint();
-                    this.removeMouseListener(boardMouseHandler);
-                    this.removeMouseMotionListener(boardMouseMotionHandler);
-                    gameWindow.checkmateOccurred(0);
-                } else if (cmd.whiteCheckMated()) {
-                    currPiece = null;
-                    repaint();
-                    this.removeMouseListener(boardMouseHandler);
-                    this.removeMouseMotionListener(boardMouseMotionHandler);
-                    gameWindow.checkmateOccurred(1);
-                } else {
-                    currPiece = null;
-                    whiteTurn = !whiteTurn;
-                    movable = cmd.getAllowableSquares(whiteTurn);
-                }
-
-            } else {
-                currPiece.getPosition().setDisplay(true);
-                currPiece = null;
-            }
-        }
-
-        repaint();
-    }
-
-    @Override
-    public void handleMouseDragged(MouseEvent e) {
-        currX = e.getX() - 24;
-        currY = e.getY() - 24;
-
-        repaint();
     }
 
 }
