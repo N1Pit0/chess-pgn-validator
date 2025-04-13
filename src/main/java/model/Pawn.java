@@ -1,8 +1,8 @@
-package chess.pieces;
+package model;
 
 import chess.board.Board;
 import chess.board.Square;
-import chess.pieces.common.Piece;
+import model.common.Piece;
 
 import java.util.List;
 import java.util.LinkedList;

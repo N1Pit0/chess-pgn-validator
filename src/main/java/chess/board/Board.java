@@ -1,7 +1,7 @@
 package chess.board;
 
-import chess.pieces.*;
-import chess.pieces.common.Piece;
+import model.*;
+import model.common.Piece;
 import game.control.CheckmateDetector;
 import game.gui.GameWindow;
 import lombok.Getter;
@@ -13,16 +13,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 @Getter
 @Setter
 public class Board extends JPanel{
@@ -46,8 +41,8 @@ public class Board extends JPanel{
     public Board(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         board = new Square[8][8];
-        blackPieces = new LinkedList<Piece>();
-        whitePieces = new LinkedList<Piece>();
+        blackPieces = new LinkedList<>();
+        whitePieces = new LinkedList<>();
         setLayout(new GridLayout(8, 8, 0, 0));
 
         for (int x = 0; x < 8; x++) {

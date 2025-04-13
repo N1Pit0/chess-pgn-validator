@@ -1,4 +1,4 @@
-package chess.pieces.common;
+package model.common;
 
 import chess.board.Board;
 import chess.board.Square;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;

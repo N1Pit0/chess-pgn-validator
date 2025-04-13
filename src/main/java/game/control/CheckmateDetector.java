@@ -2,10 +2,10 @@ package game.control;
 
 import chess.board.Board;
 import chess.board.Square;
-import chess.pieces.Bishop;
-import chess.pieces.King;
-import chess.pieces.Queen;
-import chess.pieces.common.Piece;
+import model.Bishop;
+import model.King;
+import model.Queen;
+import model.common.Piece;
 
 import java.util.HashMap;
 import java.util.Iterator;

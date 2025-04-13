@@ -1,6 +1,6 @@
 package chess.board;
 
-import chess.pieces.common.Piece;
+import model.common.Piece;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

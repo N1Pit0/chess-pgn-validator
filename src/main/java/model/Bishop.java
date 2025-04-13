@@ -1,8 +1,8 @@
-package chess.pieces;
+package model;
 
 import chess.board.Board;
 import chess.board.Square;
-import chess.pieces.common.Piece;
+import model.common.Piece;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class Bishop extends Piece {
         Square[][] board = b.getSquareArray();
         int x = this.getCurrentSquare().getXNum();
         int y = this.getCurrentSquare().getYNum();
-        
+
         return getDiagonalOccupations(board, x, y);
     }
 }
