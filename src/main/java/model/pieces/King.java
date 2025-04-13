@@ -1,8 +1,8 @@
-package model;
+package model.pieces;
 
-import chess.board.Board;
-import chess.board.Square;
-import model.common.Piece;
+import model.board.Board;
+import model.board.Square;
+import model.pieces.common.Piece;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class King extends Piece {
     public List<Square> getLegalMoves(Board b) {
         LinkedList<Square> legalMoves = new LinkedList<Square>();
 
-        Square[][] board = b.getSquareArray();
+        Square[][] board = b.getBoard();
 
         int x = this.getCurrentSquare().getXNum();
         int y = this.getCurrentSquare().getYNum();

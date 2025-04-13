@@ -1,11 +1,11 @@
-package chess.board;
+package model.board;
 
 import game.control.CheckmateDetector;
 import game.gui.GameWindow;
 import lombok.Getter;
 import lombok.Setter;
-import model.*;
-import model.common.Piece;
+import model.pieces.*;
+import model.pieces.common.Piece;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -97,14 +97,6 @@ public class Board {
         }
 
         ckeckmateDetector = new CheckmateDetector(this, whitePieces, blackPieces, wk, bk);
-    }
-
-    public Square[][] getSquareArray() {
-        return this.board;
-    }
-
-    public boolean getTurn() {
-        return whiteTurn;
     }
 
 }

@@ -1,6 +1,4 @@
-package chess.board.mousehandler;
-
-import chess.board.CustomBoardMouseListener;
+package view.mouseListener;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

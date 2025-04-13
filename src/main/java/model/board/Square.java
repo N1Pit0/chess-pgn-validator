@@ -1,9 +1,9 @@
-package chess.board;
+package model.board;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import model.common.Piece;
+import model.pieces.common.Piece;
 
 @Getter
 @Setter

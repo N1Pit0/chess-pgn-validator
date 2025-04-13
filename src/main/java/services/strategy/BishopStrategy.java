@@ -1,8 +1,8 @@
 package services.strategy;
 
-import chess.board.Board;
-import chess.board.Square;
-import model.common.Piece;
+import model.board.Board;
+import model.board.Square;
+import model.pieces.common.Piece;
 import services.strategy.common.PieceStrategy;
 import services.strategy.movement.utils.PieceMovementUtil;
 
@@ -18,7 +18,7 @@ public class BishopStrategy extends PieceStrategy {
     @Override
     public List<Square> getLegalMoves(Board board) {
 
-        Square[][] squareArrayBoard = board.getSquareArray();
+        Square[][] squareArrayBoard = board.getBoard();
         int x = super.getPiece().getCurrentSquare().getXNum();
         int y = super.getPiece().getCurrentSquare().getYNum();
 

@@ -1,7 +1,7 @@
-package chess.board;
+package view.mouseListener;
 
-import chess.board.mousehandler.BoardMouseListener;
-import chess.board.mousehandler.BoardMouseMotionListener;
+import model.board.Board;
+import model.board.Square;
 import view.BoardView;
 import view.SquareView;
 
@@ -87,7 +87,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
             }
 
         } else {
-            squareView.setDisplayPiece(true); // might be problem here
+            squareView.setDisplayPiece(true);
             board.setCurrPiece(null);
         }
 
@@ -96,13 +96,9 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
     @Override
     public void handleMouseDragged(MouseEvent e) {
-//        SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
-////        boardView.getBoard().setCurrX(e.getX() - 24); // ??
-////        boardView.getBoard().setCurrY(e.getY() - 24);
-//
-//        squareView.setDisplayPiece(true);
-//
-//        boardView.repaint();
+        boardView.getBoard().setCurrX(e.getX());
+        boardView.getBoard().setCurrY(e.getY());
+        boardView.repaint();
     }
 
     private void setupBoardForCheckmate(Board board, int colorCheckMated) {

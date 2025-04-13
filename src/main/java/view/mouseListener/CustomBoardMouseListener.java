@@ -1,4 +1,4 @@
-package chess.board;
+package view.mouseListener;
 
 import java.awt.event.MouseEvent;
 

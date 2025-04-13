@@ -1,7 +1,7 @@
 package services.strategy.movement.utils;
 
-import chess.board.Square;
-import model.common.Piece;
+import model.board.Square;
+import model.pieces.common.Piece;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package game.gui;
 
-import chess.board.Board;
-import chess.board.CustomBoardMouseListener;
-import chess.board.CustomBoardMouseListenerImpl;
+import model.board.Board;
+import view.mouseListener.CustomBoardMouseListener;
+import view.mouseListener.CustomBoardMouseListenerImpl;
 import game.control.Clock;
 import view.BoardView;
 
@@ -109,7 +109,7 @@ public class GameWindow {
             timer = new Timer(1000, null);
             timer.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    boolean turn = board.getTurn();
+                    boolean turn = board.isWhiteTurn();
 
                     if (turn) {
                         whiteClock.decr();

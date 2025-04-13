@@ -1,6 +1,6 @@
 package view;
 
-import chess.board.Square;
+import model.board.Square;
 import lombok.Getter;
 import lombok.Setter;
 

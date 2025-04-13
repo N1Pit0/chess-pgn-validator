@@ -1,9 +1,9 @@
 package services.strategy.common;
 
-import chess.board.Board;
-import chess.board.Square;
+import model.board.Board;
+import model.board.Square;
 import lombok.Getter;
-import model.common.Piece;
+import model.pieces.common.Piece;
 
 import java.util.List;
 

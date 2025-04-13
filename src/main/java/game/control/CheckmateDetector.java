@@ -1,11 +1,11 @@
 package game.control;
 
-import chess.board.Board;
-import chess.board.Square;
-import model.Bishop;
-import model.King;
-import model.Queen;
-import model.common.Piece;
+import model.board.Board;
+import model.board.Square;
+import model.pieces.Bishop;
+import model.pieces.King;
+import model.pieces.Queen;
+import model.pieces.common.Piece;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -51,7 +51,7 @@ public class CheckmateDetector {
         wMoves = new HashMap<Square, List<Piece>>();
         bMoves = new HashMap<Square, List<Piece>>();
 
-        Square[][] brd = b.getSquareArray();
+        Square[][] brd = b.getBoard();
 
         // add all squares to squares list and as hashmap keys
         for (int x = 0; x < 8; x++) {
@@ -265,7 +265,7 @@ public class CheckmateDetector {
         if (threats.size() == 1) {
             Square ts = threats.get(0).getCurrentSquare();
             Square ks = k.getCurrentSquare();
-            Square[][] brdArray = b.getSquareArray();
+            Square[][] brdArray = b.getBoard();
 
             if (ks.getXNum() == ts.getXNum()) {
                 int max = Math.max(ks.getYNum(), ts.getYNum());

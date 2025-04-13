@@ -1,7 +1,7 @@
-package model.common;
+package model.pieces.common;
 
-import chess.board.Board;
-import chess.board.Square;
+import model.board.Board;
+import model.board.Square;
 import lombok.Getter;
 import lombok.Setter;
 
