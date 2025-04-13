@@ -1,7 +1,7 @@
 package model.board;
 
-import game.control.CheckmateDetector;
-import game.gui.GameWindow;
+import services.CheckmateDetector;
+import view.gui.GameWindow;
 import lombok.Getter;
 import lombok.Setter;
 import model.pieces.*;
@@ -10,7 +10,7 @@ import model.pieces.common.Piece;
 import java.util.LinkedList;
 import java.util.List;
 
-import static game.enums.ImagePath.*;
+import static model.enums.ImagePath.*;
 
 
 @Getter

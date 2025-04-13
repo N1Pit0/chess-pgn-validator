@@ -1,4 +1,4 @@
-package game.enums;
+package model.enums;
 
 public enum ImagePath {
     RESOURCES_WBISHOP_PNG("/chess-images/wbishop.png"),

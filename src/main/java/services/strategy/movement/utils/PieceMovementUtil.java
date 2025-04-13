@@ -130,19 +130,4 @@ public class PieceMovementUtil {
         return diagOccupy;
     }
 
-    public boolean move(Square fin, Piece piece) {
-        Piece occupied = fin.getOccupyingPiece();
-
-        if (occupied != null) {
-            if (occupied.getColor() == piece.getColor()) return false;
-            else fin.capture(piece);
-        }
-
-        piece.getCurrentSquare().removePiece();
-        piece.setCurrentSquare(fin);
-        piece.getCurrentSquare().put(piece);
-        return true;
-    }
-
-
 }

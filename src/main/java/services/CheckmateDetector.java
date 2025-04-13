@@ -1,4 +1,4 @@
-package game.control;
+package services;
 
 import model.board.Board;
 import model.board.Square;
@@ -28,7 +28,7 @@ public class CheckmateDetector {
     private HashMap<Square, List<Piece>> bMoves;
 
     /**
-     * Constructs a new instance of game.control.CheckmateDetector on a given board. By
+     * Constructs a new instance of services.CheckmateDetector on a given board. By
      * convention should be called when the board is in its initial state.
      *
      * @param b       The board which the detector monitors

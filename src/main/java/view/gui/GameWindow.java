@@ -1,9 +1,9 @@
-package game.gui;
+package view.gui;
 
 import model.board.Board;
 import view.mouseListener.CustomBoardMouseListener;
 import view.mouseListener.CustomBoardMouseListenerImpl;
-import game.control.Clock;
+import services.Clock;
 import view.BoardView;
 
 import javax.imageio.ImageIO;
@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static game.enums.ImagePath.RESOURCES_WPAWN_PNG;
+import static model.enums.ImagePath.RESOURCES_WPAWN_PNG;
 
 
 public class GameWindow {
@@ -38,7 +38,7 @@ public class GameWindow {
             Image whiteImg = ImageIO.read(getClass().getResource(RESOURCES_WPAWN_PNG.label));
             gameWindow.setIconImage(whiteImg);
         } catch (Exception e) {
-            System.out.println("game.Game file wp.png not found");
+            System.out.println("Game file wp.png not found");
         }
 
         gameWindow.setLocation(100, 100);
@@ -46,7 +46,7 @@ public class GameWindow {
 
         gameWindow.setLayout(new BorderLayout(20, 20));
 
-        // game.Game Data window
+        // Game Data window
         JPanel gameData = gameDataPanel(blackName, whiteName, hh, mm, ss);
         gameData.setSize(gameData.getPreferredSize());
         gameWindow.add(gameData, BorderLayout.NORTH);

@@ -1,4 +1,4 @@
-package game.gui;
+package view.gui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -6,8 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static game.enums.ImagePath.RESOURCES_BPAWN_PNG;
-import static game.enums.ImagePath.RESOURCES_WPAWN_PNG;
+import static model.enums.ImagePath.RESOURCES_BPAWN_PNG;
+import static model.enums.ImagePath.RESOURCES_WPAWN_PNG;
 
 public class StartMenu implements Runnable {
     public void run() {
@@ -20,7 +20,7 @@ public class StartMenu implements Runnable {
         Box components = Box.createVerticalBox();
         startWindow.add(components);
 
-        // game.Game title
+        // Game title
         final JPanel titlePanel = new JPanel();
         components.add(titlePanel);
         final JLabel titleLabel = new JLabel("Chess");
