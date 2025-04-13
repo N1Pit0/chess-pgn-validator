@@ -1,10 +1,10 @@
-package movement.strategy;
+package services.strategy;
 
 import chess.board.Board;
 import chess.board.Square;
 import model.common.Piece;
-import movement.strategy.common.PieceStrategy;
-import movement.utils.PieceMovementUtil;
+import services.strategy.common.PieceStrategy;
+import services.strategy.movement.utils.PieceMovementUtil;
 
 import java.util.List;
 

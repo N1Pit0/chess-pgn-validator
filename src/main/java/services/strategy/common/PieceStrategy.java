@@ -1,4 +1,4 @@
-package movement.strategy.common;
+package services.strategy.common;
 
 import chess.board.Board;
 import chess.board.Square;

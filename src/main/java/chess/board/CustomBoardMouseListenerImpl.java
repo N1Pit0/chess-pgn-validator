@@ -2,6 +2,8 @@ package chess.board;
 
 import chess.board.mousehandler.BoardMouseListener;
 import chess.board.mousehandler.BoardMouseMotionListener;
+import view.BoardView;
+import view.SquareView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -9,25 +11,28 @@ import java.util.List;
 
 public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
-    private final Board board;
+    private final BoardView boardView;
     private final BoardMouseListener boardMouseListener;
     private final BoardMouseMotionListener boardMouseMotionListener;
 
-    public CustomBoardMouseListenerImpl(Board board) {
+    public CustomBoardMouseListenerImpl(BoardView boardView) {
 
-        this.board = board;
+        this.boardView = boardView;
         this.boardMouseListener = new BoardMouseListener(this);
         this.boardMouseMotionListener = new BoardMouseMotionListener(this);
-        this.board.addMouseListener(boardMouseListener);
-        this.board.addMouseMotionListener(boardMouseMotionListener);
+        this.boardView.addMouseListener(boardMouseListener);
+        this.boardView.addMouseMotionListener(boardMouseMotionListener);
     }
 
     @Override
     public void handleMousePressed(MouseEvent e) {
+        Board board = boardView.getBoard();
+
         board.setCurrX(e.getX());
         board.setCurrY(e.getY());
 
-        Square square = (Square) board.getComponentAt(new Point(e.getX(), e.getY()));
+        SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
+        Square square = squareView.getSquare();
 
         if (square.isOccupied()) {
             board.setCurrPiece(square.getOccupyingPiece());
@@ -35,14 +40,16 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
                 return;
             if (board.getCurrPiece().getColor() == 1 && !board.isWhiteTurn())
                 return;
-            square.setDisplayPiece(false);
+            squareView.setDisplayPiece(true);
         }
-        board.repaint();
+        boardView.repaint();
     }
 
     @Override
     public void handleMouseReleased(MouseEvent e) {
-        Square sq = (Square) board.getComponentAt(new Point(e.getX(), e.getY()));
+        SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
+        Square square = squareView.getSquare();
+        Board board = boardView.getBoard();
 
         if (board.getCurrPiece() == null) return;
 
@@ -57,10 +64,10 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
         List<Square> movableSquares = board.getCkeckmateDetector().getAllowableSquares(board.isWhiteTurn());
         board.setMovable(movableSquares);
 
-        if (legalMoves.contains(sq) && board.getMovable().contains(sq)
-                && board.getCkeckmateDetector().testMove(board.getCurrPiece(), sq)) {
-            sq.setDisplayPiece(true);
-            board.getCurrPiece().move(sq);
+        if (legalMoves.contains(square) && board.getMovable().contains(square)
+                && board.getCkeckmateDetector().testMove(board.getCurrPiece(), square)) {
+            squareView.setDisplayPiece(true);
+            board.getCurrPiece().move(square);
             board.getCkeckmateDetector().update();
 
             if (board.getCkeckmateDetector().blackCheckMated()) {
@@ -80,26 +87,29 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
             }
 
         } else {
-            board.getCurrPiece().getCurrentSquare().setDisplayPiece(true);
+            squareView.setDisplayPiece(true); // might be problem here
             board.setCurrPiece(null);
         }
 
-        board.repaint();
+        boardView.repaint();
     }
 
     @Override
     public void handleMouseDragged(MouseEvent e) {
-        board.setCurrX(e.getX() - 24);
-        board.setCurrY(e.getY() - 24);
-
-        board.repaint();
+//        SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
+////        boardView.getBoard().setCurrX(e.getX() - 24); // ??
+////        boardView.getBoard().setCurrY(e.getY() - 24);
+//
+//        squareView.setDisplayPiece(true);
+//
+//        boardView.repaint();
     }
 
     private void setupBoardForCheckmate(Board board, int colorCheckMated) {
         board.setCurrPiece(null);
-        board.repaint();
-        board.removeMouseListener(boardMouseListener);
-        board.removeMouseMotionListener(boardMouseMotionListener);
+        boardView.repaint();
+        boardView.removeMouseListener(boardMouseListener);
+        boardView.removeMouseMotionListener(boardMouseMotionListener);
         board.getGameWindow().checkmateOccurred(colorCheckMated);
     }
 }

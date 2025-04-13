@@ -1,4 +1,4 @@
-package movement.utils;
+package services.strategy.movement.utils;
 
 import chess.board.Square;
 import model.common.Piece;
@@ -20,13 +20,12 @@ public class PieceMovementUtil {
                     lastYAbove = i;
                 } else lastYAbove = i + 1;
             }
-            
-            if(board[7 - i][x].isOccupied()) {
-                if(board[7 - i][x].getOccupyingPiece().getColor() != piece.getColor()) {
+
+            if (board[7 - i][x].isOccupied()) {
+                if (board[7 - i][x].getOccupyingPiece().getColor() != piece.getColor()) {
                     lastYBelow = 7 - i;
-                }
-                else{
-                    lastYBelow = 7 - i - 1; 
+                } else {
+                    lastYBelow = 7 - i - 1;
                 }
             }
         }
@@ -146,5 +145,4 @@ public class PieceMovementUtil {
     }
 
 
-    
 }
