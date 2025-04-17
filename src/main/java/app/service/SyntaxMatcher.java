@@ -21,11 +21,13 @@ public class SyntaxMatcher {
 
     public boolean validatePgn(){
         String line;
-        int matches = 0;
+        boolean matches = false;
         try {
             while((line = reader.readLine()) != null){
-                String regex = "^(\\[\\w+ \"[^\"]+\"\\])+$";
-                matches = RegEx.check(line.strip(),regex);
+                String regex = "^(\\[[A-Z]\\w+ \"[^\"]+\"\\])+$";
+                matches = RegEx.check(regex,line.strip());
+                System.out.print(" " + matches);
+                System.out.println();
             }
 
             closeReader();
@@ -33,7 +35,7 @@ public class SyntaxMatcher {
             e.printStackTrace();
         }
 
-        return matches > 0;
+        return matches;
     }
 
     private void closeReader() {
