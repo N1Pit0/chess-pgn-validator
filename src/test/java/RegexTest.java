@@ -1,10 +1,9 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RegexTest {
     public static int runTest(String regex, String text) {
@@ -19,7 +18,7 @@ public class RegexTest {
     }
 
     @Test
-    public void test(){
+    public void test() {
         int matches = runTest("(\\[\\w+ \"[\\w\"]+\"\\])+$", "[Event \"dsadsad\"]");
 
         assertTrue(matches > 0);

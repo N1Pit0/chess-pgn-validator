@@ -3,13 +3,13 @@ package view.gui;
 import controller.GameController;
 import controller.GameControllerImpl;
 import model.board.Board;
-import services.utils.Clock;
 import services.board.BoardInterface;
 import services.board.BoardService;
 import services.board.BoardServiceImpl;
 import services.checkmatedetection.CheckmateDetector;
 import services.checkmatedetection.CheckmateDetectorImpl;
 import services.enums.PieceColor;
+import services.utils.Clock;
 import view.BoardView;
 import view.mouseListener.CustomBoardMouseListenerImpl;
 
@@ -138,7 +138,7 @@ public class GameWindowImpl implements GameWindow {
     }
 
     private void handleClockTimer(boolean whiteTurn, JLabel time, String currentPlayerName, String opponentPlayerName,
-                                  int hours, int minutes, int seconds){
+                                  int hours, int minutes, int seconds) {
         Clock playerClock = whiteTurn ? whiteClock : blackClock;
 
         playerClock.decrementTime();

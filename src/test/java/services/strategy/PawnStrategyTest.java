@@ -13,7 +13,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PawnStrategyTest {
     @Mock
@@ -129,7 +130,7 @@ public class PawnStrategyTest {
 
     // Test: Blocked diagonal attack moves (when friendly pieces occupy the diagonal squares)
     @Test
-        void shouldNotReturnBlockedDiagonalAttackMoves() {
+    void shouldNotReturnBlockedDiagonalAttackMoves() {
         // Arrange
         when(pawn.getCurrentSquare()).thenReturn(currentSquare);
         when(currentSquare.getXNum()).thenReturn(4);
