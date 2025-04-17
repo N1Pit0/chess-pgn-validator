@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -19,20 +20,48 @@ public class SyntaxMatcher {
         reader = new BufferedReader(new FileReader(path));
     }
 
-    public boolean validatePgn(){
+    public void validatePgn(){
+
+        validateMoves();
+    }
+
+    private boolean validateTags(){
         String line;
-        boolean matches = false;
+        boolean matches = true;
         try {
-            while((line = reader.readLine()) != null){
+            while((line = reader.readLine()) != null && matches){
+
+                line = line.strip();
+
+                if (line.isEmpty()) continue;
+
                 String regex = "^(\\[[A-Z]\\w+ \"[^\"]+\"\\])+$";
-                matches = RegEx.check(regex,line.strip());
-                System.out.print(" " + matches);
-                System.out.println();
+                matches = RegEx.check(regex,line);
+                System.out.print(" " + matches + "\n");
             }
 
-            closeReader();
         }catch (IOException e){
             e.printStackTrace();
+        }
+
+        return matches;
+    }
+
+    private boolean validateMoves(){
+        StringBuilder text = new StringBuilder();
+        String line;
+        String move;
+        boolean matches = true;
+
+        try {
+            while((line = reader.readLine()) != null){
+                text.append(line);
+            }
+
+            System.out.println(text.toString());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return matches;
