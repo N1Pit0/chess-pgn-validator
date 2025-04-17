@@ -26,7 +26,8 @@ public class PgnValidatorFacade {
                 paths.filter(Files::isRegularFile)
                         .forEach(file -> {
                             try {
-                                System.out.println(new SyntaxMatcher(file.toString()).validatePgn());
+                                System.out.println("Processing file: " + file.toString());
+                                new SyntaxMatcher(file.toString()).validatePgn();
                             } catch (FileNotFoundException e) {
                                 throw new RuntimeException(e);
                             }
