@@ -51,7 +51,7 @@ public class BoardView extends JPanel {
             PieceColor pieceColor = currPiece.getColor();
             if ((pieceColor.equals(WHITE) && whiteTurn)
                     || (pieceColor.equals(BLACK) && !whiteTurn)) {
-                final Image i = currPiece.getImg();
+                final Image i = currPiece.getImage();
                 g.drawImage(i, this.board.getCurrX(), this.board.getCurrY(), null);
             }
         }

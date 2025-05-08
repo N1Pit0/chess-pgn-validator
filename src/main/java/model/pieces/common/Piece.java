@@ -5,30 +5,33 @@ import model.board.Square;
 import lombok.Getter;
 import lombok.Setter;
 import model.enums.PieceColor;
+import services.utils.ImageReaderUtil;
+import services.utils.ImageReaderUtilImpl;
+import services.utils.exceptions.ImageNotFoundException;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
 public abstract class Piece {
     private final PieceColor color;
     private Square currentSquare;
-    private BufferedImage img;
+    private Image image;
 
     public Piece(PieceColor color, Square initSq, String img_file) {
         this.color = color;
         this.currentSquare = initSq;
 
         try {
-            this.img = ImageIO.read(Objects.requireNonNull(getClass().getResource(img_file)));
-        } catch (IOException | NullPointerException e) {
-            System.out.println("File not found: " + e.getMessage());
+            ImageReaderUtil img = new ImageReaderUtilImpl();
+
+            image = img.readImage(img_file).orElseThrow( () -> new ImageNotFoundException("image not found"));
+        }catch (ClassCastException e){
+            System.out.println("Class should extend Image");
+            e.printStackTrace();
         }
     }
 
@@ -49,7 +52,7 @@ public abstract class Piece {
     public void draw(Graphics g) {
 
 
-        g.drawImage(this.img, 0, 0, null);
+        g.drawImage(this.image, 0, 0, null);
     }
 
     public int[] getLinearOccupations(Square[][] board, int x, int y) {
