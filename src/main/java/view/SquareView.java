@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.swing.*;
 import java.awt.*;
 
+import static model.enums.PieceColor.WHITE;
+
 @Getter
 @Setter
 public class SquareView extends JComponent {
@@ -23,7 +25,7 @@ public class SquareView extends JComponent {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (this.square.getColor() == 1) {
+        if (this.square.getColor().equals(WHITE)) {
             g.setColor(new Color(221, 192, 127));
         } else {
             g.setColor(new Color(101, 67, 33));

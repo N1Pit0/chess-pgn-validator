@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static model.enums.ImagePath.*;
+import static model.enums.PieceColor.*;
 
 
 @Getter
@@ -45,9 +46,9 @@ public class Board {
                 int yMod = y % 2;
 
                 if ((xMod == 0 && yMod == 0) || (xMod == 1 && yMod == 1)) {
-                    board[x][y] = new Square(this, 1, y, x);
+                    board[x][y] = new Square(this, WHITE, y, x);
                 } else {
-                    board[x][y] = new Square(this, 0, y, x);
+                    board[x][y] = new Square(this, BLACK, y, x);
                 }
             }
         }
@@ -61,32 +62,32 @@ public class Board {
     private void initializePieces() {
 
         for (int x = 0; x < 8; x++) {
-            board[1][x].put(new Pawn(0, board[1][x], RESOURCES_BPAWN_PNG.label));
-            board[6][x].put(new Pawn(1, board[6][x], RESOURCES_WPAWN_PNG.label));
+            board[1][x].put(new Pawn(BLACK, board[1][x], RESOURCES_BPAWN_PNG.label));
+            board[6][x].put(new Pawn(WHITE, board[6][x], RESOURCES_WPAWN_PNG.label));
         }
 
-        board[7][3].put(new Queen(1, board[7][3], RESOURCES_WQUEEN_PNG.label));
-        board[0][3].put(new Queen(0, board[0][3], RESOURCES_BQUEEN_PNG.label));
+        board[7][3].put(new Queen(WHITE, board[7][3], RESOURCES_WQUEEN_PNG.label));
+        board[0][3].put(new Queen(BLACK, board[0][3], RESOURCES_BQUEEN_PNG.label));
 
-        King bk = new King(0, board[0][4], RESOURCES_BKING_PNG.label);
-        King wk = new King(1, board[7][4], RESOURCES_WKING_PNG.label);
+        King bk = new King(BLACK, board[0][4], RESOURCES_BKING_PNG.label);
+        King wk = new King(WHITE, board[7][4], RESOURCES_WKING_PNG.label);
         board[0][4].put(bk);
         board[7][4].put(wk);
 
-        board[0][0].put(new Rook(0, board[0][0], RESOURCES_BROOK_PNG.label));
-        board[0][7].put(new Rook(0, board[0][7], RESOURCES_BROOK_PNG.label));
-        board[7][0].put(new Rook(1, board[7][0], RESOURCES_WROOK_PNG.label));
-        board[7][7].put(new Rook(1, board[7][7], RESOURCES_WROOK_PNG.label));
+        board[0][0].put(new Rook(BLACK, board[0][0], RESOURCES_BROOK_PNG.label));
+        board[0][7].put(new Rook(BLACK, board[0][7], RESOURCES_BROOK_PNG.label));
+        board[7][0].put(new Rook(WHITE, board[7][0], RESOURCES_WROOK_PNG.label));
+        board[7][7].put(new Rook(WHITE, board[7][7], RESOURCES_WROOK_PNG.label));
 
-        board[0][1].put(new Knight(0, board[0][1], RESOURCES_BKNIGHT_PNG.label));
-        board[0][6].put(new Knight(0, board[0][6], RESOURCES_BKNIGHT_PNG.label));
-        board[7][1].put(new Knight(1, board[7][1], RESOURCES_WKNIGHT_PNG.label));
-        board[7][6].put(new Knight(1, board[7][6], RESOURCES_WKNIGHT_PNG.label));
+        board[0][1].put(new Knight(BLACK, board[0][1], RESOURCES_BKNIGHT_PNG.label));
+        board[0][6].put(new Knight(BLACK, board[0][6], RESOURCES_BKNIGHT_PNG.label));
+        board[7][1].put(new Knight(WHITE, board[7][1], RESOURCES_WKNIGHT_PNG.label));
+        board[7][6].put(new Knight(WHITE, board[7][6], RESOURCES_WKNIGHT_PNG.label));
 
-        board[0][2].put(new Bishop(0, board[0][2], RESOURCES_BBISHOP_PNG.label));
-        board[0][5].put(new Bishop(0, board[0][5], RESOURCES_BBISHOP_PNG.label));
-        board[7][2].put(new Bishop(1, board[7][2], RESOURCES_WBISHOP_PNG.label));
-        board[7][5].put(new Bishop(1, board[7][5], RESOURCES_WBISHOP_PNG.label));
+        board[0][2].put(new Bishop(BLACK, board[0][2], RESOURCES_BBISHOP_PNG.label));
+        board[0][5].put(new Bishop(BLACK, board[0][5], RESOURCES_BBISHOP_PNG.label));
+        board[7][2].put(new Bishop(WHITE, board[7][2], RESOURCES_WBISHOP_PNG.label));
+        board[7][5].put(new Bishop(WHITE, board[7][5], RESOURCES_WBISHOP_PNG.label));
 
 
         for (int y = 0; y < 2; y++) {

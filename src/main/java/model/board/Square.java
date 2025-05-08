@@ -3,23 +3,26 @@ package model.board;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import model.enums.PieceColor;
 import model.pieces.common.Piece;
+
+import static model.enums.PieceColor.*;
 
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = {"board", "color", "occupyingPiece"}, callSuper = false)
 public class Square {
-    private final int color;
+    private final PieceColor color;
     private Board board;
     private Piece occupyingPiece;
 
     private int xNum;
     private int yNum;
 
-    public Square(Board board, int c, int xNum, int yNum) {
+    public Square(Board board, PieceColor color, int xNum, int yNum) {
 
         this.board = board;
-        this.color = c;
+        this.color = color;
         this.xNum = xNum;
         this.yNum = yNum;
 
@@ -42,8 +45,9 @@ public class Square {
 
     public void capture(Piece p) {
         Piece k = getOccupyingPiece();
-        if (k.getColor() == 0) board.getBlackPieces().remove(k);
-        if (k.getColor() == 1) board.getWhitePieces().remove(k);
+        PieceColor currentPieceColor = k.getColor();
+        if (currentPieceColor.equals(BLACK)) board.getBlackPieces().remove(k);
+        if (currentPieceColor.equals(WHITE)) board.getWhitePieces().remove(k);
         this.occupyingPiece = p;
     }
 

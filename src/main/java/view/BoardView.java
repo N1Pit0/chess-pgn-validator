@@ -1,12 +1,14 @@
 package view;
 
-import model.board.Board;
-import model.board.Square;
+import model.board.*;
 import lombok.Getter;
+import model.enums.PieceColor;
 import model.pieces.common.Piece;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static model.enums.PieceColor.*;
 
 @Getter
 public class BoardView extends JPanel {
@@ -46,8 +48,9 @@ public class BoardView extends JPanel {
         }
 
         if (currPiece != null) {
-            if ((currPiece.getColor() == 1 && whiteTurn)
-                    || (currPiece.getColor() == 0 && !whiteTurn)) {
+            PieceColor pieceColor = currPiece.getColor();
+            if ((pieceColor.equals(WHITE) && whiteTurn)
+                    || (pieceColor.equals(BLACK) && !whiteTurn)) {
                 final Image i = currPiece.getImg();
                 g.drawImage(i, this.board.getCurrX(), this.board.getCurrY(), null);
             }

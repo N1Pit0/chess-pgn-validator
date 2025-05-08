@@ -2,6 +2,7 @@ package services;
 
 import model.board.Board;
 import model.board.Square;
+import model.enums.PieceColor;
 import model.pieces.Bishop;
 import model.pieces.King;
 import model.pieces.Queen;
@@ -9,6 +10,8 @@ import model.pieces.common.Piece;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
+
+import static model.enums.PieceColor.*;
 
 
 /**
@@ -449,8 +452,9 @@ public class CheckmateDetector {
         p.move(sq);
         update();
 
-        if (p.getColor() == 0 && blackInCheck()) movetest = false;
-        else if (p.getColor() == 1 && whiteInCheck()) movetest = false;
+        PieceColor color  = p.getColor();
+        if (color.equals(BLACK) && blackInCheck()) movetest = false;
+        else if (color.equals(WHITE) && whiteInCheck()) movetest = false;
 
         p.move(init);
         if (c != null) sq.put(c);

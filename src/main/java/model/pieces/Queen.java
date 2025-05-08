@@ -2,6 +2,7 @@ package model.pieces;
 
 import model.board.Board;
 import model.board.Square;
+import model.enums.PieceColor;
 import model.pieces.common.Piece;
 
 import java.util.LinkedList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class Queen extends Piece {
 
-    public Queen(int color, Square initSq, String img_file) {
+    public Queen(PieceColor color, Square initSq, String img_file) {
         super(color, initSq, img_file);
     }
 

@@ -2,12 +2,15 @@ package view.mouseListener;
 
 import model.board.Board;
 import model.board.Square;
+import model.enums.PieceColor;
 import view.BoardView;
 import view.SquareView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
+import static model.enums.PieceColor.*;
 
 public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
@@ -36,9 +39,10 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
         if (square.isOccupied()) {
             board.setCurrPiece(square.getOccupyingPiece());
-            if (board.getCurrPiece().getColor() == 0 && board.isWhiteTurn())
+            PieceColor currentPieceColor = board.getCurrPiece().getColor();
+            if (currentPieceColor.equals(BLACK) && board.isWhiteTurn())
                 return;
-            if (board.getCurrPiece().getColor() == 1 && !board.isWhiteTurn())
+            if (currentPieceColor.equals(WHITE) && !board.isWhiteTurn())
                 return;
             squareView.setDisplayPiece(true);
         }
@@ -53,10 +57,11 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
         if (board.getCurrPiece() == null) return;
 
-        if (board.getCurrPiece().getColor() == 0 && board.isWhiteTurn())
+        PieceColor currentPieceColor = board.getCurrPiece().getColor();
+        if (currentPieceColor.equals(BLACK) && board.isWhiteTurn())
             return;
 
-        if (board.getCurrPiece().getColor() == 1 && !board.isWhiteTurn())
+        if (currentPieceColor.equals(WHITE) && !board.isWhiteTurn())
             return;
 
         List<Square> legalMoves = board.getCurrPiece().getLegalMoves(board);

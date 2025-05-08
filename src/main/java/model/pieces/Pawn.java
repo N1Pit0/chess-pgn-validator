@@ -2,15 +2,18 @@ package model.pieces;
 
 import model.board.Board;
 import model.board.Square;
+import model.enums.PieceColor;
 import model.pieces.common.Piece;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import static model.enums.PieceColor.*;
+
 public class Pawn extends Piece {
     private boolean wasMoved;
 
-    public Pawn(int color, Square initSq, String img_file) {
+    public Pawn(PieceColor color, Square initSq, String img_file) {
         super(color, initSq, img_file);
     }
 
@@ -29,9 +32,9 @@ public class Pawn extends Piece {
 
         int x = this.getCurrentSquare().getXNum();
         int y = this.getCurrentSquare().getYNum();
-        int c = this.getColor();
+        PieceColor color = this.getColor();
 
-        if (c == 0) {
+        if (color.equals(BLACK)) {
             if (!wasMoved) {
                 if (!board[y + 2][x].isOccupied()) {
                     legalMoves.add(board[y + 2][x]);
@@ -57,7 +60,7 @@ public class Pawn extends Piece {
             }
         }
 
-        if (c == 1) {
+        if (color.equals(WHITE)) {
             if (!wasMoved) {
                 if (!board[y - 2][x].isOccupied()) {
                     legalMoves.add(board[y - 2][x]);
