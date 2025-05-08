@@ -4,6 +4,7 @@ import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
+import services.utils.MovementUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,24 +16,11 @@ public class Rook extends Piece {
     }
 
     @Override
-    public List<Square> getLegalMoves(Board b) {
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-        Square[][] board = b.getBoard();
+    public List<Square> getLegalMoves(Board board) {
+        Square[][] squares = board.getBoard();
 
-        int x = this.getCurrentSquare().getXNum();
-        int y = this.getCurrentSquare().getYNum();
-
-        int[] occups = getLinearOccupations(board, x, y);
-
-        for (int i = occups[0]; i <= occups[1]; i++) {
-            if (i != y) legalMoves.add(board[i][x]);
-        }
-
-        for (int i = occups[2]; i <= occups[3]; i++) {
-            if (i != x) legalMoves.add(board[y][i]);
-        }
-
-        return legalMoves;
+        return new LinkedList<>(MovementUtil.getLinearMoves(board, this));
     }
 
 }
+

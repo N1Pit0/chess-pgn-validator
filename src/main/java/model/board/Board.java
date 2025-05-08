@@ -1,5 +1,6 @@
 package model.board;
 
+import model.enums.PieceColor;
 import services.CheckmateDetector;
 import view.gui.GameWindow;
 import lombok.Getter;
@@ -40,18 +41,7 @@ public class Board {
         blackPieces = new LinkedList<>();
         whitePieces = new LinkedList<>();
 
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                int xMod = x % 2;
-                int yMod = y % 2;
-
-                if ((xMod == 0 && yMod == 0) || (xMod == 1 && yMod == 1)) {
-                    board[x][y] = new Square(this, WHITE, y, x);
-                } else {
-                    board[x][y] = new Square(this, BLACK, y, x);
-                }
-            }
-        }
+        initializeBoardSquares();
 
         initializePieces();
 
@@ -98,6 +88,15 @@ public class Board {
         }
 
         ckeckmateDetector = new CheckmateDetector(this, whitePieces, blackPieces, wk, bk);
+    }
+
+    private void initializeBoardSquares() {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                PieceColor color = ((x + y) % 2 == 0) ? WHITE : BLACK;
+                board[y][x] = new Square( this, color, x, y);
+            }
+        }
     }
 
 }

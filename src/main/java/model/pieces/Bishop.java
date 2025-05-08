@@ -4,6 +4,7 @@ import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
+import services.utils.MovementUtil;
 
 import java.util.List;
 
@@ -14,11 +15,8 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public List<Square> getLegalMoves(Board b) {
-        Square[][] board = b.getBoard();
-        int x = this.getCurrentSquare().getXNum();
-        int y = this.getCurrentSquare().getYNum();
+    public List<Square> getLegalMoves(Board board) {
 
-        return getDiagonalOccupations(board, x, y);
+        return MovementUtil.getDiagonalMoves(board,this);
     }
 }
