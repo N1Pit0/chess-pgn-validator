@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static model.enums.PieceColor.BLACK;
-import static model.enums.PieceColor.WHITE;
+import static services.utils.MovementUtil.isInBound;
 
 public class PawnStrategy extends PieceStrategy {
     private boolean wasMoved;
@@ -28,66 +28,45 @@ public class PawnStrategy extends PieceStrategy {
 
     @Override
     public List<Square> getLegalMoves(Board board) {
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-
+        List<Square> legalMoves = new LinkedList<>();
         Square[][] squareArrayBoard = board.getBoard();
 
         int x = super.getPiece().getCurrentSquare().getXNum();
         int y = super.getPiece().getCurrentSquare().getYNum();
         PieceColor pieceColor = super.getPiece().getColor();
 
-        if (pieceColor.equals(BLACK)) {
-            if (!wasMoved) {
-                if (!squareArrayBoard[y + 2][x].isOccupied()) {
-                    legalMoves.add(squareArrayBoard[y + 2][x]);
-                }
-            }
+        // Vertical direction: positive for BLACK, negative for WHITE
+        int direction = (pieceColor.equals(BLACK)) ? 1 : -1;
 
-            if (y + 1 < 8) {
-                if (!squareArrayBoard[y + 1][x].isOccupied()) {
-                    legalMoves.add(squareArrayBoard[y + 1][x]);
-                }
-            }
-
-            if (x + 1 < 8 && y + 1 < 8) {
-                if (squareArrayBoard[y + 1][x + 1].isOccupied()) {
-                    legalMoves.add(squareArrayBoard[y + 1][x + 1]);
-                }
-            }
-
-            if (x - 1 >= 0 && y + 1 < 8) {
-                if (squareArrayBoard[y + 1][x - 1].isOccupied()) {
-                    legalMoves.add(squareArrayBoard[y + 1][x - 1]);
-                }
-            }
-        }
-
-        if (pieceColor.equals(WHITE)) {
-            if (!wasMoved) {
-                if (!squareArrayBoard[y - 2][x].isOccupied()) {
-                    legalMoves.add(squareArrayBoard[y - 2][x]);
-                }
-            }
-
-            if (y - 1 >= 0) {
-                if (!squareArrayBoard[y - 1][x].isOccupied()) {
-                    legalMoves.add(squareArrayBoard[y - 1][x]);
-                }
-            }
-
-            if (x + 1 < 8 && y - 1 >= 0) {
-                if (squareArrayBoard[y - 1][x + 1].isOccupied()) {
-                    legalMoves.add(squareArrayBoard[y - 1][x + 1]);
-                }
-            }
-
-            if (x - 1 >= 0 && y - 1 >= 0) {
-                if (squareArrayBoard[y - 1][x - 1].isOccupied()) {
-                    legalMoves.add(squareArrayBoard[y - 1][x - 1]);
-                }
-            }
-        }
+        // Add potential moves using helper methods
+        addStraightMove(legalMoves, squareArrayBoard, x, y, direction);
+        addAttackMoves(legalMoves, squareArrayBoard, x, y, direction);
 
         return legalMoves;
     }
+
+    // Helper method for straight moves (forward moves)
+    private void addStraightMove(List<Square> legalMoves, Square[][] board, int x, int y, int direction) {
+        // First move (can move two steps if not yet moved)
+        if (!wasMoved && isInBound(y + 2 * direction, x) && !board[y + 2 * direction][x].isOccupied()) {
+            legalMoves.add(board[y + 2 * direction][x]);
+        }
+        // Regular move (one step forward)
+        if (isInBound(y + direction, x) && !board[y + direction][x].isOccupied()) {
+            legalMoves.add(board[y + direction][x]);
+        }
+    }
+
+    // Helper method for diagonal attack moves
+    private void addAttackMoves(List<Square> legalMoves, Square[][] board, int x, int y, int direction) {
+        // Check diagonal right
+        if (isInBound(y + direction, x + 1) && board[y + direction][x + 1].isOccupied()) {
+            legalMoves.add(board[y + direction][x + 1]);
+        }
+        // Check diagonal left
+        if (isInBound(y + direction, x - 1) && board[y + direction][x - 1].isOccupied()) {
+            legalMoves.add(board[y + direction][x - 1]);
+        }
+    }
+
 }

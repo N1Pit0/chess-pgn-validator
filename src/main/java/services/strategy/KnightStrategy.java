@@ -4,7 +4,9 @@ import model.board.Board;
 import model.board.Square;
 import model.pieces.common.Piece;
 import services.strategy.common.PieceStrategy;
+import services.utils.MovementUtil;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,25 +18,33 @@ public class KnightStrategy extends PieceStrategy {
 
     @Override
     public List<Square> getLegalMoves(Board board) {
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-        Square[][] squareArrayBoard = board.getBoard();
+        LinkedList<Square> legalMoves = new LinkedList<>();
+        Square [] [] squareBoard = board.getBoard();
+        Square currentSquare = getPiece().getCurrentSquare();
 
-        int x = super.getPiece().getCurrentSquare().getXNum();
-        int y = super.getPiece().getCurrentSquare().getYNum();
+        int x = currentSquare.getXNum();
+        int y = currentSquare.getYNum();
 
-        for (int i = 2; i > -3; i--) {
-            for (int k = 2; k > -3; k--) {
-                if (Math.abs(i) == 2 ^ Math.abs(k) == 2) {
-                    if (k != 0 && i != 0) {
-                        try {
-                            legalMoves.add(squareArrayBoard[y + k][x + i]);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            continue;
-                        }
-                    }
+        int [] [] directions = {
+                    {2, 1}, {1, 2}, {-1, 2},
+                    {-2, 1}, {-2, -1}, {-1, -2},
+                    {1, -2}, {2, -1}
+                };
+
+        Arrays.stream(directions).forEach(direction -> {
+            int newX = x + direction[0];
+            int newY = y + direction[1];
+
+            if (MovementUtil.isInBound(newX, newY)){
+                Square targetSquare = squareBoard[newY][newX];
+
+                if(!targetSquare.isOccupied()
+                        || targetSquare.getOccupyingPiece().getColor() != getPiece().getColor()){
+                    legalMoves.add(targetSquare);
                 }
             }
-        }
+
+        });
 
         return legalMoves;
     }

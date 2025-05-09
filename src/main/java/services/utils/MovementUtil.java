@@ -39,7 +39,7 @@ public class MovementUtil {
             int currentY = y + dy;
             int currentX = x + dx;
 
-            while (isValidPosition(currentY, currentX)) {
+            while (isInBound(currentY, currentX)) {
                 Square targetSquare = squares[currentY][currentX];
 
                 if (targetSquare.isOccupied()) {
@@ -58,7 +58,7 @@ public class MovementUtil {
         return legalSquares;
     }
 
-    private static boolean isValidPosition(int y, int x) {
+    public static boolean isInBound(int x, int y) {
         return x >= 0 && x < 8 && y >= 0 && y < 8;
     }
 }
