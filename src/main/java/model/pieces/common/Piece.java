@@ -47,12 +47,6 @@ public abstract class Piece {
         return true;
     }
 
-    public void draw(Graphics g) {
-
-
-        g.drawImage(this.image, 0, 0, null);
-    }
-
     // No implementation, to be implemented by each subclass
     public abstract List<Square> getLegalMoves(Board b);
 }

@@ -1,0 +1,145 @@
+package services.strategy;
+
+import model.board.Board;
+import model.board.Square;
+import model.pieces.common.Piece;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.List;
+
+import static model.enums.PieceColor.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
+
+public class KnightStrategyTest {
+    @Mock
+    private Board board;
+
+    @Mock
+    private Square currentSquare;
+
+    @Mock
+    private Piece knight;
+
+    private Square[][] squareArrayMock;
+
+    @InjectMocks
+    private KnightStrategy knightStrategy;
+
+    @BeforeEach
+    void setup() {
+        try(var autocloseable = MockitoAnnotations.openMocks(this)){
+            knightStrategy = new KnightStrategy(knight);
+            setupMockedSquareArray();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    //Test: Knight Moves from Center
+    @Test
+    void shouldReturnLegalMovesFromCenterOfBoard() {
+        // Arrange
+        when(knight.getCurrentSquare()).thenReturn(currentSquare);
+        when(currentSquare.getXNum()).thenReturn(4);
+        when(currentSquare.getYNum()).thenReturn(4);
+
+
+        // Act
+        List<Square> legalMoves = knightStrategy.getLegalMoves(board);
+
+        // Assert
+        assertEquals(8, legalMoves.size(), "The knight should have 8 legal moves from the center of the board.");
+        for (Square move : legalMoves) {
+            verify(move, atLeastOnce()).isOccupied(); // Ensures occupation logic is checked.
+        }
+    }
+
+    //Test: Knight Moves from Edge
+    @Test
+    void shouldReturnLegalMovesFromEdgeOfBoard() {
+        // Arrange
+        when(knight.getCurrentSquare()).thenReturn(currentSquare);
+        when(currentSquare.getXNum()).thenReturn(0);
+        when(currentSquare.getYNum()).thenReturn(1);
+        when(knight.getColor()).thenReturn(WHITE);
+
+        // Act
+        List<Square> legalMoves = knightStrategy.getLegalMoves(board);
+
+        // Assert
+        assertEquals(3, legalMoves.size(), "The knight should have 3 legal moves from the edge of the board.");
+    }
+
+    //Test: Occupied Squares - friendly
+    @Test
+    void shouldExcludeFriendlyOccupiedSquares() {
+        // Arrange
+        when(knight.getCurrentSquare()).thenReturn(currentSquare);
+        when(currentSquare.getXNum()).thenReturn(4);
+        when(currentSquare.getYNum()).thenReturn(4);
+
+        // Simulate friendly piece occupying one of the target squares
+        Square targetSquare = squareArrayMock[5][6];
+        Piece friendlyPiece = mock(Piece.class);
+        when(knight.getColor()).thenReturn(WHITE);
+        when(targetSquare.isOccupied()).thenReturn(true);
+        when(targetSquare.getOccupyingPiece()).thenReturn(friendlyPiece);
+        when(friendlyPiece.getColor()).thenReturn(WHITE);
+
+        // Act
+        List<Square> legalMoves = knightStrategy.getLegalMoves(board);
+
+        // Assert
+        assertTrue(
+                legalMoves.stream().noneMatch(move -> move.equals(targetSquare)),
+                "The knight should not move to squares occupied by friendly pieces."
+        );
+    }
+
+    @Test
+    void shouldIncludeOpponentOccupiedSquares() {
+        // Arrange
+        when(knight.getCurrentSquare()).thenReturn(currentSquare);
+        when(knight.getColor()).thenReturn(WHITE);
+        when(currentSquare.getXNum()).thenReturn(4);
+        when(currentSquare.getYNum()).thenReturn(4);
+
+        // Simulate opponent piece occupying one of the target squares
+        Square targetSquare = squareArrayMock[5][6];
+        Piece targetPiece = mock(Piece.class);
+
+        when(targetSquare.isOccupied()).thenReturn(true);
+        when(targetSquare.getOccupyingPiece()).thenReturn(targetPiece);
+        when(targetPiece.getColor()).thenReturn(BLACK); // Simulating opponent color.
+
+        // Act
+        List<Square> legalMoves = knightStrategy.getLegalMoves(board);
+
+        // Assert
+        assertTrue(
+                legalMoves.contains(targetSquare),
+                "The knight should be able to capture opponent pieces."
+        );
+    }
+
+    private void setupMockedSquareArray() {
+        squareArrayMock = new Square[8][8];
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
+                Square square = mock(Square.class);
+                when(square.isOccupied()).thenReturn(false); // Default: all squares unoccupied.
+                squareArrayMock[y][x] = square;
+            }
+        }
+        when(board.getBoard()).thenReturn(squareArrayMock);
+    }
+
+
+}

@@ -33,8 +33,10 @@ public class SquareView extends JComponent {
 
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
+        PieceView pieceView = new PieceView();
+
         if (this.square.getOccupyingPiece() != null && displayPiece) {
-            this.square.getOccupyingPiece().draw(g);
+            pieceView.draw(g, square.getOccupyingPiece());
         }
     }
 }
