@@ -1,16 +1,15 @@
 package model.pieces.common;
 
-import model.board.Board;
-import model.board.Square;
 import lombok.Getter;
 import lombok.Setter;
+import model.board.Board;
+import model.board.Square;
 import model.enums.PieceColor;
 import services.utils.ImageReaderUtil;
 import services.utils.ImageReaderUtilImpl;
 import services.utils.exceptions.ImageNotFoundException;
 
 import java.awt.*;
-import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -27,8 +26,8 @@ public abstract class Piece {
         try {
             ImageReaderUtil imageReader = new ImageReaderUtilImpl();
 
-            image = imageReader.readImage(img_file).orElseThrow( () -> new ImageNotFoundException("image not found"));
-        }catch (ClassCastException e){
+            image = imageReader.readImage(img_file).orElseThrow(() -> new ImageNotFoundException("image not found"));
+        } catch (ClassCastException e) {
             System.out.println("Class should extend Image");
             e.printStackTrace();
         }

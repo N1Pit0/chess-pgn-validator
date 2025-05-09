@@ -1,18 +1,19 @@
 package model.board;
 
-import model.enums.PieceColor;
-import services.CheckmateDetector;
-import view.gui.GameWindow;
 import lombok.Getter;
 import lombok.Setter;
+import model.enums.PieceColor;
 import model.pieces.*;
 import model.pieces.common.Piece;
+import services.CheckmateDetector;
+import view.gui.GameWindow;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import static model.enums.ImagePath.*;
-import static model.enums.PieceColor.*;
+import static model.enums.PieceColor.BLACK;
+import static model.enums.PieceColor.WHITE;
 
 
 @Getter
@@ -94,7 +95,7 @@ public class Board {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 PieceColor color = ((x + y) % 2 == 0) ? WHITE : BLACK;
-                board[y][x] = new Square( this, color, x, y);
+                board[y][x] = new Square(this, color, x, y);
             }
         }
     }

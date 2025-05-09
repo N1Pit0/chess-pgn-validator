@@ -18,9 +18,6 @@ public class BishopStrategy extends PieceStrategy {
     @Override
     public List<Square> getLegalMoves(Board board) {
 
-        int x = super.getPiece().getCurrentSquare().getXNum();
-        int y = super.getPiece().getCurrentSquare().getYNum();
-
         return MovementUtil.getDiagonalMoves(board, super.getPiece());
     }
 }

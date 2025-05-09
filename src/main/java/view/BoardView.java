@@ -1,14 +1,16 @@
 package view;
 
-import model.board.*;
 import lombok.Getter;
+import model.board.Board;
+import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static model.enums.PieceColor.*;
+import static model.enums.PieceColor.BLACK;
+import static model.enums.PieceColor.WHITE;
 
 @Getter
 public class BoardView extends JPanel {

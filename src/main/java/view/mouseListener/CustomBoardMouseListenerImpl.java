@@ -10,7 +10,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import static model.enums.PieceColor.*;
+import static model.enums.PieceColor.BLACK;
+import static model.enums.PieceColor.WHITE;
 
 public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 

@@ -1,8 +1,8 @@
 package view;
 
-import model.board.Square;
 import lombok.Getter;
 import lombok.Setter;
+import model.board.Square;
 
 import javax.swing.*;
 import java.awt.*;

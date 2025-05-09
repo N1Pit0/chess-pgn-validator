@@ -1,10 +1,10 @@
 package view.gui;
 
 import model.board.Board;
-import view.mouseListener.CustomBoardMouseListener;
-import view.mouseListener.CustomBoardMouseListenerImpl;
 import services.Clock;
 import view.BoardView;
+import view.mouseListener.CustomBoardMouseListener;
+import view.mouseListener.CustomBoardMouseListenerImpl;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

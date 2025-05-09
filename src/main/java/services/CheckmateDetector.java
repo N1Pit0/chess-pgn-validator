@@ -11,7 +11,8 @@ import model.pieces.common.Piece;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-import static model.enums.PieceColor.*;
+import static model.enums.PieceColor.BLACK;
+import static model.enums.PieceColor.WHITE;
 
 
 /**
@@ -452,7 +453,7 @@ public class CheckmateDetector {
         p.move(sq);
         update();
 
-        PieceColor color  = p.getColor();
+        PieceColor color = p.getColor();
         if (color.equals(BLACK) && blackInCheck()) movetest = false;
         else if (color.equals(WHITE) && whiteInCheck()) movetest = false;
 

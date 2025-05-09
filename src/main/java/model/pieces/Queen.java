@@ -4,9 +4,8 @@ import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
-import services.utils.MovementUtil;
+import services.strategy.QueenStrategy;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class Queen extends Piece {
@@ -18,11 +17,7 @@ public class Queen extends Piece {
     @Override
     public List<Square> getLegalMoves(Board board) {
 
-        LinkedList<Square> legalMoves = new LinkedList<>(MovementUtil.getLinearMoves(board, this));
-
-        legalMoves.addAll(MovementUtil.getDiagonalMoves(board,this));
-
-        return legalMoves;
+        return new QueenStrategy(this).getLegalMoves(board);
     }
 
 }

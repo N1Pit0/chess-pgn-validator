@@ -5,6 +5,7 @@ import model.board.Square;
 import model.pieces.common.Piece;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MovementUtil {
@@ -32,7 +33,7 @@ public class MovementUtil {
         int x = position.getXNum();
         int y = position.getYNum();
 
-        for (int[] direction : directions) {
+        Arrays.stream(directions).forEach((direction) -> {
             int dy = direction[0];
             int dx = direction[1];
             int currentY = y + dy;
@@ -52,7 +53,7 @@ public class MovementUtil {
                 currentY += dy;
                 currentX += dx;
             }
-        }
+        });
 
         return legalSquares;
     }

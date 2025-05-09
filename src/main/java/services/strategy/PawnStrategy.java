@@ -1,6 +1,7 @@
 package services.strategy;
 
-import model.board.*;
+import model.board.Board;
+import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
 import services.strategy.common.PieceStrategy;
@@ -8,7 +9,8 @@ import services.strategy.common.PieceStrategy;
 import java.util.LinkedList;
 import java.util.List;
 
-import static model.enums.PieceColor.*;
+import static model.enums.PieceColor.BLACK;
+import static model.enums.PieceColor.WHITE;
 
 public class PawnStrategy extends PieceStrategy {
     private boolean wasMoved;

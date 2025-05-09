@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ImageReaderUtilImpl implements ImageReaderUtil{
+public class ImageReaderUtilImpl implements ImageReaderUtil {
 
     public <T extends Image> Optional<T> readImage(String fileName) throws ClassCastException {
         BufferedImage image = null;

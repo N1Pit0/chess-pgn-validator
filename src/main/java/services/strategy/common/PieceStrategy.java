@@ -1,8 +1,8 @@
 package services.strategy.common;
 
+import lombok.Getter;
 import model.board.Board;
 import model.board.Square;
-import lombok.Getter;
 import model.pieces.common.Piece;
 
 import java.util.List;
