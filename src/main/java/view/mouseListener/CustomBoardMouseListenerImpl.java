@@ -3,6 +3,9 @@ package view.mouseListener;
 import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
+import model.pieces.King;
+import model.pieces.common.Piece;
+import services.checkmatedetection.CheckmateDetector;
 import view.BoardView;
 import view.SquareView;
 
@@ -18,9 +21,10 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
     private final BoardView boardView;
     private final BoardMouseListener boardMouseListener;
     private final BoardMouseMotionListener boardMouseMotionListener;
+    private final CheckmateDetector checkmateDetector;
 
-    public CustomBoardMouseListenerImpl(BoardView boardView) {
-
+    public CustomBoardMouseListenerImpl(BoardView boardView, CheckmateDetector checkmateDetector) {
+        this.checkmateDetector = checkmateDetector;
         this.boardView = boardView;
         this.boardMouseListener = new BoardMouseListener(this);
         this.boardMouseMotionListener = new BoardMouseMotionListener(this);
@@ -53,8 +57,9 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
     @Override
     public void handleMouseReleased(MouseEvent e) {
         SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
-        Square square = squareView.getSquare();
+        Square targetSquare = squareView.getSquare();
         Board board = boardView.getBoard();
+        Piece currentPiece = board.getCurrPiece();
 
         if (board.getCurrPiece() == null) return;
 
@@ -65,38 +70,53 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
         if (currentPieceColor.equals(WHITE) && !board.isWhiteTurn())
             return;
 
-        List<Square> legalMoves = board.getCurrPiece().getLegalMoves(board);
+        List<Square> legalMoves = currentPiece.getLegalMoves(board);
 
-        List<Square> movableSquares = board.getCkeckmateDetector().getAllowableSquares(board.isWhiteTurn());
-        board.setMovable(movableSquares);
+        if (legalMoves.contains(targetSquare)) {
+            // Store the original square of the current piece
+            Square originalSquare = currentPiece.getCurrentSquare();
 
-        if (legalMoves.contains(square) && board.getMovable().contains(square)
-                && board.getCkeckmateDetector().testMove(board.getCurrPiece(), square)) {
-            squareView.setDisplayPiece(true);
-            board.getCurrPiece().move(square);
-            board.getCkeckmateDetector().update();
+            // Store the captured piece (if any)
+            Piece capturedPiece = targetSquare.getOccupyingPiece();
 
-            if (board.getCkeckmateDetector().blackCheckMated()) {
+            // Make the move
+            currentPiece.move(targetSquare);
 
-                setupBoardForCheckmate(board, 0);
+            // Check if the current player's king is in check after the move
+            if (checkmateDetector.isInCheck(board, currentPieceColor)) {
+                // Undo the move
+                currentPiece.move(originalSquare);
 
-            } else if (board.getCkeckmateDetector().blackCheckMated()) {
+                // Restore the captured piece (if any)
+                if (capturedPiece != null) {
+                    targetSquare.setOccupyingPiece(capturedPiece);
+                    if (capturedPiece.getColor() == WHITE) {
+                        board.getWhitePieces().add(capturedPiece);
+                    } else {
+                        board.getBlackPieces().add(capturedPiece);
+                    }
+                }
 
-                setupBoardForCheckmate(board, 1);
-
+                System.out.println("Invalid move. Your king is in check!");
             } else {
-                board.setCurrPiece(null);
 
+                PieceColor opponentColor = currentPieceColor.equals(WHITE) ? BLACK : WHITE;
+                // Check if the opponent is in checkmate
+                if (checkmateDetector.isInCheckmate(board, opponentColor)) {
+                    System.out.println("Checkmate! You win!");
+                    // TODO: Handle the end of the game logic
+                }
+                // Check if the opponent is in stalemate
+                else if (checkmateDetector.isInStalemate(board, opponentColor)) {
+                    System.out.println("Stalemate! The game is a draw.");
+                    // TODO: Handle the end of the game logic
+                }
+                // Change the turn to the other player
                 board.setWhiteTurn(!board.isWhiteTurn());
-
-                board.setMovable(board.getCkeckmateDetector().getAllowableSquares(board.isWhiteTurn()));
             }
-
-        } else {
-            squareView.setDisplayPiece(true);
-            board.setCurrPiece(null);
         }
 
+        board.setCurrPiece(null);
         boardView.repaint();
     }
 
@@ -114,4 +134,5 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
         boardView.removeMouseMotionListener(boardMouseMotionListener);
         board.getGameWindow().checkmateOccurred(colorCheckMated);
     }
+
 }

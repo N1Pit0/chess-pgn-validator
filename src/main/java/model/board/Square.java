@@ -38,19 +38,4 @@ public class Square {
         p.setCurrentSquare(this);
     }
 
-    public Piece removePiece() {
-        Piece p = this.occupyingPiece;
-        this.occupyingPiece = null;
-        return p;
-    }
-
-    public void capture(Piece p) {
-        Piece k = getOccupyingPiece();
-        PieceColor currentPieceColor = k.getColor();
-        if (currentPieceColor.equals(BLACK)) board.getBlackPieces().remove(k);
-        if (currentPieceColor.equals(WHITE)) board.getWhitePieces().remove(k);
-        this.occupyingPiece = p;
-    }
-
-
 }

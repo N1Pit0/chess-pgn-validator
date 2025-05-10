@@ -5,12 +5,9 @@ import lombok.Setter;
 import model.enums.PieceColor;
 import model.pieces.*;
 import model.pieces.common.Piece;
-import services.CheckmateDetector;
-import services.checkmatedetection.CheckmateDetectorImpl;
 import view.gui.GameWindow;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +24,11 @@ public class Board {
     private final GameWindow gameWindow;
 
     // List of pieces and whether they are movable
-    private final List<Piece> blackPieces;
-    private final List<Piece> whitePieces;
+    private  List<Piece> blackPieces;
+    private  List<Piece> whitePieces;
+
+    private King whiteKing;
+    private King blackKing;
 
     private List<Square> movable;
     private boolean whiteTurn;
@@ -37,7 +37,6 @@ public class Board {
     private int currX;
     private int currY;
 
-    private CheckmateDetector ckeckmateDetector;
 
     public Board(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
@@ -63,10 +62,10 @@ public class Board {
         board[7][3].put(new Queen(WHITE, board[7][3], RESOURCES_WQUEEN_PNG.label));
         board[0][3].put(new Queen(BLACK, board[0][3], RESOURCES_BQUEEN_PNG.label));
 
-        King bk = new King(BLACK, board[0][4], RESOURCES_BKING_PNG.label);
-        King wk = new King(WHITE, board[7][4], RESOURCES_WKING_PNG.label);
-        board[0][4].put(bk);
-        board[7][4].put(wk);
+        this.blackKing = new King(BLACK, board[0][4], RESOURCES_BKING_PNG.label);
+        this.whiteKing = new King(WHITE, board[7][4], RESOURCES_WKING_PNG.label);
+        board[0][4].put(blackKing);
+        board[7][4].put(whiteKing);
 
         board[0][0].put(new Rook(BLACK, board[0][0], RESOURCES_BROOK_PNG.label));
         board[0][7].put(new Rook(BLACK, board[0][7], RESOURCES_BROOK_PNG.label));
@@ -91,7 +90,6 @@ public class Board {
             }
         }
 
-        ckeckmateDetector = new CheckmateDetector(this, whitePieces, blackPieces, wk, bk);
     }
 
     private void initializeBoardSquares() {
@@ -104,11 +102,11 @@ public class Board {
     }
 
     public Optional<Piece> getWhiteKing(){
-        return whitePieces.stream().filter((piece) -> piece instanceof King).findFirst();
+        return whitePieces.stream().filter(piece -> piece instanceof King).findFirst();
     }
 
     public Optional<Piece> getBlackKing(){
-        return blackPieces.stream().filter((piece) -> piece instanceof King).findFirst();
+        return blackPieces.stream().filter(piece -> piece instanceof King).findFirst();
     }
 
 }

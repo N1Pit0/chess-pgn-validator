@@ -3,6 +3,7 @@ package services;
 import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
+import model.pieces.King;
 import model.pieces.common.Piece;
 
 import static model.enums.PieceColor.*;
@@ -16,16 +17,15 @@ public class Move {
 
     public boolean makeMove(Square fin, Board board) {
         Piece occupyingPiece = fin.getOccupyingPiece();
-        Square currentSquare = piece.getCurrentSquare();
 
         if (occupyingPiece != null) {
             if (occupyingPiece.getColor() == piece.getColor()) return false;
-            else capture(piece, currentSquare, board);
+            else capture(piece, fin, board);
         }
 
-        removePiece(currentSquare);
-        currentSquare = fin;
-        currentSquare.put(piece);
+        removePiece(piece.getCurrentSquare());
+        piece.setCurrentSquare(fin);
+        piece.getCurrentSquare().put(piece);
         return true;
     }
 
@@ -36,10 +36,16 @@ public class Move {
     private void capture(Piece piece, Square targetSquare, Board board) {
 
         Piece targetPiece = targetSquare.getOccupyingPiece();
-        PieceColor currentPieceColor = targetPiece.getColor();
+        PieceColor targetPieceColor = targetPiece.getColor();
 
-        if (currentPieceColor.equals(BLACK)) board.getBlackPieces().remove(targetPiece);
-        if (currentPieceColor.equals(WHITE)) board.getWhitePieces().remove(targetPiece);
+        if (targetPieceColor.equals(BLACK)) {
+            if (targetPiece instanceof King) board.setBlackKing(null);
+            board.getBlackPieces().remove(targetPiece);
+        }
+        if (targetPieceColor.equals(WHITE)) {
+            if (targetPiece instanceof King) board.setWhiteKing(null);
+            board.getWhitePieces().remove(targetPiece);
+        }
 
         targetSquare.setOccupyingPiece(piece);
     }

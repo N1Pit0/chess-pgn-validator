@@ -1,11 +1,12 @@
 package services.checkmatedetection;
 
 import model.board.Board;
+import model.enums.PieceColor;
 
 public interface CheckmateDetector {
-    boolean isInCheck(Board board);
+    boolean isInCheck(Board board, PieceColor pieceColor);
 
-    boolean isInCheckmate(Board board);
+    boolean isInCheckmate(Board board, PieceColor pieceColor);
 
-    boolean isInStalemate(Board board);
+    boolean isInStalemate(Board board, PieceColor pieceColor);
 }

@@ -6,61 +6,70 @@ import model.enums.PieceColor;
 import model.pieces.King;
 import model.pieces.common.Piece;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static model.enums.PieceColor.BLACK;
 import static model.enums.PieceColor.WHITE;
 
 public class CheckmateDetectorImpl implements CheckmateDetector{
 
     @Override
-    public boolean isInCheck(Board board) {
+    public boolean isInCheck(Board board, PieceColor pieceColor) {
 
-        return board.isWhiteTurn()
+        return pieceColor.equals(WHITE)
                 ? checkHelper(board, PieceColor.WHITE)
                 : checkHelper(board, PieceColor.BLACK);
     }
 
     @Override
-    public boolean isInCheckmate(Board board) {
-        if (!isInCheck(board)) {
+    public boolean isInCheckmate(Board board, PieceColor pieceColor) {
+        if (!isInCheck(board, pieceColor)) {
             return false;
         }
 
-        return !hasLegalMoveWithoutCheck(board);
+        return !hasLegalMoveWithoutCheck(board, pieceColor);
     }
 
     @Override
-    public boolean isInStalemate(Board board) {
-        if (isInCheck(board)) {
+    public boolean isInStalemate(Board board, PieceColor pieceColor) {
+        if (isInCheck(board, pieceColor)) {
             return false;
         }
 
-        return !hasLegalMoveWithoutCheck(board);
+        return !hasLegalMoveWithoutCheck(board, pieceColor);
     }
 
-    private boolean hasLegalMoveWithoutCheck(Board board) {
-        List<Piece> currentPlayerPieces = board.isWhiteTurn() ? board.getWhitePieces() : board.getBlackPieces();
+    private boolean hasLegalMoveWithoutCheck(Board board, PieceColor pieceColor) {
+        List<Piece> currentPlayerPieces = pieceColor.equals(WHITE) ? board.getWhitePieces() : board.getBlackPieces();
+        System.out.println(currentPlayerPieces.size());
 
         return currentPlayerPieces.stream()
-                .flatMap(piece -> piece.getLegalMoves(board).stream().map(move -> {
+                .flatMap(piece -> piece.getLegalMoves(board).stream().map(targetSquare -> {
                     Square originalSquare = piece.getCurrentSquare();
-                    Piece capturedPiece = move.getOccupyingPiece();
+                    Piece capturedPiece = targetSquare.getOccupyingPiece();
+                    System.out.println(originalSquare.getYNum() + " " + originalSquare.getXNum());
 
                     // Make the move
-                    piece.move(move);
+                    piece.move(targetSquare);
 
                     // Check if the king is in check after the move
-                    boolean isInCheckAfterMove = isInCheck(board);
+                    boolean isInCheckAfterMove = isInCheck(board, pieceColor);
+                    System.out.println(isInCheckAfterMove + " " + pieceColor);
 
                     // Undo the move
                     piece.move(originalSquare);
                     if (capturedPiece != null) {
-                        move.setOccupyingPiece(capturedPiece);
+                        targetSquare.setOccupyingPiece(capturedPiece);
                         if (capturedPiece.getColor() == WHITE) {
-                            board.getWhitePieces().add(capturedPiece);
+                            List<Piece> updatedWhitePieces = new ArrayList<>(board.getWhitePieces());
+                            updatedWhitePieces.add(capturedPiece);
+                            board.setWhitePieces(updatedWhitePieces);
                         } else {
-                            board.getBlackPieces().add(capturedPiece);
+                            List<Piece> updatedBlackPieces = new ArrayList<>(board.getBlackPieces());
+                            updatedBlackPieces.add(capturedPiece);
+                            board.setBlackPieces(updatedBlackPieces);
                         }
                     }
 

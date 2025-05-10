@@ -2,6 +2,8 @@ package view.gui;
 
 import model.board.Board;
 import services.Clock;
+import services.checkmatedetection.CheckmateDetector;
+import services.checkmatedetection.CheckmateDetectorImpl;
 import view.BoardView;
 import view.mouseListener.CustomBoardMouseListener;
 import view.mouseListener.CustomBoardMouseListenerImpl;
@@ -55,7 +57,9 @@ public class GameWindow {
 
         BoardView boardView = new BoardView(board);
 
-        this.customBoardMouseListener = new CustomBoardMouseListenerImpl(boardView);
+        CheckmateDetector checkmateDetector = new CheckmateDetectorImpl();
+
+        this.customBoardMouseListener = new CustomBoardMouseListenerImpl(boardView, checkmateDetector);
 
         gameWindow.add(boardView, BorderLayout.CENTER);
 
@@ -252,5 +256,9 @@ public class GameWindow {
                 gameWindow.dispose();
             }
         }
+    }
+
+    public void kingDied(){
+        gameWindow.dispose();
     }
 }
