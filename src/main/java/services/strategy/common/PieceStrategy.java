@@ -15,19 +15,6 @@ public abstract class PieceStrategy {
         this.piece = piece;
     }
 
-    public boolean move(Square square) {
-        Piece occup = square.getOccupyingPiece();
-
-        if (occup != null) {
-            if (occup.getColor() == piece.getColor()) return false;
-            else square.capture(piece);
-        }
-
-        piece.getCurrentSquare().removePiece();
-        piece.setCurrentSquare(square);
-        piece.getCurrentSquare().put(piece);
-        return true;
-    }
 
     public abstract List<Square> getLegalMoves(Board board);
 }

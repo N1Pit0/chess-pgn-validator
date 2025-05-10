@@ -1,5 +1,6 @@
 package model.pieces;
 
+import lombok.Getter;
 import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
@@ -8,7 +9,7 @@ import services.strategy.PawnStrategy;
 
 import java.util.List;
 
-
+@Getter
 public class Pawn extends Piece {
     private boolean wasMoved;
 
@@ -27,4 +28,7 @@ public class Pawn extends Piece {
     public List<Square> getLegalMoves(Board board) {
         return new PawnStrategy(this).getLegalMoves(board);
     }
+
+    public void dummy(){}
+
 }

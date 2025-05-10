@@ -5,6 +5,7 @@ import lombok.Setter;
 import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
+import services.Move;
 import services.utils.ImageReaderUtil;
 import services.utils.ImageReaderUtilImpl;
 import services.utils.exceptions.ImageNotFoundException;
@@ -34,17 +35,8 @@ public abstract class Piece {
     }
 
     public boolean move(Square fin) {
-        Piece occup = fin.getOccupyingPiece();
 
-        if (occup != null) {
-            if (occup.getColor() == this.color) return false;
-            else fin.capture(this);
-        }
-
-        currentSquare.removePiece();
-        this.currentSquare = fin;
-        currentSquare.put(this);
-        return true;
+        return new Move(this).makeMove(fin, currentSquare.getBoard());
     }
 
     // No implementation, to be implemented by each subclass

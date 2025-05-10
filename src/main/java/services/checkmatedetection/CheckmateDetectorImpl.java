@@ -20,12 +20,12 @@ public class CheckmateDetectorImpl implements CheckmateDetector{
 
     @Override
     public boolean isInCheckmate(Board board) {
-        return false;
+        return false; //not implemented
     }
 
     @Override
     public boolean isInStalemate(Board board) {
-        return false;
+        return false; //not implemented
     }
 
     private boolean checkHelper(Board board, PieceColor pieceColor){

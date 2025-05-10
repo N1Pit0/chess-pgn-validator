@@ -3,6 +3,7 @@ package services.strategy;
 import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
+import model.pieces.Pawn;
 import model.pieces.common.Piece;
 import services.strategy.common.PieceStrategy;
 
@@ -17,13 +18,6 @@ public class PawnStrategy extends PieceStrategy {
 
     public PawnStrategy(Piece piece) {
         super(piece);
-    }
-
-    @Override
-    public boolean move(Square fin) {
-        boolean b = super.move(fin);
-        wasMoved = true;
-        return b;
     }
 
     @Override
@@ -48,7 +42,8 @@ public class PawnStrategy extends PieceStrategy {
     // Helper method for straight moves (forward moves)
     private void addStraightMove(List<Square> legalMoves, Square[][] board, int x, int y, int direction) {
         // First move (can move two steps if not yet moved)
-        if (!wasMoved && isInBound(y + 2 * direction, x) && !board[y + 2 * direction][x].isOccupied()) {
+        Pawn pawn = (Pawn) getPiece();
+        if (!(pawn.isWasMoved()) && isInBound(y + 2 * direction, x) && !board[y + 2 * direction][x].isOccupied()) {
             legalMoves.add(board[y + 2 * direction][x]);
         }
         // Regular move (one step forward)
