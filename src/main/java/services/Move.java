@@ -5,8 +5,7 @@ import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
 
-import static model.enums.PieceColor.BLACK;
-import static model.enums.PieceColor.WHITE;
+import static model.enums.PieceColor.*;
 
 public class Move {
     private Piece piece;
