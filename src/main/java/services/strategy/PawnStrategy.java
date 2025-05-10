@@ -6,7 +6,7 @@ import model.enums.PieceColor;
 import model.pieces.common.Piece;
 import services.strategy.common.PieceStrategy;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import static model.enums.PieceColor.BLACK;
@@ -28,7 +28,7 @@ public class PawnStrategy extends PieceStrategy {
 
     @Override
     public List<Square> getLegalMoves(Board board) {
-        List<Square> legalMoves = new LinkedList<>();
+        List<Square> legalMoves = new ArrayList<>();
         Square[][] squareArrayBoard = board.getBoard();
 
         int x = super.getPiece().getCurrentSquare().getXNum();

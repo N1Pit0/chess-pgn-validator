@@ -6,10 +6,13 @@ import model.enums.PieceColor;
 import model.pieces.*;
 import model.pieces.common.Piece;
 import services.CheckmateDetector;
+import services.checkmatedetection.CheckmateDetectorImpl;
 import view.gui.GameWindow;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static model.enums.ImagePath.*;
 import static model.enums.PieceColor.BLACK;
@@ -24,8 +27,8 @@ public class Board {
     private final GameWindow gameWindow;
 
     // List of pieces and whether they are movable
-    private final LinkedList<Piece> blackPieces;
-    private final LinkedList<Piece> whitePieces;
+    private final List<Piece> blackPieces;
+    private final List<Piece> whitePieces;
 
     private List<Square> movable;
     private boolean whiteTurn;
@@ -39,8 +42,8 @@ public class Board {
     public Board(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
         board = new Square[8][8];
-        blackPieces = new LinkedList<>();
-        whitePieces = new LinkedList<>();
+        blackPieces = new ArrayList<>();
+        whitePieces = new ArrayList<>();
 
         initializeBoardSquares();
 
@@ -98,6 +101,14 @@ public class Board {
                 board[y][x] = new Square(this, color, x, y);
             }
         }
+    }
+
+    public Optional<Piece> getWhiteKing(){
+        return whitePieces.stream().filter((piece) -> piece instanceof King).findFirst();
+    }
+
+    public Optional<Piece> getBlackKing(){
+        return blackPieces.stream().filter((piece) -> piece instanceof King).findFirst();
     }
 
 }

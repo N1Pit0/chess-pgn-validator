@@ -39,7 +39,7 @@ public class MovementUtil {
             int currentY = y + dy;
             int currentX = x + dx;
 
-            while (isInBound(currentY, currentX)) {
+            while (isInBound(currentX, currentY)) {
                 Square targetSquare = squares[currentY][currentX];
 
                 if (targetSquare.isOccupied()) {

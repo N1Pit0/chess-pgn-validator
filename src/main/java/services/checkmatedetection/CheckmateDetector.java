@@ -3,9 +3,9 @@ package services.checkmatedetection;
 import model.board.Board;
 
 public interface CheckmateDetector {
-    void check(Board board);
+    boolean isInCheck(Board board);
 
-    void checkmate(Board board);
+    boolean isInCheckmate(Board board);
 
-    void stalemate(Board board);
+    boolean isInStalemate(Board board);
 }

@@ -6,8 +6,8 @@ import model.pieces.common.Piece;
 import services.strategy.common.PieceStrategy;
 import services.utils.MovementUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class KnightStrategy extends PieceStrategy {
@@ -18,7 +18,7 @@ public class KnightStrategy extends PieceStrategy {
 
     @Override
     public List<Square> getLegalMoves(Board board) {
-        LinkedList<Square> legalMoves = new LinkedList<>();
+        List<Square> legalMoves = new ArrayList<>();
         Square [] [] squareBoard = board.getBoard();
         Square currentSquare = getPiece().getCurrentSquare();
 

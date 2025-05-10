@@ -21,11 +21,11 @@ import static model.enums.PieceColor.WHITE;
  * @author Jussi Lundstedt
  */
 public class CheckmateDetector {
-    private final LinkedList<Square> squares;
+    private final List<Square> squares;
     private Board b;
-    private LinkedList<Piece> wPieces;
-    private LinkedList<Piece> bPieces;
-    private LinkedList<Square> movableSquares;
+    private List<Piece> wPieces;
+    private List<Piece> bPieces;
+    private List<Square> movableSquares;
     private King bk;
     private King wk;
     private HashMap<Square, List<Piece>> wMoves;
@@ -41,8 +41,8 @@ public class CheckmateDetector {
      * @param wk      chesspieces.common.Piece object representing the white king
      * @param bk      chesspieces.common.Piece object representing the black king
      */
-    public CheckmateDetector(Board b, LinkedList<Piece> wPieces,
-                             LinkedList<Piece> bPieces, King wk, King bk) {
+    public CheckmateDetector(Board b, List<Piece> wPieces,
+                             List<Piece> bPieces, King wk, King bk) {
         this.b = b;
         this.wPieces = wPieces;
         this.bPieces = bPieces;
@@ -50,8 +50,8 @@ public class CheckmateDetector {
         this.wk = wk;
 
         // Initialize other fields
-        squares = new LinkedList<Square>();
-        movableSquares = new LinkedList<Square>();
+        squares = new ArrayList<>();
+        movableSquares = new ArrayList<>();
         wMoves = new HashMap<Square, List<Piece>>();
         bMoves = new HashMap<Square, List<Piece>>();
 
@@ -61,8 +61,8 @@ public class CheckmateDetector {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 squares.add(brd[y][x]);
-                wMoves.put(brd[y][x], new LinkedList<Piece>());
-                bMoves.put(brd[y][x], new LinkedList<Piece>());
+                wMoves.put(brd[y][x], new ArrayList<>());
+                bMoves.put(brd[y][x], new ArrayList<>());
             }
         }
 
