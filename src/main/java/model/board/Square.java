@@ -3,7 +3,6 @@ package model.board;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import services.board.BoardService;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
@@ -11,19 +10,17 @@ import services.strategy.common.PieceInterface;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"boardService", "pieceColor", "occupyingPiece"}, callSuper = false)
+@EqualsAndHashCode(exclude = {"squareColor", "occupyingPiece"}, callSuper = false)
 public class Square implements SquareInterface {
-    private final PieceColor pieceColor;
-    private BoardService boardService;
+    private final PieceColor squareColor;
     private PieceInterface occupyingPiece;
 
     private int xNum;
     private int yNum;
 
-    public Square(BoardService boardService, PieceColor pieceColor, int xNum, int yNum) {
+    public Square(PieceColor squareColor, int xNum, int yNum) {
 
-        this.boardService = boardService;
-        this.pieceColor = pieceColor;
+        this.squareColor = squareColor;
         this.xNum = xNum;
         this.yNum = yNum;
 

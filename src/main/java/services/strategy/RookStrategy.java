@@ -1,6 +1,5 @@
 package services.strategy;
 
-import services.board.BoardService;
 import services.board.SquareInterface;
 import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
@@ -14,8 +13,8 @@ public class RookStrategy extends PieceStrategy {
     }
 
     @Override
-    public List<SquareInterface> getLegalMoves(BoardService boardService) {
+    public List<SquareInterface> getLegalMoves(SquareInterface[][] squareArrayBoard) {
 
-        return MovementUtil.getLinearMoves(boardService, this.getPiece());
+        return MovementUtil.getLinearMoves(squareArrayBoard, this.getPiece());
     }
 }

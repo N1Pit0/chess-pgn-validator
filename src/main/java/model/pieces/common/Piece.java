@@ -36,11 +36,11 @@ public abstract class Piece implements PieceInterface {
         }
     }
 
-    public boolean move(SquareInterface targetSquare) {
+    public boolean move(SquareInterface targetSquare, BoardService boardService) {
 
-        return Move.makeMove(this, targetSquare, currentSquare.getBoard());
+        return Move.makeMove(this, targetSquare, boardService);
     }
 
     // No implementation, to be implemented by each subclass
-    public abstract List<SquareInterface> getLegalMoves(BoardService b);
+    public abstract List<SquareInterface> getLegalMoves(SquareInterface[][] squareArrayBoard);
 }

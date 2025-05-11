@@ -20,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 class CheckmateDetectorImplTest {
 
+    private Square[][] squareArrayMock;
 
     @Mock
     private BoardService boardService;
@@ -43,6 +44,7 @@ class CheckmateDetectorImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         checkmateDetector = new CheckmateDetectorImpl();
+        setupMockedSquareArray();
         when(blackKing.getPieceColor()).thenReturn(PieceColor.BLACK);
         when(whiteKing.getPieceColor()).thenReturn(PieceColor.WHITE);
     }
@@ -51,7 +53,7 @@ class CheckmateDetectorImplTest {
     void isInCheck_WhiteKingInCheck_ReturnsTrue() {
         when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
         when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(boardService)).thenReturn(List.of(mock(Square.class)));
+        when(blackPiece.getLegalMoves(squareArrayMock)).thenReturn(List.of(mock(Square.class)));
         when(whiteKing.getCurrentSquare()).thenReturn(mock(Square.class));
 
         boolean result = checkmateDetector.isInCheck(boardService, PieceColor.WHITE);
@@ -63,7 +65,7 @@ class CheckmateDetectorImplTest {
     void isInCheck_BlackKingNotInCheck_ReturnsFalse() {
         when(boardService.getBlackKing()).thenReturn(Optional.of(blackKing));
         when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(whitePiece.getLegalMoves(squareArrayMock)).thenReturn(new ArrayList<>());
 
         boolean result = checkmateDetector.isInCheck(boardService, PieceColor.BLACK);
 
@@ -74,10 +76,10 @@ class CheckmateDetectorImplTest {
     void isInCheckmate_WhiteKingInCheckmatePosition_ReturnsTrue() {
         when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
         when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(boardService)).thenReturn(List.of(mock(Square.class)));
+        when(blackPiece.getLegalMoves(squareArrayMock)).thenReturn(List.of(mock(Square.class)));
         when(whiteKing.getCurrentSquare()).thenReturn(mock(Square.class));
         when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(whitePiece.getLegalMoves(squareArrayMock)).thenReturn(new ArrayList<>());
 
         boolean result = checkmateDetector.isInCheckmate(boardService, PieceColor.WHITE);
 
@@ -88,9 +90,9 @@ class CheckmateDetectorImplTest {
     void isInCheckmate_BlackKingNotInCheckmate_ReturnsFalse() {
         when(boardService.getBlackKing()).thenReturn(Optional.of(blackKing));
         when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(whitePiece.getLegalMoves(squareArrayMock)).thenReturn(new ArrayList<>());
         when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(boardService)).thenReturn(List.of(mock(Square.class)));
+        when(blackPiece.getLegalMoves(squareArrayMock)).thenReturn(List.of(mock(Square.class)));
 
         boolean result = checkmateDetector.isInCheckmate(boardService, PieceColor.BLACK);
 
@@ -101,9 +103,9 @@ class CheckmateDetectorImplTest {
     void isInStalemate_WhiteKingInStalematePosition_ReturnsTrue() {
         when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
         when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(blackPiece.getLegalMoves(squareArrayMock)).thenReturn(new ArrayList<>());
         when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(whitePiece.getLegalMoves(squareArrayMock)).thenReturn(new ArrayList<>());
 
         boolean result = checkmateDetector.isInStalemate(boardService, PieceColor.WHITE);
 
@@ -114,12 +116,24 @@ class CheckmateDetectorImplTest {
     void isInStalemate_BlackKingNotInStalemate_ReturnsFalse() {
         when(boardService.getBlackKing()).thenReturn(Optional.of(blackKing));
         when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(whitePiece.getLegalMoves(squareArrayMock)).thenReturn(new ArrayList<>());
         when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(boardService)).thenReturn(List.of(mock(Square.class)));
+        when(blackPiece.getLegalMoves(squareArrayMock)).thenReturn(List.of(mock(Square.class)));
 
         boolean result = checkmateDetector.isInStalemate(boardService, PieceColor.BLACK);
 
         assertFalse(result);
+    }
+
+    private void setupMockedSquareArray() {
+        squareArrayMock = new Square[8][8];
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
+                Square square = mock(Square.class);
+                when(square.isOccupied()).thenReturn(false); // Default: all squares unoccupied.
+                squareArrayMock[y][x] = square;
+            }
+        }
+        when(boardService.getBoardSquareArray()).thenReturn(squareArrayMock);
     }
 }

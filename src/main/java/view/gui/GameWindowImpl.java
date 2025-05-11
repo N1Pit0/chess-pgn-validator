@@ -1,6 +1,8 @@
 package view.gui;
 
+import model.board.Board;
 import services.Clock;
+import services.board.BoardInterface;
 import services.board.BoardService;
 import services.checkmatedetection.CheckmateDetector;
 import services.checkmatedetection.CheckmateDetectorImpl;
@@ -55,7 +57,9 @@ public class GameWindowImpl {
         gameData.setSize(gameData.getPreferredSize());
         gameWindow.add(gameData, BorderLayout.NORTH);
 
-        this.boardService = new BoardService(this);
+        BoardInterface boardInterface = new Board();
+
+        this.boardService = new BoardService(this, boardInterface);
 
         BoardView boardView = new BoardView(boardService);
 

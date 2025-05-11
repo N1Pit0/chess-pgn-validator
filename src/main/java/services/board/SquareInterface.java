@@ -4,9 +4,7 @@ import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
 
 public interface SquareInterface {
-    PieceColor getPieceColor();
-
-    BoardService getBoardService();
+    PieceColor getSquareColor();
 
     PieceInterface getOccupyingPiece();
 

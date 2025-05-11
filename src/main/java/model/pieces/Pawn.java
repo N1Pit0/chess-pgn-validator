@@ -17,15 +17,15 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean move(SquareInterface fin) {
-        boolean b = super.move(fin);
+    public boolean move(SquareInterface targetSquare, BoardService boardService) {
+        boolean b = super.move(targetSquare, boardService);
         setWasMoved(true);
         return b;
     }
 
     @Override
-    public List<SquareInterface> getLegalMoves(BoardService boardService) {
-        return new PawnStrategy(this).getLegalMoves(boardService);
+    public List<SquareInterface> getLegalMoves(SquareInterface[][] squareArrayBoard) {
+        return new PawnStrategy(this).getLegalMoves(squareArrayBoard);
     }
 
     public void dummy() {

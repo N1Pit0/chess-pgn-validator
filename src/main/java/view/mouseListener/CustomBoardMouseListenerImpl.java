@@ -69,7 +69,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
         if (currentPieceColor.equals(WHITE) && !boardService.isWhiteTurn())
             return;
 
-        List<SquareInterface> legalMoves = currentPiece.getLegalMoves(boardService);
+        List<SquareInterface> legalMoves = currentPiece.getLegalMoves(boardService.getBoardSquareArray());
 
         if (legalMoves.contains(targetSquare)) {
             // Store the original square of the current piece
@@ -79,12 +79,12 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
             PieceInterface capturedPiece = targetSquare.getOccupyingPiece();
 
             // Make the move
-            currentPiece.move(targetSquare);
+            currentPiece.move(targetSquare, boardService);
 
             // Check if the current player's king is in check after the move
             if (checkmateDetector.isInCheck(boardService, currentPieceColor)) {
                 // Undo the move
-                currentPiece.move(originalSquare);
+                currentPiece.move(originalSquare, boardService);
 
                 // Restore the captured piece (if any)
                 if (capturedPiece != null) {

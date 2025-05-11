@@ -53,7 +53,7 @@ public class KnightStrategyTest {
 
 
         // Act
-        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(boardService);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(squareArrayMock);
 
         // Assert
         assertEquals(8, legalMoves.size(), "The knight should have 8 legal moves from the center of the boardService.");
@@ -72,7 +72,7 @@ public class KnightStrategyTest {
         when(knight.getPieceColor()).thenReturn(WHITE);
 
         // Act
-        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(boardService);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(squareArrayMock);
 
         // Assert
         assertEquals(3, legalMoves.size(), "The knight should have 3 legal moves from the edge of the boardService.");
@@ -95,7 +95,7 @@ public class KnightStrategyTest {
         when(friendlyPiece.getPieceColor()).thenReturn(WHITE);
 
         // Act
-        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(boardService);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(squareArrayMock);
 
         // Assert
         assertTrue(
@@ -121,7 +121,7 @@ public class KnightStrategyTest {
         when(targetPiece.getPieceColor()).thenReturn(BLACK); // Simulating opponent color.
 
         // Act
-        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(boardService);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(squareArrayMock);
 
         // Assert
         assertTrue(
@@ -139,8 +139,7 @@ public class KnightStrategyTest {
                 squareArrayMock[y][x] = square;
             }
         }
-        when(boardService.getBoard()).thenReturn(squareArrayMock);
+        when(boardService.getBoardSquareArray()).thenReturn(squareArrayMock);
     }
-
 
 }

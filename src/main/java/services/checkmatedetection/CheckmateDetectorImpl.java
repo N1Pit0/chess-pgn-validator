@@ -43,18 +43,18 @@ public class CheckmateDetectorImpl implements CheckmateDetector {
         List<PieceInterface> currentPlayerPieces = pieceColor.equals(WHITE) ? boardService.getWhitePieces() : boardService.getBlackPieces();
 
         return currentPlayerPieces.stream()
-                .flatMap(piece -> piece.getLegalMoves(boardService).stream().map(targetSquare -> {
+                .flatMap(piece -> piece.getLegalMoves(boardService.getBoardSquareArray()).stream().map(targetSquare -> {
                     SquareInterface originalSquare = piece.getCurrentSquare();
                     PieceInterface capturedPiece = targetSquare.getOccupyingPiece();
 
                     // Make the move
-                    piece.move(targetSquare);
+                    piece.move(targetSquare, boardService);
 
                     // Check if the king is in check after the move
                     boolean isInCheckAfterMove = isInCheck(boardService, pieceColor);
 
                     // Undo the move
-                    piece.move(originalSquare);
+                    piece.move(originalSquare, boardService);
                     if (capturedPiece != null) {
                         targetSquare.setOccupyingPiece(capturedPiece);
                         if (capturedPiece.getPieceColor() == WHITE) {
@@ -87,6 +87,6 @@ public class CheckmateDetectorImpl implements CheckmateDetector {
                 .equals(PieceColor.WHITE) ? boardService.getBlackPieces() : boardService.getWhitePieces();
 
         return opponentPieces.stream().anyMatch(piece ->
-                piece.getLegalMoves(boardService).contains(king.getCurrentSquare()));
+                piece.getLegalMoves(boardService.getBoardSquareArray()).contains(king.getCurrentSquare()));
     }
 }

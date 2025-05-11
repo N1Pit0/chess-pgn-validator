@@ -25,7 +25,7 @@ public class SquareView extends JComponent {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (this.square.getPieceColor().equals(WHITE)) {
+        if (this.square.getSquareColor().equals(WHITE)) {
             g.setColor(new Color(221, 192, 127));
         } else {
             g.setColor(new Color(101, 67, 33));

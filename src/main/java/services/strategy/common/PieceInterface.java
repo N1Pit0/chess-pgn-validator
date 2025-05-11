@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.List;
 
 public interface PieceInterface {
-    List<SquareInterface> getLegalMoves(BoardService b);
+    List<SquareInterface> getLegalMoves(SquareInterface[][] squareArrayBoard);
 
     PieceColor getPieceColor();
 
@@ -16,7 +16,7 @@ public interface PieceInterface {
 
     void setCurrentSquare(SquareInterface currentSquare);
 
-    boolean move(SquareInterface targetSquare);
+    boolean move(SquareInterface targetSquare, BoardService boardService);
 
     boolean isWasMoved();
 

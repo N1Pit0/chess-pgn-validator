@@ -1,6 +1,5 @@
 package services.strategy;
 
-import services.board.BoardService;
 import services.board.SquareInterface;
 import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
@@ -17,9 +16,8 @@ public class KnightStrategy extends PieceStrategy {
     }
 
     @Override
-    public List<SquareInterface> getLegalMoves(BoardService boardService) {
+    public List<SquareInterface> getLegalMoves(SquareInterface[][] squareArrayBoard) {
         List<SquareInterface> legalMoves = new ArrayList<>();
-        SquareInterface[][] squareBoard = boardService.getBoard();
         SquareInterface currentSquare = getPiece().getCurrentSquare();
 
         int x = currentSquare.getXNum();
@@ -36,7 +34,7 @@ public class KnightStrategy extends PieceStrategy {
             int newY = y + direction[1];
 
             if (MovementUtil.isInBound(newX, newY)) {
-                SquareInterface targetSquare = squareBoard[newY][newX];
+                SquareInterface targetSquare = squareArrayBoard[newY][newX];
 
                 if (!targetSquare.isOccupied()
                         || targetSquare.getOccupyingPiece().getPieceColor() != getPiece().getPieceColor()) {

@@ -1,6 +1,5 @@
 package services.strategy;
 
-import services.board.BoardService;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
@@ -17,9 +16,8 @@ public class KingStrategy extends PieceStrategy {
     }
 
     @Override
-    public List<SquareInterface> getLegalMoves(BoardService boardService) {
+    public List<SquareInterface> getLegalMoves(SquareInterface[][] squareArrayBoard) {
         List<SquareInterface> legalMoves = new ArrayList<>();
-        SquareInterface[][] squareBoard = boardService.getBoard();
 
         int x = getPiece().getCurrentSquare().getXNum();
         int y = super.getPiece().getCurrentSquare().getYNum();
@@ -39,7 +37,7 @@ public class KingStrategy extends PieceStrategy {
 
                 // Check if the target square is valid and add to legal moves
                 if (MovementUtil.isInBound(targetX, targetY)) {
-                    SquareInterface targetSquare = squareBoard[targetY][targetX];
+                    SquareInterface targetSquare = squareArrayBoard[targetY][targetX];
 
                     if (!targetSquare.isOccupied()
                             || targetSquare.getOccupyingPiece().getPieceColor() != currentColor) {
