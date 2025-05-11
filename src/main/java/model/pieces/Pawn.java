@@ -2,7 +2,7 @@ package model.pieces;
 
 import lombok.Getter;
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.common.Piece;
 import services.board.Board;
 import services.strategy.PawnStrategy;

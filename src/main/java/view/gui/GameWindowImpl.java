@@ -1,6 +1,6 @@
 package view.gui;
 
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import services.Clock;
 import services.board.Board;
 import services.checkmatedetection.CheckmateDetector;
@@ -15,8 +15,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static model.enums.ImagePath.RESOURCES_WPAWN_PNG;
-import static model.enums.PieceColor.BLACK;
+import static services.enums.ImagePath.RESOURCES_WPAWN_PNG;
+import static services.enums.PieceColor.BLACK;
 
 
 public class GameWindowImpl {

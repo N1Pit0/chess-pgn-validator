@@ -3,9 +3,10 @@ package model.board;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.common.Piece;
 import services.board.Board;
+import services.strategy.common.PieceInterface;
 
 
 @Getter
@@ -32,8 +33,8 @@ public class Square {
         return (this.occupyingPiece != null);
     }
 
-    public void put(Piece p) {
-        this.occupyingPiece = p;
+    public void put(PieceInterface p) {
+        this.occupyingPiece = (Piece) p;
         p.setCurrentSquare(this);
     }
 

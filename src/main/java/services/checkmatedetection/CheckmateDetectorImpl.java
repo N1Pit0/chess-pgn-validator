@@ -1,7 +1,7 @@
 package services.checkmatedetection;
 
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.King;
 import model.pieces.common.Piece;
 import services.board.Board;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static model.enums.PieceColor.WHITE;
+import static services.enums.PieceColor.WHITE;
 
 public class CheckmateDetectorImpl implements CheckmateDetector {
 
@@ -58,7 +58,7 @@ public class CheckmateDetectorImpl implements CheckmateDetector {
                     piece.move(originalSquare);
                     if (capturedPiece != null) {
                         targetSquare.setOccupyingPiece(capturedPiece);
-                        if (capturedPiece.getColor() == WHITE) {
+                        if (capturedPiece.getPieceColor() == WHITE) {
                             List<Piece> updatedWhitePieces = new ArrayList<>(board.getWhitePieces());
                             updatedWhitePieces.add(capturedPiece);
                             board.setWhitePieces(updatedWhitePieces);
@@ -84,7 +84,7 @@ public class CheckmateDetectorImpl implements CheckmateDetector {
         King king = (King) optionalKing.get();
 
         List<Piece> opponentPieces = king
-                .getColor()
+                .getPieceColor()
                 .equals(PieceColor.WHITE) ? board.getBlackPieces() : board.getWhitePieces();
 
         return opponentPieces.stream().anyMatch(piece ->

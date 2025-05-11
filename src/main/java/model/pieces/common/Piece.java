@@ -3,9 +3,10 @@ package model.pieces.common;
 import lombok.Getter;
 import lombok.Setter;
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import services.board.Board;
 import services.board.Move;
+import services.strategy.common.PieceInterface;
 import services.utils.ImageReaderUtil;
 import services.utils.ImageReaderUtilImpl;
 import services.utils.exceptions.ImageNotFoundException;
@@ -15,13 +16,13 @@ import java.util.List;
 
 @Getter
 @Setter
-public abstract class Piece {
-    private final PieceColor color;
+public abstract class Piece implements PieceInterface {
+    private PieceColor pieceColor;
     private Square currentSquare;
     private Image image;
 
-    public Piece(PieceColor color, Square initSq, String img_file) {
-        this.color = color;
+    public Piece(PieceColor pieceColor, Square initSq, String img_file) {
+        this.pieceColor = pieceColor;
         this.currentSquare = initSq;
 
         try {

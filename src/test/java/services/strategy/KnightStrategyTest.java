@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import static model.enums.PieceColor.*;
+import static services.enums.PieceColor.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -68,7 +68,7 @@ public class KnightStrategyTest {
         when(knight.getCurrentSquare()).thenReturn(currentSquare);
         when(currentSquare.getXNum()).thenReturn(0);
         when(currentSquare.getYNum()).thenReturn(1);
-        when(knight.getColor()).thenReturn(WHITE);
+        when(knight.getPieceColor()).thenReturn(WHITE);
 
         // Act
         List<Square> legalMoves = knightStrategy.getLegalMoves(board);
@@ -88,10 +88,10 @@ public class KnightStrategyTest {
         // Simulate friendly piece occupying one of the target squares
         Square targetSquare = squareArrayMock[5][6];
         Piece friendlyPiece = mock(Piece.class);
-        when(knight.getColor()).thenReturn(WHITE);
+        when(knight.getPieceColor()).thenReturn(WHITE);
         when(targetSquare.isOccupied()).thenReturn(true);
         when(targetSquare.getOccupyingPiece()).thenReturn(friendlyPiece);
-        when(friendlyPiece.getColor()).thenReturn(WHITE);
+        when(friendlyPiece.getPieceColor()).thenReturn(WHITE);
 
         // Act
         List<Square> legalMoves = knightStrategy.getLegalMoves(board);
@@ -107,7 +107,7 @@ public class KnightStrategyTest {
     void shouldIncludeOpponentOccupiedSquares() {
         // Arrange
         when(knight.getCurrentSquare()).thenReturn(currentSquare);
-        when(knight.getColor()).thenReturn(WHITE);
+        when(knight.getPieceColor()).thenReturn(WHITE);
         when(currentSquare.getXNum()).thenReturn(4);
         when(currentSquare.getYNum()).thenReturn(4);
 
@@ -117,7 +117,7 @@ public class KnightStrategyTest {
 
         when(targetSquare.isOccupied()).thenReturn(true);
         when(targetSquare.getOccupyingPiece()).thenReturn(targetPiece);
-        when(targetPiece.getColor()).thenReturn(BLACK); // Simulating opponent color.
+        when(targetPiece.getPieceColor()).thenReturn(BLACK); // Simulating opponent color.
 
         // Act
         List<Square> legalMoves = knightStrategy.getLegalMoves(board);

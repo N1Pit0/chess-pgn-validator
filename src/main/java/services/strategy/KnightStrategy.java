@@ -1,8 +1,8 @@
 package services.strategy;
 
 import model.board.Square;
-import model.pieces.common.Piece;
 import services.board.Board;
+import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
 import services.utils.MovementUtil;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class KnightStrategy extends PieceStrategy {
 
-    public KnightStrategy(Piece piece) {
+    public KnightStrategy(PieceInterface piece) {
         super(piece);
     }
 
@@ -39,7 +39,7 @@ public class KnightStrategy extends PieceStrategy {
                 Square targetSquare = squareBoard[newY][newX];
 
                 if (!targetSquare.isOccupied()
-                        || targetSquare.getOccupyingPiece().getColor() != getPiece().getColor()) {
+                        || targetSquare.getOccupyingPiece().getPieceColor() != getPiece().getPieceColor()) {
                     legalMoves.add(targetSquare);
                 }
             }

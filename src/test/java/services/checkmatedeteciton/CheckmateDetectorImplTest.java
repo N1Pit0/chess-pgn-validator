@@ -1,7 +1,7 @@
 package services.checkmatedeteciton;
 import services.board.Board;
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.King;
 import model.pieces.common.Piece;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,8 +43,8 @@ class CheckmateDetectorImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         checkmateDetector = new CheckmateDetectorImpl();
-        when(blackKing.getColor()).thenReturn(PieceColor.BLACK);
-        when(whiteKing.getColor()).thenReturn(PieceColor.WHITE);
+        when(blackKing.getPieceColor()).thenReturn(PieceColor.BLACK);
+        when(whiteKing.getPieceColor()).thenReturn(PieceColor.WHITE);
     }
 
     @Test

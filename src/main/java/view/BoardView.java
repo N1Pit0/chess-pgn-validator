@@ -2,15 +2,15 @@ package view;
 
 import lombok.Getter;
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.common.Piece;
 import services.board.Board;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static model.enums.PieceColor.BLACK;
-import static model.enums.PieceColor.WHITE;
+import static services.enums.PieceColor.BLACK;
+import static services.enums.PieceColor.WHITE;
 
 @Getter
 public class BoardView extends JPanel {
@@ -50,7 +50,7 @@ public class BoardView extends JPanel {
         }
 
         if (currPiece != null) {
-            PieceColor pieceColor = currPiece.getColor();
+            PieceColor pieceColor = currPiece.getPieceColor();
             if ((pieceColor.equals(WHITE) && whiteTurn)
                     || (pieceColor.equals(BLACK) && !whiteTurn)) {
                 final Image i = currPiece.getImage();

@@ -1,8 +1,8 @@
 package services.utils;
 
 import model.board.Square;
-import model.pieces.common.Piece;
 import services.board.Board;
+import services.strategy.common.PieceInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,15 +18,15 @@ public class MovementUtil {
             {-1, -1}, {1, -1}, {1, 1}, {-1, 1}
     };
 
-    public static List<Square> getLinearMoves(Board chessBoard, Piece piece) {
+    public static List<Square> getLinearMoves(Board chessBoard, PieceInterface piece) {
         return getMovesInDirections(chessBoard, piece, LINEAR_DIRECTIONS);
     }
 
-    public static List<Square> getDiagonalMoves(Board chessBoard, Piece piece) {
+    public static List<Square> getDiagonalMoves(Board chessBoard, PieceInterface piece) {
         return getMovesInDirections(chessBoard, piece, DIAGONAL_DIRECTIONS);
     }
 
-    private static List<Square> getMovesInDirections(Board board, Piece piece, int[][] directions) {
+    private static List<Square> getMovesInDirections(Board board, PieceInterface piece, int[][] directions) {
         List<Square> legalSquares = new ArrayList<>();
         Square[][] squares = board.getBoard();
         Square position = piece.getCurrentSquare();
@@ -43,7 +43,7 @@ public class MovementUtil {
                 Square targetSquare = squares[currentY][currentX];
 
                 if (targetSquare.isOccupied()) {
-                    if (targetSquare.getOccupyingPiece().getColor() != piece.getColor()) {
+                    if (targetSquare.getOccupyingPiece().getPieceColor() != piece.getPieceColor()) {
                         legalSquares.add(targetSquare);
                     }
                     break;

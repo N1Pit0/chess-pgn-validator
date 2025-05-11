@@ -1,7 +1,7 @@
 package view.mouseListener;
 
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.common.Piece;
 import services.board.Board;
 import services.checkmatedetection.CheckmateDetector;
@@ -12,8 +12,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import static model.enums.PieceColor.BLACK;
-import static model.enums.PieceColor.WHITE;
+import static services.enums.PieceColor.BLACK;
+import static services.enums.PieceColor.WHITE;
 
 public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
@@ -43,7 +43,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
         if (square.isOccupied()) {
             board.setCurrPiece(square.getOccupyingPiece());
-            PieceColor currentPieceColor = board.getCurrPiece().getColor();
+            PieceColor currentPieceColor = board.getCurrPiece().getPieceColor();
             if (currentPieceColor.equals(BLACK) && board.isWhiteTurn())
                 return;
             if (currentPieceColor.equals(WHITE) && !board.isWhiteTurn())
@@ -62,7 +62,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
         if (board.getCurrPiece() == null) return;
 
-        PieceColor currentPieceColor = board.getCurrPiece().getColor();
+        PieceColor currentPieceColor = board.getCurrPiece().getPieceColor();
         if (currentPieceColor.equals(BLACK) && board.isWhiteTurn())
             return;
 
@@ -89,7 +89,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
                 // Restore the captured piece (if any)
                 if (capturedPiece != null) {
                     targetSquare.setOccupyingPiece(capturedPiece);
-                    if (capturedPiece.getColor() == WHITE) {
+                    if (capturedPiece.getPieceColor() == WHITE) {
                         board.getWhitePieces().add(capturedPiece);
                     } else {
                         board.getBlackPieces().add(capturedPiece);

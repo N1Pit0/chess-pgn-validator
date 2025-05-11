@@ -1,4 +1,4 @@
-package model.enums;
+package services.enums;
 
 public enum PieceColor {
     BLACK,

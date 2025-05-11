@@ -6,8 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static model.enums.ImagePath.RESOURCES_BPAWN_PNG;
-import static model.enums.ImagePath.RESOURCES_WPAWN_PNG;
+import static services.enums.ImagePath.RESOURCES_BPAWN_PNG;
+import static services.enums.ImagePath.RESOURCES_WPAWN_PNG;
 
 public class StartMenu implements Runnable {
     public void run() {

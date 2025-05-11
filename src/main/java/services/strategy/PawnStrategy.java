@@ -1,22 +1,21 @@
 package services.strategy;
 
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.Pawn;
-import model.pieces.common.Piece;
 import services.board.Board;
+import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static model.enums.PieceColor.BLACK;
+import static services.enums.PieceColor.BLACK;
 import static services.utils.MovementUtil.isInBound;
 
 public class PawnStrategy extends PieceStrategy {
-    private boolean wasMoved;
 
-    public PawnStrategy(Piece piece) {
+    public PawnStrategy(PieceInterface piece) {
         super(piece);
     }
 
@@ -27,7 +26,7 @@ public class PawnStrategy extends PieceStrategy {
 
         int x = super.getPiece().getCurrentSquare().getXNum();
         int y = super.getPiece().getCurrentSquare().getYNum();
-        PieceColor pieceColor = super.getPiece().getColor();
+        PieceColor pieceColor = super.getPiece().getPieceColor();
 
         // Vertical direction: positive for BLACK, negative for WHITE
         int direction = (pieceColor.equals(BLACK)) ? 1 : -1;

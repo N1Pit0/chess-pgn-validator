@@ -1,7 +1,7 @@
 package model.pieces;
 
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.common.Piece;
 import services.board.Board;
 

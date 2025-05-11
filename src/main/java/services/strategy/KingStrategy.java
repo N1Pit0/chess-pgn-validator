@@ -1,9 +1,9 @@
 package services.strategy;
 
 import model.board.Square;
-import model.enums.PieceColor;
-import model.pieces.common.Piece;
+import services.enums.PieceColor;
 import services.board.Board;
+import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
 import services.utils.MovementUtil;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class KingStrategy extends PieceStrategy {
 
-    public KingStrategy(Piece piece) {
+    public KingStrategy(PieceInterface piece) {
         super(piece);
     }
 
@@ -21,9 +21,9 @@ public class KingStrategy extends PieceStrategy {
         List<Square> legalMoves = new ArrayList<>();
         Square[][] squareBoard = board.getBoard();
 
-        int x = super.getPiece().getCurrentSquare().getXNum();
+        int x = getPiece().getCurrentSquare().getXNum();
         int y = super.getPiece().getCurrentSquare().getYNum();
-        PieceColor currentColor = super.getPiece().getColor();
+        PieceColor currentColor = super.getPiece().getPieceColor();
 
         // Check all adjacent squares in the 3x3 grid centered on (x, y)
         for (int dx = -1; dx <= 1; dx++) {
@@ -42,7 +42,7 @@ public class KingStrategy extends PieceStrategy {
                     Square targetSquare = squareBoard[targetY][targetX];
 
                     if (!targetSquare.isOccupied()
-                            || targetSquare.getOccupyingPiece().getColor() != currentColor) {
+                            || targetSquare.getOccupyingPiece().getPieceColor() != currentColor) {
                         legalMoves.add(targetSquare);
                     }
                 }

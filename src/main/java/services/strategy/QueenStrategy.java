@@ -1,8 +1,8 @@
 package services.strategy;
 
 import model.board.Square;
-import model.pieces.common.Piece;
 import services.board.Board;
+import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
 import services.utils.MovementUtil;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class QueenStrategy extends PieceStrategy {
 
-    public QueenStrategy(Piece piece) {
+    public QueenStrategy(PieceInterface piece) {
         super(piece);
     }
 

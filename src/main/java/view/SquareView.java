@@ -7,7 +7,7 @@ import model.board.Square;
 import javax.swing.*;
 import java.awt.*;
 
-import static model.enums.PieceColor.WHITE;
+import static services.enums.PieceColor.WHITE;
 
 @Getter
 @Setter

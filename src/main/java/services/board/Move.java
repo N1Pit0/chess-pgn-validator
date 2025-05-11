@@ -1,20 +1,21 @@
 package services.board;
 
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.King;
 import model.pieces.common.Piece;
+import services.strategy.common.PieceInterface;
 
-import static model.enums.PieceColor.BLACK;
-import static model.enums.PieceColor.WHITE;
+import static services.enums.PieceColor.BLACK;
+import static services.enums.PieceColor.WHITE;
 
 public interface Move {
 
-    static boolean makeMove(Piece currentPiece, Square targetSquare, Board board) {
-        Piece occupyingPiece = targetSquare.getOccupyingPiece();
+    static boolean makeMove(PieceInterface currentPiece, Square targetSquare, Board board) {
+        PieceInterface occupyingPiece = targetSquare.getOccupyingPiece();
 
         if (occupyingPiece != null) {
-            if (occupyingPiece.getColor() == currentPiece.getColor()) return false;
+            if (occupyingPiece.getPieceColor() == currentPiece.getPieceColor()) return false;
             else capture(currentPiece, targetSquare, board);
         }
 
@@ -28,10 +29,10 @@ public interface Move {
         targetSquare.setOccupyingPiece(null);
     }
 
-    private static void capture(Piece piece, Square targetSquare, Board board) {
+    private static void capture(PieceInterface piece, Square targetSquare, Board board) {
 
-        Piece targetPiece = targetSquare.getOccupyingPiece();
-        PieceColor targetPieceColor = targetPiece.getColor();
+        PieceInterface targetPiece = targetSquare.getOccupyingPiece();
+        PieceColor targetPieceColor = targetPiece.getPieceColor();
 
         if (targetPieceColor.equals(BLACK)) {
             if (targetPiece instanceof King) board.setBlackKing(null);
@@ -42,6 +43,6 @@ public interface Move {
             board.getWhitePieces().remove(targetPiece);
         }
 
-        targetSquare.setOccupyingPiece(piece);
+        targetSquare.setOccupyingPiece((Piece) piece);
     }
 }

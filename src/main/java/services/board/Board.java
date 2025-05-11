@@ -3,7 +3,7 @@ package services.board;
 import lombok.Getter;
 import lombok.Setter;
 import model.board.Square;
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import model.pieces.*;
 import model.pieces.common.Piece;
 import view.gui.GameWindowImpl;
@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static model.enums.ImagePath.*;
-import static model.enums.PieceColor.BLACK;
-import static model.enums.PieceColor.WHITE;
+import static services.enums.ImagePath.*;
+import static services.enums.PieceColor.BLACK;
+import static services.enums.PieceColor.WHITE;
 
 
 @Getter

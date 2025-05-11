@@ -1,6 +1,6 @@
 package services.checkmatedetection;
 
-import model.enums.PieceColor;
+import services.enums.PieceColor;
 import services.board.Board;
 
 public interface CheckmateDetector {
