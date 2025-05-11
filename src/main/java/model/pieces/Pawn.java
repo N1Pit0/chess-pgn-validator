@@ -11,7 +11,6 @@ import java.util.List;
 
 @Getter
 public class Pawn extends Piece {
-    private boolean wasMoved;
 
     public Pawn(PieceColor color, Square initSq, String img_file) {
         super(color, initSq, img_file);
@@ -20,7 +19,7 @@ public class Pawn extends Piece {
     @Override
     public boolean move(Square fin) {
         boolean b = super.move(fin);
-        wasMoved = true;
+        setWasMoved(true);
         return b;
     }
 

@@ -2,7 +2,6 @@ package services.strategy;
 
 import model.board.Square;
 import services.enums.PieceColor;
-import model.pieces.Pawn;
 import services.board.Board;
 import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
@@ -41,7 +40,7 @@ public class PawnStrategy extends PieceStrategy {
     // Helper method for straight moves (forward moves)
     private void addStraightMove(List<Square> legalMoves, Square[][] board, int x, int y, int direction) {
         // First move (can move two steps if not yet moved)
-        Pawn pawn = (Pawn) getPiece();
+        PieceInterface pawn = getPiece();
         if (!(pawn.isWasMoved()) && isInBound(y + 2 * direction, x) && !board[y + 2 * direction][x].isOccupied()) {
             legalMoves.add(board[y + 2 * direction][x]);
         }

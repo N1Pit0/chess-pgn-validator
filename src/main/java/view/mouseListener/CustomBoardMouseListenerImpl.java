@@ -2,9 +2,9 @@ package view.mouseListener;
 
 import model.board.Square;
 import services.enums.PieceColor;
-import model.pieces.common.Piece;
 import services.board.Board;
 import services.checkmatedetection.CheckmateDetector;
+import services.strategy.common.PieceInterface;
 import view.BoardView;
 import view.SquareView;
 
@@ -58,7 +58,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
         SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
         Square targetSquare = squareView.getSquare();
         Board board = boardView.getBoard();
-        Piece currentPiece = board.getCurrPiece();
+        PieceInterface currentPiece = board.getCurrPiece();
 
         if (board.getCurrPiece() == null) return;
 
@@ -76,7 +76,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
             Square originalSquare = currentPiece.getCurrentSquare();
 
             // Store the captured piece (if any)
-            Piece capturedPiece = targetSquare.getOccupyingPiece();
+            PieceInterface capturedPiece = targetSquare.getOccupyingPiece();
 
             // Make the move
             currentPiece.move(targetSquare);

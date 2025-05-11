@@ -3,6 +3,7 @@ package view;
 import lombok.Getter;
 import lombok.Setter;
 import model.board.Square;
+import model.pieces.common.Piece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +37,7 @@ public class SquareView extends JComponent {
         PieceView pieceView = new PieceView();
 
         if (this.square.getOccupyingPiece() != null && displayPiece) {
-            pieceView.draw(g, square.getOccupyingPiece());
+            pieceView.draw(g, (Piece) square.getOccupyingPiece());
         }
     }
 }

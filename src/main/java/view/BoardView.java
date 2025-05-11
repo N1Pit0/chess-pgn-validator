@@ -5,6 +5,7 @@ import model.board.Square;
 import services.enums.PieceColor;
 import model.pieces.common.Piece;
 import services.board.Board;
+import services.strategy.common.PieceInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +38,7 @@ public class BoardView extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Square[][] board = this.board.getBoard();
-        Piece currPiece = this.board.getCurrPiece();
+        PieceInterface currPiece = this.board.getCurrPiece();
         boolean whiteTurn = this.board.isWhiteTurn();
 
         for (int x = 0; x < 8; x++) {

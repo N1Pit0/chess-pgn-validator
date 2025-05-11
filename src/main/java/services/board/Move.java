@@ -3,7 +3,6 @@ package services.board;
 import model.board.Square;
 import services.enums.PieceColor;
 import model.pieces.King;
-import model.pieces.common.Piece;
 import services.strategy.common.PieceInterface;
 
 import static services.enums.PieceColor.BLACK;
@@ -43,6 +42,6 @@ public interface Move {
             board.getWhitePieces().remove(targetPiece);
         }
 
-        targetSquare.setOccupyingPiece((Piece) piece);
+        targetSquare.setOccupyingPiece(piece);
     }
 }

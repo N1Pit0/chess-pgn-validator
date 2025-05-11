@@ -5,7 +5,7 @@ import lombok.Setter;
 import model.board.Square;
 import services.enums.PieceColor;
 import model.pieces.*;
-import model.pieces.common.Piece;
+import services.strategy.common.PieceInterface;
 import view.gui.GameWindowImpl;
 
 import java.util.ArrayList;
@@ -25,15 +25,15 @@ public class Board {
     private final GameWindowImpl gameWindow;
 
     // List of pieces and whether they are movable
-    private List<Piece> blackPieces;
-    private List<Piece> whitePieces;
+    private List<PieceInterface> blackPieces;
+    private List<PieceInterface> whitePieces;
 
     private King whiteKing;
     private King blackKing;
 
     private List<Square> movable;
     private boolean whiteTurn;
-    private Piece currPiece;
+    private PieceInterface currPiece;
 
     private int currX;
     private int currY;
@@ -102,11 +102,11 @@ public class Board {
         }
     }
 
-    public Optional<Piece> getWhiteKing() {
+    public Optional<PieceInterface> getWhiteKing() {
         return whitePieces.stream().filter(piece -> piece instanceof King).findFirst();
     }
 
-    public Optional<Piece> getBlackKing() {
+    public Optional<PieceInterface> getBlackKing() {
         return blackPieces.stream().filter(piece -> piece instanceof King).findFirst();
     }
 

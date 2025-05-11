@@ -17,9 +17,10 @@ import java.util.List;
 @Getter
 @Setter
 public abstract class Piece implements PieceInterface {
-    private PieceColor pieceColor;
+    private final PieceColor pieceColor;
     private Square currentSquare;
     private Image image;
+    private boolean wasMoved;
 
     public Piece(PieceColor pieceColor, Square initSq, String img_file) {
         this.pieceColor = pieceColor;
