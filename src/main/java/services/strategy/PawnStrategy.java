@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static services.enums.PieceColor.BLACK;
+import static services.enums.PieceColor.WHITE;
 import static services.utils.MovementUtil.isInBound;
 
 public class PawnStrategy extends PieceStrategy {
@@ -23,14 +24,17 @@ public class PawnStrategy extends PieceStrategy {
 
         int x = super.getPiece().getCurrentSquare().getXNum();
         int y = super.getPiece().getCurrentSquare().getYNum();
-        PieceColor pieceColor = super.getPiece().getPieceColor();
+        PieceColor currentPieceColor = super.getPiece().getPieceColor();
 
         // Vertical direction: positive for BLACK, negative for WHITE
-        int direction = (pieceColor.equals(BLACK)) ? 1 : -1;
+        int direction = (currentPieceColor.equals(BLACK)) ? 1 : -1;
+
+        PieceColor oppositePieceColor = currentPieceColor.equals(WHITE) ? BLACK : WHITE;
 
         // Add potential moves using helper methods
         addStraightMove(legalMoves, squareArrayBoard, x, y, direction);
-        addAttackMoves(legalMoves, squareArrayBoard, x, y, direction);
+        addAttackMoves(legalMoves, squareArrayBoard, x, y, direction,
+                currentPieceColor, oppositePieceColor);
 
         return legalMoves;
     }
@@ -49,13 +53,21 @@ public class PawnStrategy extends PieceStrategy {
     }
 
     // Helper method for diagonal attack moves
-    private void addAttackMoves(List<SquareInterface> legalMoves, SquareInterface[][] board, int x, int y, int direction) {
+    private void addAttackMoves(List<SquareInterface> legalMoves, SquareInterface[][] board,
+                                int x, int y, int direction,
+                                PieceColor friendlyPieceColor, PieceColor oppositePieceColor) {
         // Check diagonal right
-        if (isInBound(y + direction, x + 1) && board[y + direction][x + 1].isOccupied()) {
+        if (isInBound(y + direction, x + 1)
+                && board[y + direction][x + 1].isOccupied()
+                && !board[y + direction][x + 1].getOccupyingPiece().getPieceColor().equals(friendlyPieceColor)
+        ) {
             legalMoves.add(board[y + direction][x + 1]);
         }
         // Check diagonal left
-        if (isInBound(y + direction, x - 1) && board[y + direction][x - 1].isOccupied()) {
+        if (isInBound(y + direction, x - 1)
+                && board[y + direction][x - 1].isOccupied()
+                && !board[y + direction][x - 1].getOccupyingPiece().getPieceColor().equals(friendlyPieceColor)
+        ) {
             legalMoves.add(board[y + direction][x - 1]);
         }
     }
