@@ -2,8 +2,7 @@ package view;
 
 import lombok.Getter;
 import lombok.Setter;
-import model.board.Square;
-import model.pieces.common.Piece;
+import services.board.SquareInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +12,10 @@ import static services.enums.PieceColor.WHITE;
 @Getter
 @Setter
 public class SquareView extends JComponent {
-    private Square square;
+    private SquareInterface square;
     private boolean displayPiece;
 
-    public SquareView(Square square) {
+    public SquareView(SquareInterface square) {
         this.square = square;
         this.displayPiece = true;
 
@@ -26,7 +25,7 @@ public class SquareView extends JComponent {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (this.square.getColor().equals(WHITE)) {
+        if (this.square.getPieceColor().equals(WHITE)) {
             g.setColor(new Color(221, 192, 127));
         } else {
             g.setColor(new Color(101, 67, 33));
@@ -37,7 +36,7 @@ public class SquareView extends JComponent {
         PieceView pieceView = new PieceView();
 
         if (this.square.getOccupyingPiece() != null && displayPiece) {
-            pieceView.draw(g, (Piece) square.getOccupyingPiece());
+            pieceView.draw(g, square.getOccupyingPiece());
         }
     }
 }

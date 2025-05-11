@@ -1,7 +1,7 @@
 package services.utils;
 
-import model.board.Square;
 import services.board.Board;
+import services.board.SquareInterface;
 import services.strategy.common.PieceInterface;
 
 import java.util.ArrayList;
@@ -18,18 +18,18 @@ public class MovementUtil {
             {-1, -1}, {1, -1}, {1, 1}, {-1, 1}
     };
 
-    public static List<Square> getLinearMoves(Board chessBoard, PieceInterface piece) {
+    public static List<SquareInterface> getLinearMoves(Board chessBoard, PieceInterface piece) {
         return getMovesInDirections(chessBoard, piece, LINEAR_DIRECTIONS);
     }
 
-    public static List<Square> getDiagonalMoves(Board chessBoard, PieceInterface piece) {
+    public static List<SquareInterface> getDiagonalMoves(Board chessBoard, PieceInterface piece) {
         return getMovesInDirections(chessBoard, piece, DIAGONAL_DIRECTIONS);
     }
 
-    private static List<Square> getMovesInDirections(Board board, PieceInterface piece, int[][] directions) {
-        List<Square> legalSquares = new ArrayList<>();
-        Square[][] squares = board.getBoard();
-        Square position = piece.getCurrentSquare();
+    private static List<SquareInterface> getMovesInDirections(Board board, PieceInterface piece, int[][] directions) {
+        List<SquareInterface> legalSquares = new ArrayList<>();
+        SquareInterface[][] squares = board.getBoard();
+        SquareInterface position = piece.getCurrentSquare();
         int x = position.getXNum();
         int y = position.getYNum();
 
@@ -40,7 +40,7 @@ public class MovementUtil {
             int currentX = x + dx;
 
             while (isInBound(currentX, currentY)) {
-                Square targetSquare = squares[currentY][currentX];
+                SquareInterface targetSquare = squares[currentY][currentX];
 
                 if (targetSquare.isOccupied()) {
                     if (targetSquare.getOccupyingPiece().getPieceColor() != piece.getPieceColor()) {

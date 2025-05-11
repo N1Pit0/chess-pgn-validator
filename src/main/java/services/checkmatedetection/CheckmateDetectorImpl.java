@@ -1,8 +1,8 @@
 package services.checkmatedetection;
 
-import model.board.Square;
-import services.enums.PieceColor;
 import services.board.Board;
+import services.board.SquareInterface;
+import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class CheckmateDetectorImpl implements CheckmateDetector {
 
         return currentPlayerPieces.stream()
                 .flatMap(piece -> piece.getLegalMoves(board).stream().map(targetSquare -> {
-                    Square originalSquare = piece.getCurrentSquare();
+                    SquareInterface originalSquare = piece.getCurrentSquare();
                     PieceInterface capturedPiece = targetSquare.getOccupyingPiece();
 
                     // Make the move

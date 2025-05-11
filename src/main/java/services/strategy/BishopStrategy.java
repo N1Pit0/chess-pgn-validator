@@ -1,7 +1,7 @@
 package services.strategy;
 
-import model.board.Square;
 import services.board.Board;
+import services.board.SquareInterface;
 import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
 import services.utils.MovementUtil;
@@ -16,7 +16,7 @@ public class BishopStrategy extends PieceStrategy {
     }
 
     @Override
-    public List<Square> getLegalMoves(Board board) {
+    public List<SquareInterface> getLegalMoves(Board board) {
 
         return MovementUtil.getDiagonalMoves(board, super.getPiece());
     }

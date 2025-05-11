@@ -1,10 +1,9 @@
 package view;
 
 import lombok.Getter;
-import model.board.Square;
-import services.enums.PieceColor;
-import model.pieces.common.Piece;
 import services.board.Board;
+import services.board.SquareInterface;
+import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
 
 import javax.swing.*;
@@ -37,13 +36,13 @@ public class BoardView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Square[][] board = this.board.getBoard();
+        SquareInterface[][] board = this.board.getBoard();
         PieceInterface currPiece = this.board.getCurrPiece();
         boolean whiteTurn = this.board.isWhiteTurn();
 
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                Square sq = board[y][x];
+                SquareInterface sq = board[y][x];
                 SquareView sqView = new SquareView(sq);
                 sqView.setDisplayPiece(true);
                 sqView.paintComponent(g);

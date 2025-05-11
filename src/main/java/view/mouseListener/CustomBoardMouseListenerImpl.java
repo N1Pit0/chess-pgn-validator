@@ -1,9 +1,9 @@
 package view.mouseListener;
 
-import model.board.Square;
-import services.enums.PieceColor;
 import services.board.Board;
+import services.board.SquareInterface;
 import services.checkmatedetection.CheckmateDetector;
+import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
 import view.BoardView;
 import view.SquareView;
@@ -39,7 +39,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
         board.setCurrY(e.getY());
 
         SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
-        Square square = squareView.getSquare();
+        SquareInterface square = squareView.getSquare();
 
         if (square.isOccupied()) {
             board.setCurrPiece(square.getOccupyingPiece());
@@ -56,7 +56,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
     @Override
     public void handleMouseReleased(MouseEvent e) {
         SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
-        Square targetSquare = squareView.getSquare();
+        SquareInterface targetSquare = squareView.getSquare();
         Board board = boardView.getBoard();
         PieceInterface currentPiece = board.getCurrPiece();
 
@@ -69,11 +69,11 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
         if (currentPieceColor.equals(WHITE) && !board.isWhiteTurn())
             return;
 
-        List<Square> legalMoves = currentPiece.getLegalMoves(board);
+        List<SquareInterface> legalMoves = currentPiece.getLegalMoves(board);
 
         if (legalMoves.contains(targetSquare)) {
             // Store the original square of the current piece
-            Square originalSquare = currentPiece.getCurrentSquare();
+            SquareInterface originalSquare = currentPiece.getCurrentSquare();
 
             // Store the captured piece (if any)
             PieceInterface capturedPiece = targetSquare.getOccupyingPiece();

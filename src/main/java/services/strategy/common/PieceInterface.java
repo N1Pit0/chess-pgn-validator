@@ -1,21 +1,23 @@
 package services.strategy.common;
 
-import model.board.Square;
-import services.enums.PieceColor;
 import services.board.Board;
+import services.board.SquareInterface;
+import services.enums.PieceColor;
 
 import java.awt.*;
 import java.util.List;
 
 public interface PieceInterface {
-    List<Square> getLegalMoves(Board b);
+    List<SquareInterface> getLegalMoves(Board b);
 
     PieceColor getPieceColor();
 
-    Square getCurrentSquare();
-    void setCurrentSquare(Square currentSquare);
+    SquareInterface getCurrentSquare();
 
-    boolean move(Square targetSquare);
+    void setCurrentSquare(SquareInterface currentSquare);
+
+    boolean move(SquareInterface targetSquare);
+
     boolean isWasMoved();
 
     Image getImage();

@@ -1,8 +1,7 @@
 package services.board;
 
-import model.board.Square;
-import services.enums.PieceColor;
 import model.pieces.King;
+import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
 
 import static services.enums.PieceColor.BLACK;
@@ -10,7 +9,7 @@ import static services.enums.PieceColor.WHITE;
 
 public interface Move {
 
-    static boolean makeMove(PieceInterface currentPiece, Square targetSquare, Board board) {
+    static boolean makeMove(PieceInterface currentPiece, SquareInterface targetSquare, Board board) {
         PieceInterface occupyingPiece = targetSquare.getOccupyingPiece();
 
         if (occupyingPiece != null) {
@@ -24,11 +23,11 @@ public interface Move {
         return true;
     }
 
-    private static void removePiece(Square targetSquare) {
+    private static void removePiece(SquareInterface targetSquare) {
         targetSquare.setOccupyingPiece(null);
     }
 
-    private static void capture(PieceInterface piece, Square targetSquare, Board board) {
+    private static void capture(PieceInterface piece, SquareInterface targetSquare, Board board) {
 
         PieceInterface targetPiece = targetSquare.getOccupyingPiece();
         PieceColor targetPieceColor = targetPiece.getPieceColor();

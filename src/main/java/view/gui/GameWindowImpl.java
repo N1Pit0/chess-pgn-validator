@@ -1,10 +1,10 @@
 package view.gui;
 
-import services.enums.PieceColor;
 import services.Clock;
 import services.board.Board;
 import services.checkmatedetection.CheckmateDetector;
 import services.checkmatedetection.CheckmateDetectorImpl;
+import services.enums.PieceColor;
 import view.BoardView;
 import view.mouseListener.CustomBoardMouseListener;
 import view.mouseListener.CustomBoardMouseListenerImpl;

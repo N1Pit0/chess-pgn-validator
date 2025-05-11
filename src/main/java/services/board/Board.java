@@ -3,8 +3,8 @@ package services.board;
 import lombok.Getter;
 import lombok.Setter;
 import model.board.Square;
-import services.enums.PieceColor;
 import model.pieces.*;
+import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
 import view.gui.GameWindowImpl;
 
@@ -21,7 +21,7 @@ import static services.enums.PieceColor.WHITE;
 @Setter
 public class Board {
     // Logical and graphical representations of board
-    private final Square[][] board;
+    private final SquareInterface[][] board;
     private final GameWindowImpl gameWindow;
 
     // List of pieces and whether they are movable
@@ -31,7 +31,7 @@ public class Board {
     private King whiteKing;
     private King blackKing;
 
-    private List<Square> movable;
+    private List<SquareInterface> movable;
     private boolean whiteTurn;
     private PieceInterface currPiece;
 
@@ -41,7 +41,7 @@ public class Board {
 
     public Board(GameWindowImpl gameWindow) {
         this.gameWindow = gameWindow;
-        board = new Square[8][8];
+        board = new SquareInterface[8][8];
         blackPieces = new ArrayList<>();
         whitePieces = new ArrayList<>();
 

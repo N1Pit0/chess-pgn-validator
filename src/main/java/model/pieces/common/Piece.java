@@ -2,10 +2,10 @@ package model.pieces.common;
 
 import lombok.Getter;
 import lombok.Setter;
-import model.board.Square;
-import services.enums.PieceColor;
 import services.board.Board;
 import services.board.Move;
+import services.board.SquareInterface;
+import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
 import services.utils.ImageReaderUtil;
 import services.utils.ImageReaderUtilImpl;
@@ -18,11 +18,11 @@ import java.util.List;
 @Setter
 public abstract class Piece implements PieceInterface {
     private final PieceColor pieceColor;
-    private Square currentSquare;
+    private SquareInterface currentSquare;
     private Image image;
     private boolean wasMoved;
 
-    public Piece(PieceColor pieceColor, Square initSq, String img_file) {
+    public Piece(PieceColor pieceColor, SquareInterface initSq, String img_file) {
         this.pieceColor = pieceColor;
         this.currentSquare = initSq;
 
@@ -36,11 +36,11 @@ public abstract class Piece implements PieceInterface {
         }
     }
 
-    public boolean move(Square targetSquare) {
+    public boolean move(SquareInterface targetSquare) {
 
         return Move.makeMove(this, targetSquare, currentSquare.getBoard());
     }
 
     // No implementation, to be implemented by each subclass
-    public abstract List<Square> getLegalMoves(Board b);
+    public abstract List<SquareInterface> getLegalMoves(Board b);
 }

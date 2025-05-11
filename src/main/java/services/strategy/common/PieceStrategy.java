@@ -1,8 +1,8 @@
 package services.strategy.common;
 
 import lombok.Getter;
-import model.board.Square;
 import services.board.Board;
+import services.board.SquareInterface;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public abstract class PieceStrategy {
     }
 
 
-    public abstract List<Square> getLegalMoves(Board board);
+    public abstract List<SquareInterface> getLegalMoves(Board board);
 }

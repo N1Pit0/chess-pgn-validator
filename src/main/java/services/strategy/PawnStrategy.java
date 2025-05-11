@@ -1,8 +1,8 @@
 package services.strategy;
 
-import model.board.Square;
-import services.enums.PieceColor;
 import services.board.Board;
+import services.board.SquareInterface;
+import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
 
@@ -19,9 +19,9 @@ public class PawnStrategy extends PieceStrategy {
     }
 
     @Override
-    public List<Square> getLegalMoves(Board board) {
-        List<Square> legalMoves = new ArrayList<>();
-        Square[][] squareArrayBoard = board.getBoard();
+    public List<SquareInterface> getLegalMoves(Board board) {
+        List<SquareInterface> legalMoves = new ArrayList<>();
+        SquareInterface[][] squareArrayBoard = board.getBoard();
 
         int x = super.getPiece().getCurrentSquare().getXNum();
         int y = super.getPiece().getCurrentSquare().getYNum();
@@ -38,7 +38,7 @@ public class PawnStrategy extends PieceStrategy {
     }
 
     // Helper method for straight moves (forward moves)
-    private void addStraightMove(List<Square> legalMoves, Square[][] board, int x, int y, int direction) {
+    private void addStraightMove(List<SquareInterface> legalMoves, SquareInterface[][] board, int x, int y, int direction) {
         // First move (can move two steps if not yet moved)
         PieceInterface pawn = getPiece();
         if (!(pawn.isWasMoved()) && isInBound(y + 2 * direction, x) && !board[y + 2 * direction][x].isOccupied()) {
@@ -51,7 +51,7 @@ public class PawnStrategy extends PieceStrategy {
     }
 
     // Helper method for diagonal attack moves
-    private void addAttackMoves(List<Square> legalMoves, Square[][] board, int x, int y, int direction) {
+    private void addAttackMoves(List<SquareInterface> legalMoves, SquareInterface[][] board, int x, int y, int direction) {
         // Check diagonal right
         if (isInBound(y + direction, x + 1) && board[y + direction][x + 1].isOccupied()) {
             legalMoves.add(board[y + direction][x + 1]);

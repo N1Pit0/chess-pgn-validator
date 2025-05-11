@@ -1,7 +1,7 @@
 package services.strategy;
 
-import model.board.Square;
 import services.board.Board;
+import services.board.SquareInterface;
 import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
 import services.utils.MovementUtil;
@@ -16,9 +16,9 @@ public class QueenStrategy extends PieceStrategy {
     }
 
     @Override
-    public List<Square> getLegalMoves(Board board) {
+    public List<SquareInterface> getLegalMoves(Board board) {
 
-        List<Square> legalMoves = new ArrayList<>(MovementUtil.getLinearMoves(board, this.getPiece()));
+        List<SquareInterface> legalMoves = new ArrayList<>(MovementUtil.getLinearMoves(board, this.getPiece()));
 
         legalMoves.addAll(MovementUtil.getDiagonalMoves(board, super.getPiece()));
 

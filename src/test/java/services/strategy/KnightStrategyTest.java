@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import services.board.SquareInterface;
 
 import java.util.List;
 
@@ -52,11 +53,11 @@ public class KnightStrategyTest {
 
 
         // Act
-        List<Square> legalMoves = knightStrategy.getLegalMoves(board);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(board);
 
         // Assert
         assertEquals(8, legalMoves.size(), "The knight should have 8 legal moves from the center of the board.");
-        for (Square move : legalMoves) {
+        for (SquareInterface move : legalMoves) {
             verify(move, atLeastOnce()).isOccupied(); // Ensures occupation logic is checked.
         }
     }
@@ -71,7 +72,7 @@ public class KnightStrategyTest {
         when(knight.getPieceColor()).thenReturn(WHITE);
 
         // Act
-        List<Square> legalMoves = knightStrategy.getLegalMoves(board);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(board);
 
         // Assert
         assertEquals(3, legalMoves.size(), "The knight should have 3 legal moves from the edge of the board.");
@@ -94,7 +95,7 @@ public class KnightStrategyTest {
         when(friendlyPiece.getPieceColor()).thenReturn(WHITE);
 
         // Act
-        List<Square> legalMoves = knightStrategy.getLegalMoves(board);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(board);
 
         // Assert
         assertTrue(
@@ -120,7 +121,7 @@ public class KnightStrategyTest {
         when(targetPiece.getPieceColor()).thenReturn(BLACK); // Simulating opponent color.
 
         // Act
-        List<Square> legalMoves = knightStrategy.getLegalMoves(board);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(board);
 
         // Assert
         assertTrue(

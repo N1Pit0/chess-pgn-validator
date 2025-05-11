@@ -1,6 +1,6 @@
 package controller;
 
-public class GameControllerIml implements GameController{
+public class GameControllerIml implements GameController {
 
 
 }
