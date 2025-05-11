@@ -125,7 +125,7 @@ public class StartMenu implements Runnable {
                 int mm = Integer.parseInt((String) minutes.getSelectedItem());
                 int ss = Integer.parseInt((String) seconds.getSelectedItem());
 
-                new GameWindow(bn, wn, hh, mm, ss);
+                new GameWindowImpl(bn, wn, hh, mm, ss);
                 startWindow.dispose();
             }
         });

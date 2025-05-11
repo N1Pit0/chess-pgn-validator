@@ -1,6 +1,6 @@
 package services.strategy;
 
-import model.board.Board;
+import services.board.Board;
 import model.board.Square;
 import model.pieces.common.Piece;
 import org.junit.jupiter.api.BeforeEach;

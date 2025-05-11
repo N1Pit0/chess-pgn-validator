@@ -1,10 +1,10 @@
 package model.pieces;
 
 import lombok.Getter;
-import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
+import services.board.Board;
 import services.strategy.PawnStrategy;
 
 import java.util.List;
@@ -29,6 +29,7 @@ public class Pawn extends Piece {
         return new PawnStrategy(this).getLegalMoves(board);
     }
 
-    public void dummy(){}
+    public void dummy() {
+    }
 
 }

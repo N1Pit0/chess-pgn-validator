@@ -1,7 +1,7 @@
 package services.checkmatedetection;
 
-import model.board.Board;
 import model.enums.PieceColor;
+import services.board.Board;
 
 public interface CheckmateDetector {
     boolean isInCheck(Board board, PieceColor pieceColor);

@@ -1,36 +1,41 @@
 package services;
 
 public class Clock {
-    private int hh;
-    private int mm;
-    private int ss;
+    private int hours;
+    private int minutes;
+    private int seconds;
 
-    public Clock(int hh, int mm, int ss) {
-        this.hh = hh;
-        this.mm = mm;
-        this.ss = ss;
+    public Clock(int hours, int minutes, int seconds) {
+        this.hours = hours;
+        this.minutes = minutes;
+        this.seconds = seconds;
     }
 
-    public boolean outOfTime() {
-        return (hh == 0 && mm == 0 && ss == 0);
+    public boolean isTimeUp() {
+        return hours == 0 && minutes == 0 && seconds == 0;
     }
 
-    public void decr() {
-        if (this.mm == 0 && this.ss == 0) {
-            this.ss = 59;
-            this.mm = 59;
-            this.hh--;
-        } else if (this.ss == 0) {
-            this.ss = 59;
-            this.mm--;
-        } else this.ss--;
+    public void decrementTime() {
+        if (seconds == 0) {
+            if (minutes == 0) {
+                if (hours > 0) {
+                    hours--;
+                    minutes = 59;
+                    seconds = 59;
+                }
+            } else {
+                minutes--;
+                seconds = 59;
+            }
+        } else {
+            seconds--;
+        }
     }
 
-    public String getTime() {
-        String fHrs = String.format("%02d", this.hh);
-        String fMins = String.format("%02d", this.mm);
-        String fSecs = String.format("%02d", this.ss);
-        String fTime = fHrs + ":" + fMins + ":" + fSecs;
-        return fTime;
+    public String getFormattedTime() {
+        String formattedHours = String.format("%02d", hours);
+        String formattedMinutes = String.format("%02d", minutes);
+        String formattedSeconds = String.format("%02d", seconds);
+        return formattedHours + ":" + formattedMinutes + ":" + formattedSeconds;
     }
 }

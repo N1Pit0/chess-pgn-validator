@@ -1,11 +1,12 @@
 package services.checkmatedeteciton;
-import model.board.Board;
+import services.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.King;
 import model.pieces.common.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import services.checkmatedetection.CheckmateDetectorImpl;
@@ -19,7 +20,6 @@ import static org.mockito.Mockito.*;
 
 class CheckmateDetectorImplTest {
 
-    private CheckmateDetectorImpl checkmateDetector;
 
     @Mock
     private Board board;
@@ -35,6 +35,9 @@ class CheckmateDetectorImplTest {
 
     @Mock
     private Piece blackPiece;
+
+    @InjectMocks
+    private CheckmateDetectorImpl checkmateDetector;
 
     @BeforeEach
     void setUp() {

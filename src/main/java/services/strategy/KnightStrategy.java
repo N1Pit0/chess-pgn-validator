@@ -1,8 +1,8 @@
 package services.strategy;
 
-import model.board.Board;
 import model.board.Square;
 import model.pieces.common.Piece;
+import services.board.Board;
 import services.strategy.common.PieceStrategy;
 import services.utils.MovementUtil;
 
@@ -19,27 +19,27 @@ public class KnightStrategy extends PieceStrategy {
     @Override
     public List<Square> getLegalMoves(Board board) {
         List<Square> legalMoves = new ArrayList<>();
-        Square [] [] squareBoard = board.getBoard();
+        Square[][] squareBoard = board.getBoard();
         Square currentSquare = getPiece().getCurrentSquare();
 
         int x = currentSquare.getXNum();
         int y = currentSquare.getYNum();
 
-        int [] [] directions = {
-                    {2, 1}, {1, 2}, {-1, 2},
-                    {-2, 1}, {-2, -1}, {-1, -2},
-                    {1, -2}, {2, -1}
-                };
+        int[][] directions = {
+                {2, 1}, {1, 2}, {-1, 2},
+                {-2, 1}, {-2, -1}, {-1, -2},
+                {1, -2}, {2, -1}
+        };
 
         Arrays.stream(directions).forEach(direction -> {
             int newX = x + direction[0];
             int newY = y + direction[1];
 
-            if (MovementUtil.isInBound(newX, newY)){
+            if (MovementUtil.isInBound(newX, newY)) {
                 Square targetSquare = squareBoard[newY][newX];
 
-                if(!targetSquare.isOccupied()
-                        || targetSquare.getOccupyingPiece().getColor() != getPiece().getColor()){
+                if (!targetSquare.isOccupied()
+                        || targetSquare.getOccupyingPiece().getColor() != getPiece().getColor()) {
                     legalMoves.add(targetSquare);
                 }
             }

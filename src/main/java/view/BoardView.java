@@ -1,10 +1,10 @@
 package view;
 
 import lombok.Getter;
-import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
+import services.board.Board;
 
 import javax.swing.*;
 import java.awt.*;

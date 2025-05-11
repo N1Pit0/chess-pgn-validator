@@ -1,10 +1,9 @@
 package view.mouseListener;
 
-import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
-import model.pieces.King;
 import model.pieces.common.Piece;
+import services.board.Board;
 import services.checkmatedetection.CheckmateDetector;
 import view.BoardView;
 import view.SquareView;
@@ -104,7 +103,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
                 // Check if the opponent is in checkmate
                 if (checkmateDetector.isInCheckmate(board, opponentColor)) {
                     System.out.println("Checkmate! You win!");
-                    // TODO: Handle the end of the game logic
+                    setupBoardForCheckmate(board, opponentColor);
                 }
                 // Check if the opponent is in stalemate
                 else if (checkmateDetector.isInStalemate(board, opponentColor)) {
@@ -127,12 +126,12 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
         boardView.repaint();
     }
 
-    private void setupBoardForCheckmate(Board board, int colorCheckMated) {
+    private void setupBoardForCheckmate(Board board, PieceColor pieceColor) {
         board.setCurrPiece(null);
         boardView.repaint();
         boardView.removeMouseListener(boardMouseListener);
         boardView.removeMouseMotionListener(boardMouseMotionListener);
-        board.getGameWindow().checkmateOccurred(colorCheckMated);
+        board.getGameWindow().checkmateOccurred(pieceColor);
     }
 
 }

@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
+import services.board.Board;
 
-import static model.enums.PieceColor.BLACK;
-import static model.enums.PieceColor.WHITE;
 
 @Getter
 @Setter

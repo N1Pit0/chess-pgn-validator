@@ -1,10 +1,10 @@
 package services.strategy;
 
-import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.Pawn;
 import model.pieces.common.Piece;
+import services.board.Board;
 import services.strategy.common.PieceStrategy;
 
 import java.util.ArrayList;

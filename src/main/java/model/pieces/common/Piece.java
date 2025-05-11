@@ -2,10 +2,10 @@ package model.pieces.common;
 
 import lombok.Getter;
 import lombok.Setter;
-import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
-import services.Move;
+import services.board.Board;
+import services.board.Move;
 import services.utils.ImageReaderUtil;
 import services.utils.ImageReaderUtilImpl;
 import services.utils.exceptions.ImageNotFoundException;
@@ -34,9 +34,9 @@ public abstract class Piece {
         }
     }
 
-    public boolean move(Square fin) {
+    public boolean move(Square targetSquare) {
 
-        return new Move(this).makeMove(fin, currentSquare.getBoard());
+        return Move.makeMove(this, targetSquare, currentSquare.getBoard());
     }
 
     // No implementation, to be implemented by each subclass

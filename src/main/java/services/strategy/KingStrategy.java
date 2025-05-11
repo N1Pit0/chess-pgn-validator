@@ -1,9 +1,9 @@
 package services.strategy;
 
-import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.common.Piece;
+import services.board.Board;
 import services.strategy.common.PieceStrategy;
 import services.utils.MovementUtil;
 
@@ -38,11 +38,11 @@ public class KingStrategy extends PieceStrategy {
                 int targetY = y + dy;
 
                 // Check if the target square is valid and add to legal moves
-                if (MovementUtil.isInBound(targetX, targetY)){
+                if (MovementUtil.isInBound(targetX, targetY)) {
                     Square targetSquare = squareBoard[targetY][targetX];
 
-                    if(!targetSquare.isOccupied()
-                            || targetSquare.getOccupyingPiece().getColor() != currentColor){
+                    if (!targetSquare.isOccupied()
+                            || targetSquare.getOccupyingPiece().getColor() != currentColor) {
                         legalMoves.add(targetSquare);
                     }
                 }

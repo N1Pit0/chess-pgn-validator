@@ -1,39 +1,34 @@
-package services;
+package services.board;
 
-import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.King;
 import model.pieces.common.Piece;
 
-import static model.enums.PieceColor.*;
+import static model.enums.PieceColor.BLACK;
+import static model.enums.PieceColor.WHITE;
 
-public class Move {
-    private Piece piece;
+public interface Move {
 
-    public Move(Piece piece) {
-        this.piece = piece;
-    }
-
-    public boolean makeMove(Square fin, Board board) {
-        Piece occupyingPiece = fin.getOccupyingPiece();
+    static boolean makeMove(Piece currentPiece, Square targetSquare, Board board) {
+        Piece occupyingPiece = targetSquare.getOccupyingPiece();
 
         if (occupyingPiece != null) {
-            if (occupyingPiece.getColor() == piece.getColor()) return false;
-            else capture(piece, fin, board);
+            if (occupyingPiece.getColor() == currentPiece.getColor()) return false;
+            else capture(currentPiece, targetSquare, board);
         }
 
-        removePiece(piece.getCurrentSquare());
-        piece.setCurrentSquare(fin);
-        piece.getCurrentSquare().put(piece);
+        removePiece(currentPiece.getCurrentSquare());
+        currentPiece.setCurrentSquare(targetSquare);
+        currentPiece.getCurrentSquare().put(currentPiece);
         return true;
     }
 
-    private void removePiece(Square targetSquare) {
+    private static void removePiece(Square targetSquare) {
         targetSquare.setOccupyingPiece(null);
     }
 
-    private void capture(Piece piece, Square targetSquare, Board board) {
+    private static void capture(Piece piece, Square targetSquare, Board board) {
 
         Piece targetPiece = targetSquare.getOccupyingPiece();
         PieceColor targetPieceColor = targetPiece.getColor();

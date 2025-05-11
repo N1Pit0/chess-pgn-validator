@@ -1,11 +1,12 @@
-package model.board;
+package services.board;
 
 import lombok.Getter;
 import lombok.Setter;
+import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.*;
 import model.pieces.common.Piece;
-import view.gui.GameWindow;
+import view.gui.GameWindowImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,11 @@ import static model.enums.PieceColor.WHITE;
 public class Board {
     // Logical and graphical representations of board
     private final Square[][] board;
-    private final GameWindow gameWindow;
+    private final GameWindowImpl gameWindow;
 
     // List of pieces and whether they are movable
-    private  List<Piece> blackPieces;
-    private  List<Piece> whitePieces;
+    private List<Piece> blackPieces;
+    private List<Piece> whitePieces;
 
     private King whiteKing;
     private King blackKing;
@@ -38,7 +39,7 @@ public class Board {
     private int currY;
 
 
-    public Board(GameWindow gameWindow) {
+    public Board(GameWindowImpl gameWindow) {
         this.gameWindow = gameWindow;
         board = new Square[8][8];
         blackPieces = new ArrayList<>();
@@ -101,11 +102,11 @@ public class Board {
         }
     }
 
-    public Optional<Piece> getWhiteKing(){
+    public Optional<Piece> getWhiteKing() {
         return whitePieces.stream().filter(piece -> piece instanceof King).findFirst();
     }
 
-    public Optional<Piece> getBlackKing(){
+    public Optional<Piece> getBlackKing() {
         return blackPieces.stream().filter(piece -> piece instanceof King).findFirst();
     }
 

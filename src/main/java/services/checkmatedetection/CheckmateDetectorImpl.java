@@ -1,19 +1,18 @@
 package services.checkmatedetection;
 
-import model.board.Board;
 import model.board.Square;
 import model.enums.PieceColor;
 import model.pieces.King;
 import model.pieces.common.Piece;
+import services.board.Board;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static model.enums.PieceColor.BLACK;
 import static model.enums.PieceColor.WHITE;
 
-public class CheckmateDetectorImpl implements CheckmateDetector{
+public class CheckmateDetectorImpl implements CheckmateDetector {
 
     @Override
     public boolean isInCheck(Board board, PieceColor pieceColor) {
@@ -43,20 +42,17 @@ public class CheckmateDetectorImpl implements CheckmateDetector{
 
     private boolean hasLegalMoveWithoutCheck(Board board, PieceColor pieceColor) {
         List<Piece> currentPlayerPieces = pieceColor.equals(WHITE) ? board.getWhitePieces() : board.getBlackPieces();
-        System.out.println(currentPlayerPieces.size());
 
         return currentPlayerPieces.stream()
                 .flatMap(piece -> piece.getLegalMoves(board).stream().map(targetSquare -> {
                     Square originalSquare = piece.getCurrentSquare();
                     Piece capturedPiece = targetSquare.getOccupyingPiece();
-                    System.out.println(originalSquare.getYNum() + " " + originalSquare.getXNum());
 
                     // Make the move
                     piece.move(targetSquare);
 
                     // Check if the king is in check after the move
                     boolean isInCheckAfterMove = isInCheck(board, pieceColor);
-                    System.out.println(isInCheckAfterMove + " " + pieceColor);
 
                     // Undo the move
                     piece.move(originalSquare);
@@ -78,10 +74,12 @@ public class CheckmateDetectorImpl implements CheckmateDetector{
                 .anyMatch(canGetOutOfCheck -> canGetOutOfCheck);
     }
 
-    private boolean checkHelper(Board board, PieceColor pieceColor){
+    private boolean checkHelper(Board board, PieceColor pieceColor) {
         Optional<Piece> optionalKing = pieceColor.equals(PieceColor.WHITE) ? board.getWhiteKing() : board.getBlackKing();
 
-        if (optionalKing.isEmpty()) { return false; }
+        if (optionalKing.isEmpty()) {
+            return false;
+        }
 
         King king = (King) optionalKing.get();
 
