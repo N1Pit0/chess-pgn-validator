@@ -39,7 +39,6 @@ public class GameWindowImpl implements GameWindow {
 
         gameWindow = new JFrame("Chess");
 
-
         try {
             Image whiteImg = ImageIO.read(getClass().getResource(RESOURCES_WPAWN_PNG.label));
             gameWindow.setIconImage(whiteImg);
@@ -48,7 +47,6 @@ public class GameWindowImpl implements GameWindow {
         }
 
         gameWindow.setLocation(100, 100);
-
 
         gameWindow.setLayout(new BorderLayout(20, 20));
 
@@ -84,118 +82,114 @@ public class GameWindowImpl implements GameWindow {
 
 // Helper function to create data panel
 
-    private JPanel gameDataPanel(final String bn, final String wn,
-                                 final int hh, final int mm, final int ss) {
+    private JPanel gameDataPanel(final String blackName, final String whiteName,
+                                 final int hours, final int minutes, final int seconds) {
 
         JPanel gameData = new JPanel();
         gameData.setLayout(new GridLayout(3, 2, 0, 0));
 
-
         // PLAYER NAMES
+        JLabel whitePlayerLabel = new JLabel(whiteName);
+        JLabel blackPlayerLabel = new JLabel(blackName);
 
-        JLabel w = new JLabel(wn);
-        JLabel b = new JLabel(bn);
+        whitePlayerLabel.setHorizontalAlignment(JLabel.CENTER);
+        whitePlayerLabel.setVerticalAlignment(JLabel.CENTER);
+        blackPlayerLabel.setHorizontalAlignment(JLabel.CENTER);
+        blackPlayerLabel.setVerticalAlignment(JLabel.CENTER);
 
-        w.setHorizontalAlignment(JLabel.CENTER);
-        w.setVerticalAlignment(JLabel.CENTER);
-        b.setHorizontalAlignment(JLabel.CENTER);
-        b.setVerticalAlignment(JLabel.CENTER);
+        whitePlayerLabel.setSize(whitePlayerLabel.getMinimumSize());
+        blackPlayerLabel.setSize(blackPlayerLabel.getMinimumSize());
 
-        w.setSize(w.getMinimumSize());
-        b.setSize(b.getMinimumSize());
-
-        gameData.add(w);
-        gameData.add(b);
+        gameData.add(whitePlayerLabel);
+        gameData.add(blackPlayerLabel);
 
         // CLOCKS
+        final JLabel blackTimeLabel = new JLabel(blackClock.getFormattedTime());
+        final JLabel whiteTimeLabel = new JLabel(whiteClock.getFormattedTime());
 
-        final JLabel bTime = new JLabel(blackClock.getFormattedTime());
-        final JLabel wTime = new JLabel(whiteClock.getFormattedTime());
+        blackTimeLabel.setHorizontalAlignment(JLabel.CENTER);
+        blackTimeLabel.setVerticalAlignment(JLabel.CENTER);
+        whiteTimeLabel.setHorizontalAlignment(JLabel.CENTER);
+        whiteTimeLabel.setVerticalAlignment(JLabel.CENTER);
 
-        bTime.setHorizontalAlignment(JLabel.CENTER);
-        bTime.setVerticalAlignment(JLabel.CENTER);
-        wTime.setHorizontalAlignment(JLabel.CENTER);
-        wTime.setVerticalAlignment(JLabel.CENTER);
-
-        if (!(hh == 0 && mm == 0 && ss == 0)) {
+        if (!(hours == 0 && minutes == 0 && seconds == 0)) {
             timer = new Timer(1000, null);
-            timer.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    boolean turn = boardService.isWhiteTurn();
+            timer.addActionListener(e -> {
+                boolean turn = boardService.isWhiteTurn();
 
-                    if (turn) {
-                        whiteClock.decrementTime();
-                        wTime.setText(whiteClock.getFormattedTime());
-
-                        if (whiteClock.isTimeUp()) {
-                            timer.stop();
-                            int n = JOptionPane.showConfirmDialog(
-                                    gameWindow,
-                                    bn + " wins by time! Play a new game? \n" +
-                                            "Choosing \"No\" quits the game.",
-                                    bn + " wins!",
-                                    JOptionPane.YES_NO_OPTION);
-
-                            if (n == JOptionPane.YES_OPTION) {
-                                new GameWindowImpl(bn, wn, hh, mm, ss);
-                                gameWindow.dispose();
-                            } else gameWindow.dispose();
-                        }
-                    } else {
-                        blackClock.decrementTime();
-                        bTime.setText(blackClock.getFormattedTime());
-
-                        if (blackClock.isTimeUp()) {
-                            timer.stop();
-                            int n = JOptionPane.showConfirmDialog(
-                                    gameWindow,
-                                    wn + " wins by time! Play a new game? \n" +
-                                            "Choosing \"No\" quits the game.",
-                                    wn + " wins!",
-                                    JOptionPane.YES_NO_OPTION);
-
-                            if (n == JOptionPane.YES_OPTION) {
-                                new GameWindowImpl(bn, wn, hh, mm, ss);
-                                gameWindow.dispose();
-                            } else gameWindow.dispose();
-                        }
-                    }
+                if (turn) {
+                    handleClockTimer(true, whiteTimeLabel, whiteName, blackName, hours, minutes, seconds);
+                } else {
+                    handleClockTimer(false, blackTimeLabel, blackName, whiteName, hours, minutes, seconds);
                 }
             });
             timer.start();
         } else {
-            wTime.setText("Untimed game");
-            bTime.setText("Untimed game");
+            whiteTimeLabel.setText("Untimed game");
+            blackTimeLabel.setText("Untimed game");
         }
 
-        gameData.add(wTime);
-        gameData.add(bTime);
+        gameData.add(whiteTimeLabel);
+        gameData.add(blackTimeLabel);
 
         gameData.setPreferredSize(gameData.getMinimumSize());
 
         return gameData;
     }
 
+    private void handleClockTimer(boolean whiteTurn, JLabel time, String currentPlayerName, String opponentPlayerName,
+                                  int hours, int minutes, int seconds){
+        Clock playerClock = whiteTurn ? whiteClock : blackClock;
+
+        playerClock.decrementTime();
+
+        time.setText(whiteClock.getFormattedTime());
+
+        if (playerClock.isTimeUp()) {
+            timer.stop();
+            int n = JOptionPane.showConfirmDialog(
+                    gameWindow,
+                    opponentPlayerName + " wins by time! Play a new game? \n" +
+                            "Choosing \"No\" quits the game.",
+                    opponentPlayerName + " wins!",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (n == JOptionPane.YES_OPTION) {
+                new GameWindowImpl(opponentPlayerName, currentPlayerName, hours, minutes, seconds);
+                gameWindow.dispose();
+            } else gameWindow.dispose();
+        }
+    }
+
     private JPanel buttons() {
         JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout(1, 3, 10, 0));
 
-        final JButton quit = new JButton("Quit");
+        final var quit = getQuitButton();
 
-        quit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int n = JOptionPane.showConfirmDialog(
-                        gameWindow,
-                        "Are you sure you want to quit?",
-                        "Confirm quit", JOptionPane.YES_NO_OPTION);
+        final var newGame = getNewGameButton();
 
-                if (n == JOptionPane.YES_OPTION) {
-                    if (timer != null) timer.stop();
-                    gameWindow.dispose();
-                }
-            }
-        });
+        final JButton instr = new JButton("How to play");
 
+        instr.addActionListener(e -> JOptionPane.showMessageDialog(gameWindow,
+                "MoveImpl the chess pieces on the boardService by clicking\n"
+                        + "and dragging. The game will watch out for illegal\n"
+                        + "moves. You can win either by your opponent running\n"
+                        + "out of time or by checkmating your opponent.\n"
+                        + "\nGood luck, hope you enjoy the game!",
+                "How to play",
+                JOptionPane.PLAIN_MESSAGE));
+
+        buttons.add(instr);
+        buttons.add(newGame);
+        buttons.add(quit);
+
+        buttons.setPreferredSize(buttons.getMinimumSize());
+
+        return buttons;
+    }
+
+    private JButton getNewGameButton() {
         final JButton nGame = new JButton("New game");
 
         nGame.addActionListener(new ActionListener() {
@@ -211,29 +205,24 @@ public class GameWindowImpl implements GameWindow {
                 }
             }
         });
+        return nGame;
+    }
 
-        final JButton instr = new JButton("How to play");
+    private JButton getQuitButton() {
+        final JButton quit = new JButton("Quit");
 
-        instr.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(gameWindow,
-                        "MoveImpl the chess pieces on the boardService by clicking\n"
-                                + "and dragging. The game will watch out for illegal\n"
-                                + "moves. You can win either by your opponent running\n"
-                                + "out of time or by checkmating your opponent.\n"
-                                + "\nGood luck, hope you enjoy the game!",
-                        "How to play",
-                        JOptionPane.PLAIN_MESSAGE);
+        quit.addActionListener(e -> {
+            int n = JOptionPane.showConfirmDialog(
+                    gameWindow,
+                    "Are you sure you want to quit?",
+                    "Confirm quit", JOptionPane.YES_NO_OPTION);
+
+            if (n == JOptionPane.YES_OPTION) {
+                if (timer != null) timer.stop();
+                gameWindow.dispose();
             }
         });
-
-        buttons.add(instr);
-        buttons.add(nGame);
-        buttons.add(quit);
-
-        buttons.setPreferredSize(buttons.getMinimumSize());
-
-        return buttons;
+        return quit;
     }
 
     public void checkmateOccurred(PieceColor pieceColor) {
@@ -266,7 +255,4 @@ public class GameWindowImpl implements GameWindow {
         }
     }
 
-    public void kingDied() {
-        gameWindow.dispose();
-    }
 }
