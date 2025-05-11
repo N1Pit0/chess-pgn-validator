@@ -1,6 +1,5 @@
 package services.strategy;
 
-import model.board.Square;
 import model.pieces.common.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,12 +22,12 @@ public class KnightStrategyTest {
     private BoardService boardService;
 
     @Mock
-    private Square currentSquare;
+    private SquareInterface currentSquare;
 
     @Mock
     private Piece knight;
 
-    private Square[][] squareArrayMock;
+    private SquareInterface[][] squareArrayMock;
 
     @InjectMocks
     private KnightStrategy knightStrategy;
@@ -88,7 +87,7 @@ public class KnightStrategyTest {
         when(currentSquare.getYNum()).thenReturn(4);
 
         // Simulate friendly piece occupying one of the target squares
-        Square targetSquare = squareArrayMock[5][6];
+        SquareInterface targetSquare = squareArrayMock[5][6];
         Piece friendlyPiece = mock(Piece.class);
         when(knight.getPieceColor()).thenReturn(WHITE);
         when(targetSquare.isOccupied()).thenReturn(true);
@@ -114,7 +113,7 @@ public class KnightStrategyTest {
         when(currentSquare.getYNum()).thenReturn(4);
 
         // Simulate opponent piece occupying one of the target squares
-        Square targetSquare = squareArrayMock[5][6];
+        SquareInterface targetSquare = squareArrayMock[5][6];
         Piece targetPiece = mock(Piece.class);
 
         when(targetSquare.isOccupied()).thenReturn(true);
@@ -132,10 +131,10 @@ public class KnightStrategyTest {
     }
 
     private void setupMockedSquareArray() {
-        squareArrayMock = new Square[8][8];
+        squareArrayMock = new SquareInterface[8][8];
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
-                Square square = mock(Square.class);
+                SquareInterface square = mock(SquareInterface.class);
                 when(square.isOccupied()).thenReturn(false); // Default: all squares unoccupied.
                 squareArrayMock[y][x] = square;
             }

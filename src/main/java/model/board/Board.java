@@ -19,7 +19,7 @@ import static services.enums.PieceColor.WHITE;
 @Getter
 @Setter
 public class Board implements BoardInterface {
-    private final SquareInterface[][] boardSquareArray;
+    private SquareInterface[][] boardSquareArray;
 
     // List of pieces and whether they are movable
     private List<PieceInterface> blackPieces;
@@ -29,7 +29,7 @@ public class Board implements BoardInterface {
     private King blackKing;
 
     public Board() {
-        this.boardSquareArray = new Square[8][8];
+        this.boardSquareArray = new SquareInterface[8][8];
         this.blackPieces = new ArrayList<>();
         this.whitePieces = new ArrayList<>();
     }
@@ -56,6 +56,7 @@ public class Board implements BoardInterface {
 
     @Override
     public void initializePieces() {
+
         for (int x = 0; x < 8; x++) {
             boardSquareArray[1][x].put(new Pawn(BLACK, boardSquareArray[1][x], RESOURCES_BPAWN_PNG.label));
             boardSquareArray[6][x].put(new Pawn(WHITE, boardSquareArray[6][x], RESOURCES_WPAWN_PNG.label));
@@ -95,6 +96,7 @@ public class Board implements BoardInterface {
 
     @Override
     public void initializeBoardSquares() {
+
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 PieceColor squareColor = ((x + y) % 2 == 0) ? WHITE : BLACK;
