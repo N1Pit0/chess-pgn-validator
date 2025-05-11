@@ -2,7 +2,7 @@ package model.pieces.common;
 
 import lombok.Getter;
 import lombok.Setter;
-import services.board.Board;
+import services.board.BoardService;
 import services.board.Move;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
@@ -42,5 +42,5 @@ public abstract class Piece implements PieceInterface {
     }
 
     // No implementation, to be implemented by each subclass
-    public abstract List<SquareInterface> getLegalMoves(Board b);
+    public abstract List<SquareInterface> getLegalMoves(BoardService b);
 }

@@ -19,7 +19,7 @@ import static services.enums.PieceColor.WHITE;
 
 @Getter
 @Setter
-public class Board {
+public class BoardService {
     // Logical and graphical representations of board
     private final SquareInterface[][] board;
     private final GameWindowImpl gameWindow;
@@ -39,7 +39,7 @@ public class Board {
     private int currY;
 
 
-    public Board(GameWindowImpl gameWindow) {
+    public BoardService(GameWindowImpl gameWindow) {
         this.gameWindow = gameWindow;
         board = new SquareInterface[8][8];
         blackPieces = new ArrayList<>();

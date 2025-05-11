@@ -2,7 +2,7 @@ package model.pieces;
 
 import lombok.Getter;
 import model.pieces.common.Piece;
-import services.board.Board;
+import services.board.BoardService;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.PawnStrategy;
@@ -24,8 +24,8 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<SquareInterface> getLegalMoves(Board board) {
-        return new PawnStrategy(this).getLegalMoves(board);
+    public List<SquareInterface> getLegalMoves(BoardService boardService) {
+        return new PawnStrategy(this).getLegalMoves(boardService);
     }
 
     public void dummy() {

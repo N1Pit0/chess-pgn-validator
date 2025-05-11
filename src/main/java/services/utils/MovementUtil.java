@@ -1,6 +1,6 @@
 package services.utils;
 
-import services.board.Board;
+import services.board.BoardService;
 import services.board.SquareInterface;
 import services.strategy.common.PieceInterface;
 
@@ -18,17 +18,17 @@ public class MovementUtil {
             {-1, -1}, {1, -1}, {1, 1}, {-1, 1}
     };
 
-    public static List<SquareInterface> getLinearMoves(Board chessBoard, PieceInterface piece) {
-        return getMovesInDirections(chessBoard, piece, LINEAR_DIRECTIONS);
+    public static List<SquareInterface> getLinearMoves(BoardService chessBoardService, PieceInterface piece) {
+        return getMovesInDirections(chessBoardService, piece, LINEAR_DIRECTIONS);
     }
 
-    public static List<SquareInterface> getDiagonalMoves(Board chessBoard, PieceInterface piece) {
-        return getMovesInDirections(chessBoard, piece, DIAGONAL_DIRECTIONS);
+    public static List<SquareInterface> getDiagonalMoves(BoardService chessBoardService, PieceInterface piece) {
+        return getMovesInDirections(chessBoardService, piece, DIAGONAL_DIRECTIONS);
     }
 
-    private static List<SquareInterface> getMovesInDirections(Board board, PieceInterface piece, int[][] directions) {
+    private static List<SquareInterface> getMovesInDirections(BoardService boardService, PieceInterface piece, int[][] directions) {
         List<SquareInterface> legalSquares = new ArrayList<>();
-        SquareInterface[][] squares = board.getBoard();
+        SquareInterface[][] squares = boardService.getBoard();
         SquareInterface position = piece.getCurrentSquare();
         int x = position.getXNum();
         int y = position.getYNum();

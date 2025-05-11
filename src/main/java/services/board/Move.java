@@ -9,12 +9,12 @@ import static services.enums.PieceColor.WHITE;
 
 public interface Move {
 
-    static boolean makeMove(PieceInterface currentPiece, SquareInterface targetSquare, Board board) {
+    static boolean makeMove(PieceInterface currentPiece, SquareInterface targetSquare, BoardService boardService) {
         PieceInterface occupyingPiece = targetSquare.getOccupyingPiece();
 
         if (occupyingPiece != null) {
             if (occupyingPiece.getPieceColor() == currentPiece.getPieceColor()) return false;
-            else capture(currentPiece, targetSquare, board);
+            else capture(currentPiece, targetSquare, boardService);
         }
 
         removePiece(currentPiece.getCurrentSquare());
@@ -27,18 +27,18 @@ public interface Move {
         targetSquare.setOccupyingPiece(null);
     }
 
-    private static void capture(PieceInterface piece, SquareInterface targetSquare, Board board) {
+    private static void capture(PieceInterface piece, SquareInterface targetSquare, BoardService boardService) {
 
         PieceInterface targetPiece = targetSquare.getOccupyingPiece();
         PieceColor targetPieceColor = targetPiece.getPieceColor();
 
         if (targetPieceColor.equals(BLACK)) {
-            if (targetPiece instanceof King) board.setBlackKing(null);
-            board.getBlackPieces().remove(targetPiece);
+            if (targetPiece instanceof King) boardService.setBlackKing(null);
+            boardService.getBlackPieces().remove(targetPiece);
         }
         if (targetPieceColor.equals(WHITE)) {
-            if (targetPiece instanceof King) board.setWhiteKing(null);
-            board.getWhitePieces().remove(targetPiece);
+            if (targetPiece instanceof King) boardService.setWhiteKing(null);
+            boardService.getWhitePieces().remove(targetPiece);
         }
 
         targetSquare.setOccupyingPiece(piece);

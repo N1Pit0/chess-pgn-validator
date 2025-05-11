@@ -1,6 +1,6 @@
 package services.strategy;
 
-import services.board.Board;
+import services.board.BoardService;
 import services.board.SquareInterface;
 import services.strategy.common.PieceInterface;
 import services.strategy.common.PieceStrategy;
@@ -17,9 +17,9 @@ public class KnightStrategy extends PieceStrategy {
     }
 
     @Override
-    public List<SquareInterface> getLegalMoves(Board board) {
+    public List<SquareInterface> getLegalMoves(BoardService boardService) {
         List<SquareInterface> legalMoves = new ArrayList<>();
-        SquareInterface[][] squareBoard = board.getBoard();
+        SquareInterface[][] squareBoard = boardService.getBoard();
         SquareInterface currentSquare = getPiece().getCurrentSquare();
 
         int x = currentSquare.getXNum();

@@ -1,6 +1,6 @@
 package services.strategy;
 
-import services.board.Board;
+import services.board.BoardService;
 import model.board.Square;
 import model.pieces.common.Piece;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 public class KnightStrategyTest {
     @Mock
-    private Board board;
+    private BoardService boardService;
 
     @Mock
     private Square currentSquare;
@@ -53,10 +53,10 @@ public class KnightStrategyTest {
 
 
         // Act
-        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(board);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(boardService);
 
         // Assert
-        assertEquals(8, legalMoves.size(), "The knight should have 8 legal moves from the center of the board.");
+        assertEquals(8, legalMoves.size(), "The knight should have 8 legal moves from the center of the boardService.");
         for (SquareInterface move : legalMoves) {
             verify(move, atLeastOnce()).isOccupied(); // Ensures occupation logic is checked.
         }
@@ -72,10 +72,10 @@ public class KnightStrategyTest {
         when(knight.getPieceColor()).thenReturn(WHITE);
 
         // Act
-        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(board);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(boardService);
 
         // Assert
-        assertEquals(3, legalMoves.size(), "The knight should have 3 legal moves from the edge of the board.");
+        assertEquals(3, legalMoves.size(), "The knight should have 3 legal moves from the edge of the boardService.");
     }
 
     //Test: Occupied Squares - friendly
@@ -95,7 +95,7 @@ public class KnightStrategyTest {
         when(friendlyPiece.getPieceColor()).thenReturn(WHITE);
 
         // Act
-        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(board);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(boardService);
 
         // Assert
         assertTrue(
@@ -121,7 +121,7 @@ public class KnightStrategyTest {
         when(targetPiece.getPieceColor()).thenReturn(BLACK); // Simulating opponent color.
 
         // Act
-        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(board);
+        List<SquareInterface> legalMoves = knightStrategy.getLegalMoves(boardService);
 
         // Assert
         assertTrue(
@@ -139,7 +139,7 @@ public class KnightStrategyTest {
                 squareArrayMock[y][x] = square;
             }
         }
-        when(board.getBoard()).thenReturn(squareArrayMock);
+        when(boardService.getBoard()).thenReturn(squareArrayMock);
     }
 
 

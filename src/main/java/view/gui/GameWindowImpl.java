@@ -1,7 +1,7 @@
 package view.gui;
 
 import services.Clock;
-import services.board.Board;
+import services.board.BoardService;
 import services.checkmatedetection.CheckmateDetector;
 import services.checkmatedetection.CheckmateDetectorImpl;
 import services.enums.PieceColor;
@@ -25,7 +25,7 @@ public class GameWindowImpl {
     private JFrame gameWindow;
     private Timer timer;
 
-    private Board board;
+    private BoardService boardService;
 
     private CustomBoardMouseListener customBoardMouseListener;
 
@@ -55,9 +55,9 @@ public class GameWindowImpl {
         gameData.setSize(gameData.getPreferredSize());
         gameWindow.add(gameData, BorderLayout.NORTH);
 
-        this.board = new Board(this);
+        this.boardService = new BoardService(this);
 
-        BoardView boardView = new BoardView(board);
+        BoardView boardView = new BoardView(boardService);
 
         CheckmateDetector checkmateDetector = new CheckmateDetectorImpl();
 
@@ -115,7 +115,7 @@ public class GameWindowImpl {
             timer = new Timer(1000, null);
             timer.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    boolean turn = board.isWhiteTurn();
+                    boolean turn = boardService.isWhiteTurn();
 
                     if (turn) {
                         whiteClock.decrementTime();
@@ -211,7 +211,7 @@ public class GameWindowImpl {
         instr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(gameWindow,
-                        "MoveImpl the chess pieces on the board by clicking\n"
+                        "MoveImpl the chess pieces on the boardService by clicking\n"
                                 + "and dragging. The game will watch out for illegal\n"
                                 + "moves. You can win either by your opponent running\n"
                                 + "out of time or by checkmating your opponent.\n"

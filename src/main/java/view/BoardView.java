@@ -1,7 +1,7 @@
 package view;
 
 import lombok.Getter;
-import services.board.Board;
+import services.board.BoardService;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
@@ -14,16 +14,16 @@ import static services.enums.PieceColor.WHITE;
 
 @Getter
 public class BoardView extends JPanel {
-    private final Board board;
+    private final BoardService boardService;
 
-    public BoardView(Board board) {
-        this.board = board;
+    public BoardView(BoardService boardService) {
+        this.boardService = boardService;
 
         setLayout(new GridLayout(8, 8, 0, 0));
 
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                this.add(new SquareView(this.board.getBoard()[x][y])); // ??
+                this.add(new SquareView(this.boardService.getBoard()[x][y])); // ??
             }
         }
 
@@ -36,9 +36,9 @@ public class BoardView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        SquareInterface[][] board = this.board.getBoard();
-        PieceInterface currPiece = this.board.getCurrPiece();
-        boolean whiteTurn = this.board.isWhiteTurn();
+        SquareInterface[][] board = this.boardService.getBoard();
+        PieceInterface currPiece = this.boardService.getCurrPiece();
+        boolean whiteTurn = this.boardService.isWhiteTurn();
 
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -54,7 +54,7 @@ public class BoardView extends JPanel {
             if ((pieceColor.equals(WHITE) && whiteTurn)
                     || (pieceColor.equals(BLACK) && !whiteTurn)) {
                 final Image i = currPiece.getImage();
-                g.drawImage(i, this.board.getCurrX(), this.board.getCurrY(), null);
+                g.drawImage(i, this.boardService.getCurrX(), this.boardService.getCurrY(), null);
             }
         }
     }

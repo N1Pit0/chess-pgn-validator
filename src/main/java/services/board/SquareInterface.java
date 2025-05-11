@@ -6,7 +6,7 @@ import services.strategy.common.PieceInterface;
 public interface SquareInterface {
     PieceColor getPieceColor();
 
-    Board getBoard();
+    BoardService getBoardService();
 
     PieceInterface getOccupyingPiece();
 

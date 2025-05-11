@@ -1,6 +1,6 @@
 package services.strategy;
 
-import services.board.Board;
+import services.board.BoardService;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
@@ -19,9 +19,9 @@ public class PawnStrategy extends PieceStrategy {
     }
 
     @Override
-    public List<SquareInterface> getLegalMoves(Board board) {
+    public List<SquareInterface> getLegalMoves(BoardService boardService) {
         List<SquareInterface> legalMoves = new ArrayList<>();
-        SquareInterface[][] squareArrayBoard = board.getBoard();
+        SquareInterface[][] squareArrayBoard = boardService.getBoard();
 
         int x = super.getPiece().getCurrentSquare().getXNum();
         int y = super.getPiece().getCurrentSquare().getYNum();

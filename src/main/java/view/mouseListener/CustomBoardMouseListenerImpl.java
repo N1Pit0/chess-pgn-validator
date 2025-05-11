@@ -1,6 +1,6 @@
 package view.mouseListener;
 
-import services.board.Board;
+import services.board.BoardService;
 import services.board.SquareInterface;
 import services.checkmatedetection.CheckmateDetector;
 import services.enums.PieceColor;
@@ -33,20 +33,20 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
     @Override
     public void handleMousePressed(MouseEvent e) {
-        Board board = boardView.getBoard();
+        BoardService boardService = boardView.getBoardService();
 
-        board.setCurrX(e.getX());
-        board.setCurrY(e.getY());
+        boardService.setCurrX(e.getX());
+        boardService.setCurrY(e.getY());
 
         SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
         SquareInterface square = squareView.getSquare();
 
         if (square.isOccupied()) {
-            board.setCurrPiece(square.getOccupyingPiece());
-            PieceColor currentPieceColor = board.getCurrPiece().getPieceColor();
-            if (currentPieceColor.equals(BLACK) && board.isWhiteTurn())
+            boardService.setCurrPiece(square.getOccupyingPiece());
+            PieceColor currentPieceColor = boardService.getCurrPiece().getPieceColor();
+            if (currentPieceColor.equals(BLACK) && boardService.isWhiteTurn())
                 return;
-            if (currentPieceColor.equals(WHITE) && !board.isWhiteTurn())
+            if (currentPieceColor.equals(WHITE) && !boardService.isWhiteTurn())
                 return;
             squareView.setDisplayPiece(true);
         }
@@ -57,19 +57,19 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
     public void handleMouseReleased(MouseEvent e) {
         SquareView squareView = (SquareView) boardView.getComponentAt(new Point(e.getX(), e.getY()));
         SquareInterface targetSquare = squareView.getSquare();
-        Board board = boardView.getBoard();
-        PieceInterface currentPiece = board.getCurrPiece();
+        BoardService boardService = boardView.getBoardService();
+        PieceInterface currentPiece = boardService.getCurrPiece();
 
-        if (board.getCurrPiece() == null) return;
+        if (boardService.getCurrPiece() == null) return;
 
-        PieceColor currentPieceColor = board.getCurrPiece().getPieceColor();
-        if (currentPieceColor.equals(BLACK) && board.isWhiteTurn())
+        PieceColor currentPieceColor = boardService.getCurrPiece().getPieceColor();
+        if (currentPieceColor.equals(BLACK) && boardService.isWhiteTurn())
             return;
 
-        if (currentPieceColor.equals(WHITE) && !board.isWhiteTurn())
+        if (currentPieceColor.equals(WHITE) && !boardService.isWhiteTurn())
             return;
 
-        List<SquareInterface> legalMoves = currentPiece.getLegalMoves(board);
+        List<SquareInterface> legalMoves = currentPiece.getLegalMoves(boardService);
 
         if (legalMoves.contains(targetSquare)) {
             // Store the original square of the current piece
@@ -82,7 +82,7 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
             currentPiece.move(targetSquare);
 
             // Check if the current player's king is in check after the move
-            if (checkmateDetector.isInCheck(board, currentPieceColor)) {
+            if (checkmateDetector.isInCheck(boardService, currentPieceColor)) {
                 // Undo the move
                 currentPiece.move(originalSquare);
 
@@ -90,9 +90,9 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
                 if (capturedPiece != null) {
                     targetSquare.setOccupyingPiece(capturedPiece);
                     if (capturedPiece.getPieceColor() == WHITE) {
-                        board.getWhitePieces().add(capturedPiece);
+                        boardService.getWhitePieces().add(capturedPiece);
                     } else {
-                        board.getBlackPieces().add(capturedPiece);
+                        boardService.getBlackPieces().add(capturedPiece);
                     }
                 }
 
@@ -101,37 +101,37 @@ public class CustomBoardMouseListenerImpl implements CustomBoardMouseListener {
 
                 PieceColor opponentColor = currentPieceColor.equals(WHITE) ? BLACK : WHITE;
                 // Check if the opponent is in checkmate
-                if (checkmateDetector.isInCheckmate(board, opponentColor)) {
+                if (checkmateDetector.isInCheckmate(boardService, opponentColor)) {
                     System.out.println("Checkmate! You win!");
-                    setupBoardForCheckmate(board, opponentColor);
+                    setupBoardForCheckmate(boardService, opponentColor);
                 }
                 // Check if the opponent is in stalemate
-                else if (checkmateDetector.isInStalemate(board, opponentColor)) {
+                else if (checkmateDetector.isInStalemate(boardService, opponentColor)) {
                     System.out.println("Stalemate! The game is a draw.");
                     // TODO: Handle the end of the game logic
                 }
                 // Change the turn to the other player
-                board.setWhiteTurn(!board.isWhiteTurn());
+                boardService.setWhiteTurn(!boardService.isWhiteTurn());
             }
         }
 
-        board.setCurrPiece(null);
+        boardService.setCurrPiece(null);
         boardView.repaint();
     }
 
     @Override
     public void handleMouseDragged(MouseEvent e) {
-        boardView.getBoard().setCurrX(e.getX());
-        boardView.getBoard().setCurrY(e.getY());
+        boardView.getBoardService().setCurrX(e.getX());
+        boardView.getBoardService().setCurrY(e.getY());
         boardView.repaint();
     }
 
-    private void setupBoardForCheckmate(Board board, PieceColor pieceColor) {
-        board.setCurrPiece(null);
+    private void setupBoardForCheckmate(BoardService boardService, PieceColor pieceColor) {
+        boardService.setCurrPiece(null);
         boardView.repaint();
         boardView.removeMouseListener(boardMouseListener);
         boardView.removeMouseMotionListener(boardMouseMotionListener);
-        board.getGameWindow().checkmateOccurred(pieceColor);
+        boardService.getGameWindow().checkmateOccurred(pieceColor);
     }
 
 }

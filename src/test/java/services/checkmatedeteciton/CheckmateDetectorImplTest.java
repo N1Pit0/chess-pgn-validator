@@ -1,5 +1,5 @@
 package services.checkmatedeteciton;
-import services.board.Board;
+import services.board.BoardService;
 import model.board.Square;
 import services.enums.PieceColor;
 import model.pieces.King;
@@ -22,7 +22,7 @@ class CheckmateDetectorImplTest {
 
 
     @Mock
-    private Board board;
+    private BoardService boardService;
 
     @Mock
     private King whiteKing;
@@ -49,76 +49,76 @@ class CheckmateDetectorImplTest {
 
     @Test
     void isInCheck_WhiteKingInCheck_ReturnsTrue() {
-        when(board.getWhiteKing()).thenReturn(Optional.of(whiteKing));
-        when(board.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(board)).thenReturn(List.of(mock(Square.class)));
+        when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
+        when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
+        when(blackPiece.getLegalMoves(boardService)).thenReturn(List.of(mock(Square.class)));
         when(whiteKing.getCurrentSquare()).thenReturn(mock(Square.class));
 
-        boolean result = checkmateDetector.isInCheck(board, PieceColor.WHITE);
+        boolean result = checkmateDetector.isInCheck(boardService, PieceColor.WHITE);
 
         assertTrue(result);
     }
 
     @Test
     void isInCheck_BlackKingNotInCheck_ReturnsFalse() {
-        when(board.getBlackKing()).thenReturn(Optional.of(blackKing));
-        when(board.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(board)).thenReturn(new ArrayList<>());
+        when(boardService.getBlackKing()).thenReturn(Optional.of(blackKing));
+        when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
+        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
 
-        boolean result = checkmateDetector.isInCheck(board, PieceColor.BLACK);
+        boolean result = checkmateDetector.isInCheck(boardService, PieceColor.BLACK);
 
         assertFalse(result);
     }
 
     @Test
     void isInCheckmate_WhiteKingInCheckmatePosition_ReturnsTrue() {
-        when(board.getWhiteKing()).thenReturn(Optional.of(whiteKing));
-        when(board.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(board)).thenReturn(List.of(mock(Square.class)));
+        when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
+        when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
+        when(blackPiece.getLegalMoves(boardService)).thenReturn(List.of(mock(Square.class)));
         when(whiteKing.getCurrentSquare()).thenReturn(mock(Square.class));
-        when(board.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(board)).thenReturn(new ArrayList<>());
+        when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
+        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
 
-        boolean result = checkmateDetector.isInCheckmate(board, PieceColor.WHITE);
+        boolean result = checkmateDetector.isInCheckmate(boardService, PieceColor.WHITE);
 
         assertTrue(result);
     }
 
     @Test
     void isInCheckmate_BlackKingNotInCheckmate_ReturnsFalse() {
-        when(board.getBlackKing()).thenReturn(Optional.of(blackKing));
-        when(board.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(board)).thenReturn(new ArrayList<>());
-        when(board.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(board)).thenReturn(List.of(mock(Square.class)));
+        when(boardService.getBlackKing()).thenReturn(Optional.of(blackKing));
+        when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
+        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
+        when(blackPiece.getLegalMoves(boardService)).thenReturn(List.of(mock(Square.class)));
 
-        boolean result = checkmateDetector.isInCheckmate(board, PieceColor.BLACK);
+        boolean result = checkmateDetector.isInCheckmate(boardService, PieceColor.BLACK);
 
         assertFalse(result);
     }
 
     @Test
     void isInStalemate_WhiteKingInStalematePosition_ReturnsTrue() {
-        when(board.getWhiteKing()).thenReturn(Optional.of(whiteKing));
-        when(board.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(board)).thenReturn(new ArrayList<>());
-        when(board.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(board)).thenReturn(new ArrayList<>());
+        when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
+        when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
+        when(blackPiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
+        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
 
-        boolean result = checkmateDetector.isInStalemate(board, PieceColor.WHITE);
+        boolean result = checkmateDetector.isInStalemate(boardService, PieceColor.WHITE);
 
         assertTrue(result);
     }
 
     @Test
     void isInStalemate_BlackKingNotInStalemate_ReturnsFalse() {
-        when(board.getBlackKing()).thenReturn(Optional.of(blackKing));
-        when(board.getWhitePieces()).thenReturn(List.of(whitePiece));
-        when(whitePiece.getLegalMoves(board)).thenReturn(new ArrayList<>());
-        when(board.getBlackPieces()).thenReturn(List.of(blackPiece));
-        when(blackPiece.getLegalMoves(board)).thenReturn(List.of(mock(Square.class)));
+        when(boardService.getBlackKing()).thenReturn(Optional.of(blackKing));
+        when(boardService.getWhitePieces()).thenReturn(List.of(whitePiece));
+        when(whitePiece.getLegalMoves(boardService)).thenReturn(new ArrayList<>());
+        when(boardService.getBlackPieces()).thenReturn(List.of(blackPiece));
+        when(blackPiece.getLegalMoves(boardService)).thenReturn(List.of(mock(Square.class)));
 
-        boolean result = checkmateDetector.isInStalemate(board, PieceColor.BLACK);
+        boolean result = checkmateDetector.isInStalemate(boardService, PieceColor.BLACK);
 
         assertFalse(result);
     }

@@ -1,6 +1,6 @@
 package services.checkmatedetection;
 
-import services.board.Board;
+import services.board.BoardService;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
@@ -14,36 +14,36 @@ import static services.enums.PieceColor.WHITE;
 public class CheckmateDetectorImpl implements CheckmateDetector {
 
     @Override
-    public boolean isInCheck(Board board, PieceColor pieceColor) {
+    public boolean isInCheck(BoardService boardService, PieceColor pieceColor) {
 
         return pieceColor.equals(WHITE)
-                ? checkHelper(board, PieceColor.WHITE)
-                : checkHelper(board, PieceColor.BLACK);
+                ? checkHelper(boardService, PieceColor.WHITE)
+                : checkHelper(boardService, PieceColor.BLACK);
     }
 
     @Override
-    public boolean isInCheckmate(Board board, PieceColor pieceColor) {
-        if (!isInCheck(board, pieceColor)) {
+    public boolean isInCheckmate(BoardService boardService, PieceColor pieceColor) {
+        if (!isInCheck(boardService, pieceColor)) {
             return false;
         }
 
-        return !hasLegalMoveWithoutCheck(board, pieceColor);
+        return !hasLegalMoveWithoutCheck(boardService, pieceColor);
     }
 
     @Override
-    public boolean isInStalemate(Board board, PieceColor pieceColor) {
-        if (isInCheck(board, pieceColor)) {
+    public boolean isInStalemate(BoardService boardService, PieceColor pieceColor) {
+        if (isInCheck(boardService, pieceColor)) {
             return false;
         }
 
-        return !hasLegalMoveWithoutCheck(board, pieceColor);
+        return !hasLegalMoveWithoutCheck(boardService, pieceColor);
     }
 
-    private boolean hasLegalMoveWithoutCheck(Board board, PieceColor pieceColor) {
-        List<PieceInterface> currentPlayerPieces = pieceColor.equals(WHITE) ? board.getWhitePieces() : board.getBlackPieces();
+    private boolean hasLegalMoveWithoutCheck(BoardService boardService, PieceColor pieceColor) {
+        List<PieceInterface> currentPlayerPieces = pieceColor.equals(WHITE) ? boardService.getWhitePieces() : boardService.getBlackPieces();
 
         return currentPlayerPieces.stream()
-                .flatMap(piece -> piece.getLegalMoves(board).stream().map(targetSquare -> {
+                .flatMap(piece -> piece.getLegalMoves(boardService).stream().map(targetSquare -> {
                     SquareInterface originalSquare = piece.getCurrentSquare();
                     PieceInterface capturedPiece = targetSquare.getOccupyingPiece();
 
@@ -51,20 +51,20 @@ public class CheckmateDetectorImpl implements CheckmateDetector {
                     piece.move(targetSquare);
 
                     // Check if the king is in check after the move
-                    boolean isInCheckAfterMove = isInCheck(board, pieceColor);
+                    boolean isInCheckAfterMove = isInCheck(boardService, pieceColor);
 
                     // Undo the move
                     piece.move(originalSquare);
                     if (capturedPiece != null) {
                         targetSquare.setOccupyingPiece(capturedPiece);
                         if (capturedPiece.getPieceColor() == WHITE) {
-                            List<PieceInterface> updatedWhitePieces = new ArrayList<>(board.getWhitePieces());
+                            List<PieceInterface> updatedWhitePieces = new ArrayList<>(boardService.getWhitePieces());
                             updatedWhitePieces.add(capturedPiece);
-                            board.setWhitePieces(updatedWhitePieces);
+                            boardService.setWhitePieces(updatedWhitePieces);
                         } else {
-                            List<PieceInterface> updatedBlackPieces = new ArrayList<>(board.getBlackPieces());
+                            List<PieceInterface> updatedBlackPieces = new ArrayList<>(boardService.getBlackPieces());
                             updatedBlackPieces.add(capturedPiece);
-                            board.setBlackPieces(updatedBlackPieces);
+                            boardService.setBlackPieces(updatedBlackPieces);
                         }
                     }
 
@@ -73,8 +73,8 @@ public class CheckmateDetectorImpl implements CheckmateDetector {
                 .anyMatch(canGetOutOfCheck -> canGetOutOfCheck);
     }
 
-    private boolean checkHelper(Board board, PieceColor pieceColor) {
-        Optional<PieceInterface> optionalKing = pieceColor.equals(PieceColor.WHITE) ? board.getWhiteKing() : board.getBlackKing();
+    private boolean checkHelper(BoardService boardService, PieceColor pieceColor) {
+        Optional<PieceInterface> optionalKing = pieceColor.equals(PieceColor.WHITE) ? boardService.getWhiteKing() : boardService.getBlackKing();
 
         if (optionalKing.isEmpty()) {
             return false;
@@ -84,9 +84,9 @@ public class CheckmateDetectorImpl implements CheckmateDetector {
 
         List<PieceInterface> opponentPieces = king
                 .getPieceColor()
-                .equals(PieceColor.WHITE) ? board.getBlackPieces() : board.getWhitePieces();
+                .equals(PieceColor.WHITE) ? boardService.getBlackPieces() : boardService.getWhitePieces();
 
         return opponentPieces.stream().anyMatch(piece ->
-                piece.getLegalMoves(board).contains(king.getCurrentSquare()));
+                piece.getLegalMoves(boardService).contains(king.getCurrentSquare()));
     }
 }

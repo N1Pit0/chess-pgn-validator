@@ -1,7 +1,7 @@
 package model.pieces;
 
 import model.pieces.common.Piece;
-import services.board.Board;
+import services.board.BoardService;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.KingStrategy;
@@ -15,8 +15,8 @@ public class King extends Piece {
     }
 
     @Override
-    public List<SquareInterface> getLegalMoves(Board board) {
-        return new KingStrategy(this).getLegalMoves(board);
+    public List<SquareInterface> getLegalMoves(BoardService boardService) {
+        return new KingStrategy(this).getLegalMoves(boardService);
     }
 
 }
