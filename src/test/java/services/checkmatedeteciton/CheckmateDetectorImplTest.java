@@ -1,7 +1,6 @@
 package services.checkmatedeteciton;
-import services.board.BoardService;
+
 import model.board.Square;
-import services.enums.PieceColor;
 import model.pieces.King;
 import model.pieces.common.Piece;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,14 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import services.board.BoardService;
 import services.checkmatedetection.CheckmateDetectorImpl;
+import services.enums.PieceColor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CheckmateDetectorImplTest {
 

@@ -10,6 +10,19 @@ import static services.enums.ImagePath.RESOURCES_BPAWN_PNG;
 import static services.enums.ImagePath.RESOURCES_WPAWN_PNG;
 
 public class StartMenu implements Runnable {
+    private static JButton getjButton(JFrame startWindow) {
+        final JButton instr = new JButton("Instructions");
+
+        instr.addActionListener(e -> JOptionPane.showMessageDialog(startWindow,
+                "To begin a new game, input player names\n" +
+                        "next to the pieces. Set the clocks and\n" +
+                        "click \"Start\". Setting the timer to all\n" +
+                        "zeroes begins a new untimed game.",
+                "How to play",
+                JOptionPane.PLAIN_MESSAGE));
+        return instr;
+    }
+
     public void run() {
         final JFrame startWindow = new JFrame("Chess");
         // Set window properties
@@ -101,33 +114,19 @@ public class StartMenu implements Runnable {
             }
         });
 
-        final JButton instr = new JButton("Instructions");
-
-        instr.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(startWindow,
-                        "To begin a new game, input player names\n" +
-                                "next to the pieces. Set the clocks and\n" +
-                                "click \"Start\". Setting the timer to all\n" +
-                                "zeroes begins a new untimed game.",
-                        "How to play",
-                        JOptionPane.PLAIN_MESSAGE);
-            }
-        });
+        final var instr = getjButton(startWindow);
 
         final JButton start = new JButton("Start");
 
-        start.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String bn = blackInput.getText();
-                String wn = whiteInput.getText();
-                int hh = Integer.parseInt((String) hours.getSelectedItem());
-                int mm = Integer.parseInt((String) minutes.getSelectedItem());
-                int ss = Integer.parseInt((String) seconds.getSelectedItem());
+        start.addActionListener(e -> {
+            String bn = blackInput.getText();
+            String wn = whiteInput.getText();
+            int hh = Integer.parseInt((String) hours.getSelectedItem());
+            int mm = Integer.parseInt((String) minutes.getSelectedItem());
+            int ss = Integer.parseInt((String) seconds.getSelectedItem());
 
-                new GameWindowImpl(bn, wn, hh, mm, ss);
-                startWindow.dispose();
-            }
+            new GameWindowImpl(bn, wn, hh, mm, ss);
+            startWindow.dispose();
         });
 
         buttons.add(start);

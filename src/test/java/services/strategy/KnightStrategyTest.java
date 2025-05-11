@@ -1,6 +1,5 @@
 package services.strategy;
 
-import services.board.BoardService;
 import model.board.Square;
 import model.pieces.common.Piece;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,14 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import services.board.BoardService;
 import services.board.SquareInterface;
 
 import java.util.List;
 
-import static services.enums.PieceColor.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
+import static services.enums.PieceColor.BLACK;
+import static services.enums.PieceColor.WHITE;
 
 public class KnightStrategyTest {
     @Mock
@@ -34,7 +35,7 @@ public class KnightStrategyTest {
 
     @BeforeEach
     void setup() {
-        try(var autocloseable = MockitoAnnotations.openMocks(this)){
+        try (var autocloseable = MockitoAnnotations.openMocks(this)) {
             knightStrategy = new KnightStrategy(knight);
             setupMockedSquareArray();
         } catch (Exception e) {

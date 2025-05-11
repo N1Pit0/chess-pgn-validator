@@ -1,5 +1,7 @@
 package view.gui;
 
-public interface GameWindow {
+import services.enums.PieceColor;
 
+public interface GameWindow {
+    void checkmateOccurred(PieceColor pieceColor);
 }

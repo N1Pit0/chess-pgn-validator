@@ -40,13 +40,13 @@ public class Board implements BoardInterface {
     }
 
     @Override
-    public Optional<PieceInterface> getBlackKing() {
-        return blackPieces.stream().filter(piece -> piece instanceof King).findFirst();
+    public void setWhiteKing(PieceInterface whiteKing) {
+        this.whiteKing = (King) whiteKing;
     }
 
     @Override
-    public void setWhiteKing(PieceInterface whiteKing) {
-        this.whiteKing = (King) whiteKing;
+    public Optional<PieceInterface> getBlackKing() {
+        return blackPieces.stream().filter(piece -> piece instanceof King).findFirst();
     }
 
     @Override

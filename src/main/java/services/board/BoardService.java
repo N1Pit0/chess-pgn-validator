@@ -1,83 +1,47 @@
 package services.board;
 
-import lombok.Getter;
-import lombok.Setter;
 import services.strategy.common.PieceInterface;
-import view.gui.GameWindowImpl;
 
 import java.util.List;
 import java.util.Optional;
 
+public interface BoardService {
 
-@Getter
-@Setter
-public class BoardService {
-    // Logical and graphical representations of board
-    private final GameWindowImpl gameWindow;
-    private final BoardInterface boardInterface;
+    void initializePieces();
 
-    private boolean whiteTurn;
-    private PieceInterface currPiece;
+    void initializeBoardSquares();
 
-    private int currX;
-    private int currY;
+    Optional<PieceInterface> getWhiteKing();
 
+    void setWhiteKing(PieceInterface piece);
 
-    public BoardService(GameWindowImpl gameWindow, BoardInterface boardInterface) {
-        this.gameWindow = gameWindow;
-        this.boardInterface = boardInterface;
+    Optional<PieceInterface> getBlackKing();
 
-        initializeBoardSquares();
+    void setBlackKing(PieceInterface piece);
 
-        initializePieces();
+    List<PieceInterface> getWhitePieces();
 
-        whiteTurn = true;
+    void setWhitePieces(List<PieceInterface> pieces);
 
-    }
+    List<PieceInterface> getBlackPieces();
 
-    private void initializePieces() {
-        boardInterface.initializePieces();
-    }
+    void setBlackPieces(List<PieceInterface> pieces);
 
-    public void initializeBoardSquares() {
-        boardInterface.initializeBoardSquares();
-    }
+    SquareInterface[][] getBoardSquareArray();
 
-    public Optional<PieceInterface> getWhiteKing() {
-        return boardInterface.getWhiteKing();
-    }
+    PieceInterface getCurrPiece();
 
-    public void setWhiteKing(PieceInterface piece) {
-        boardInterface.setWhiteKing(piece);
-    }
+    void setCurrPiece(PieceInterface piece);
 
-    public Optional<PieceInterface> getBlackKing() {
-        return boardInterface.getBlackKing();
-    }
+    boolean isWhiteTurn();
 
-    public void setBlackKing(PieceInterface piece) {
-        boardInterface.setBlackKing(piece);
-    }
+    void setWhiteTurn(boolean whiteTurn);
 
-    public List<PieceInterface> getWhitePieces() {
-        return boardInterface.getWhitePieces();
-    }
+    int getCurrX();
 
-    public void setWhitePieces(List<PieceInterface> pieces) {
-        boardInterface.setWhitePieces(pieces);
-    }
+    void setCurrX(int x);
 
-    public List<PieceInterface> getBlackPieces() {
-        return boardInterface.getBlackPieces();
-    }
+    int getCurrY();
 
-    public void setBlackPieces(List<PieceInterface> pieces) {
-        boardInterface.setBlackPieces(pieces);
-    }
-
-    public SquareInterface[][] getBoardSquareArray() {
-        return boardInterface.getBoardSquareArray();
-    }
-
-
+    void setCurrY(int y);
 }

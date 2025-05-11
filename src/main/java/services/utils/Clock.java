@@ -1,4 +1,4 @@
-package services;
+package services.utils;
 
 public class Clock {
     private int hours;

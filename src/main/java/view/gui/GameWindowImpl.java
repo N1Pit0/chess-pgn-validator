@@ -1,14 +1,16 @@
 package view.gui;
 
+import controller.GameController;
+import controller.GameControllerImpl;
 import model.board.Board;
-import services.Clock;
+import services.utils.Clock;
 import services.board.BoardInterface;
 import services.board.BoardService;
+import services.board.BoardServiceImpl;
 import services.checkmatedetection.CheckmateDetector;
 import services.checkmatedetection.CheckmateDetectorImpl;
 import services.enums.PieceColor;
 import view.BoardView;
-import view.mouseListener.CustomBoardMouseListener;
 import view.mouseListener.CustomBoardMouseListenerImpl;
 
 import javax.imageio.ImageIO;
@@ -21,15 +23,13 @@ import static services.enums.ImagePath.RESOURCES_WPAWN_PNG;
 import static services.enums.PieceColor.BLACK;
 
 
-public class GameWindowImpl {
+public class GameWindowImpl implements GameWindow {
+    private final JFrame gameWindow;
+    private final BoardService boardService;
     public Clock blackClock;
     public Clock whiteClock;
-    private JFrame gameWindow;
     private Timer timer;
 
-    private BoardService boardService;
-
-    private CustomBoardMouseListener customBoardMouseListener;
 
     public GameWindowImpl(String blackName, String whiteName, int hh,
                           int mm, int ss) {
@@ -59,13 +59,15 @@ public class GameWindowImpl {
 
         BoardInterface boardInterface = new Board();
 
-        this.boardService = new BoardService(this, boardInterface);
+        this.boardService = new BoardServiceImpl(boardInterface);
 
         BoardView boardView = new BoardView(boardService);
 
         CheckmateDetector checkmateDetector = new CheckmateDetectorImpl();
 
-        this.customBoardMouseListener = new CustomBoardMouseListenerImpl(boardView, checkmateDetector);
+        GameController gameController = new GameControllerImpl(boardService, checkmateDetector);
+
+        new CustomBoardMouseListenerImpl(boardView, this, gameController);
 
         gameWindow.add(boardView, BorderLayout.CENTER);
 
