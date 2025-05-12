@@ -51,17 +51,27 @@ public class CheckmateDetectorImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        // Stub the getPieceColor() method for each mock PieceInterface
         when(whiteKing.getPieceColor()).thenReturn(PieceColor.WHITE);
         when(blackKing.getPieceColor()).thenReturn(PieceColor.BLACK);
         when(whiteRook.getPieceColor()).thenReturn(PieceColor.WHITE);
         when(blackBishop.getPieceColor()).thenReturn(PieceColor.BLACK);
+
+        // Stub the getCurrentSquare() method for each mock PieceInterface
+        when(whiteKing.getCurrentSquare()).thenReturn(whiteKingSquare);
+        when(blackKing.getCurrentSquare()).thenReturn(blackKingSquare);
+        when(whiteRook.getCurrentSquare()).thenReturn(rookSquare);
+        when(blackBishop.getCurrentSquare()).thenReturn(bishopSquare);
+
+        // Stub the getBoardSquareArray() method of the mock BoardService
+        when(boardService.getBoardSquareArray()).thenReturn(new SquareInterface[8][8]);
     }
 
     @Test
     void testIsInCheck_WhiteKingInCheck() {
         // Arrange
         when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
-        when(whiteKing.getCurrentSquare()).thenReturn(whiteKingSquare);
+        when(whiteKingSquare.getOccupyingPiece()).thenReturn(whiteKing);
         when(boardService.getBlackPieces()).thenReturn(List.of(blackBishop));
         when(blackBishop.getLegalMoves(any(SquareInterface[][].class))).thenReturn(List.of(whiteKingSquare));
 
@@ -76,7 +86,6 @@ public class CheckmateDetectorImplTest {
     void testIsInCheck_BlackKingNotInCheck() {
         // Arrange
         when(boardService.getBlackKing()).thenReturn(Optional.of(blackKing));
-        when(blackKing.getCurrentSquare()).thenReturn(blackKingSquare);
         when(boardService.getWhitePieces()).thenReturn(List.of(whiteRook));
         when(whiteRook.getLegalMoves(any(SquareInterface[][].class))).thenReturn(List.of(rookSquare));
 
@@ -91,7 +100,6 @@ public class CheckmateDetectorImplTest {
     void testIsInCheckmate_WhiteKingInCheckmate() {
         // Arrange
         when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
-        when(whiteKing.getCurrentSquare()).thenReturn(whiteKingSquare);
         when(boardService.getBlackPieces()).thenReturn(List.of(blackBishop));
         when(blackBishop.getLegalMoves(any(SquareInterface[][].class))).thenReturn(List.of(whiteKingSquare));
         when(boardService.getWhitePieces()).thenReturn(List.of(whiteKing));
@@ -125,7 +133,6 @@ public class CheckmateDetectorImplTest {
     void testIsInStalemate_WhiteKingInStalemate() {
         // Arrange
         when(boardService.getWhiteKing()).thenReturn(Optional.of(whiteKing));
-        when(whiteKing.getCurrentSquare()).thenReturn(whiteKingSquare);
         when(boardService.getBlackPieces()).thenReturn(List.of(blackBishop));
         when(blackBishop.getLegalMoves(any(SquareInterface[][].class))).thenReturn(List.of(bishopSquare));
         when(boardService.getWhitePieces()).thenReturn(List.of(whiteKing));
