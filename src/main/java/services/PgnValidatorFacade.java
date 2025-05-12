@@ -1,7 +1,8 @@
 package services;
 
 import services.dtos.MoveDto;
-import services.parser.SyntaxMatcher;
+import services.parser.PgnParser;
+import services.parser.SyntaxErrorTracker;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -28,20 +29,19 @@ public class PgnValidatorFacade {
                 paths.filter(Files::isRegularFile)
                         .forEach(file -> {
                             try {
-                                SyntaxMatcher syntaxMatcher = new SyntaxMatcher(file.toString());
-                                
-                                List<MoveDto> moveDtoList = syntaxMatcher.validatePgn();
+                                PgnParser pgnParser = new PgnParser(file.toString());
 
-                                Map<Integer, String> syntaxErrorMap = syntaxMatcher.getTagSyntaxErrorMap();
-                                syntaxErrorMap.forEach((key, value) -> {
-                                    System.out.println(key + ": " + value);
-                                });
+                                List<MoveDto> moveDtoList = pgnParser.parse();
 
-                                List<MoveDto> moveErrors = syntaxMatcher.getMoveSyntaxErrors();
+                                SyntaxErrorTracker syntaxErrors = pgnParser.getErrorTracker();
 
-//                                moveDtoList.forEach(System.out::println);
-                                moveErrors.forEach(System.out::println);
-                                
+                                moveDtoList.forEach(System.out::println);
+
+                                if (syntaxErrors.hasErrors()) {
+                                    System.out.println("Syntax errors found:");
+                                    syntaxErrors.getErrors().forEach(System.out::println);
+                                }
+
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }

@@ -1,4 +1,4 @@
-package services.utils;
+package services.utils.imagereader;
 
 import java.awt.*;
 import java.util.Optional;

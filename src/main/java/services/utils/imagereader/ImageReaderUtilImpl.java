@@ -1,4 +1,4 @@
-package services.utils;
+package services.utils.imagereader;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -7,8 +7,8 @@ import services.board.MakeMove;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
-import services.utils.ImageReaderUtil;
-import services.utils.ImageReaderUtilImpl;
+import services.utils.imagereader.ImageReaderUtil;
+import services.utils.imagereader.ImageReaderUtilImpl;
 import services.utils.exceptions.ImageNotFoundException;
 
 import java.awt.*;
