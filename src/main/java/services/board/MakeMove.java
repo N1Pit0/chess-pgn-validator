@@ -7,7 +7,7 @@ import services.strategy.common.PieceInterface;
 import static services.enums.PieceColor.BLACK;
 import static services.enums.PieceColor.WHITE;
 
-public interface Move {
+public interface MakeMove {
 
     static boolean makeMove(PieceInterface currentPiece, SquareInterface targetSquare, BoardService boardService) {
         PieceInterface occupyingPiece = targetSquare.getOccupyingPiece();

@@ -3,7 +3,7 @@ package model.pieces.common;
 import lombok.Getter;
 import lombok.Setter;
 import services.board.BoardService;
-import services.board.Move;
+import services.board.MakeMove;
 import services.board.SquareInterface;
 import services.enums.PieceColor;
 import services.strategy.common.PieceInterface;
@@ -38,7 +38,7 @@ public abstract class Piece implements PieceInterface {
 
     public boolean move(SquareInterface targetSquare, BoardService boardService) {
 
-        return Move.makeMove(this, targetSquare, boardService);
+        return MakeMove.makeMove(this, targetSquare, boardService);
     }
 
     // No implementation, to be implemented by each subclass
