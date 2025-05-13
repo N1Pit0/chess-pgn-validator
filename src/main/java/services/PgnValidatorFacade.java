@@ -1,18 +1,16 @@
 package services;
 
 import services.dtos.MoveDto;
-import services.parser.PgnParser;
-import services.parser.SyntaxErrorTracker;
+import services.parser.PgnParserForSingleGame;
+import services.utils.filereader.FileReaderUtil;
+import services.utils.filereader.FileReaderUtilImpl;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 
 public class PgnValidatorFacade {
@@ -21,34 +19,28 @@ public class PgnValidatorFacade {
         String resourcePath = "plays/";
 
         try {
-            Path resourceDir = Paths.get(
-                    Objects.requireNonNull(PgnValidatorFacade.class.getClassLoader().getResource(resourcePath)).toURI()
-            );
+            URI resourceUri = Objects.requireNonNull(
+                    PgnValidatorFacade.class.getClassLoader().getResource(resourcePath)
+            ).toURI();
 
-            try (Stream<Path> paths = Files.walk(resourceDir)) {
-                paths.filter(Files::isRegularFile)
-                        .forEach(file -> {
-                            try {
-                                PgnParser pgnParser = new PgnParser(file.toString());
+            File directoryList = new File(resourceUri);
+            File[] files = directoryList.listFiles();
 
-                                List<MoveDto> moveDtoList = pgnParser.parse();
-
-                                SyntaxErrorTracker syntaxErrors = pgnParser.getErrorTracker();
-
-                                moveDtoList.forEach(System.out::println);
-
-                                if (syntaxErrors.hasErrors()) {
-                                    System.out.println("Syntax errors found:");
-                                    syntaxErrors.getErrors().forEach(System.out::println);
-                                }
-
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        });
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile() && file.getName().endsWith(".pgn")) {
+                        FileReaderUtil fileReader = new FileReaderUtilImpl(file);
+                        while(!fileReader.isFileFullyRead()){
+                            String[] game = fileReader.readSingleGameFromFile();
+                            PgnParserForSingleGame singleGame = new PgnParserForSingleGame();
+                            List<MoveDto> moveDtoList = singleGame.parse(game[0], game[1]);
+                            moveDtoList.forEach(System.out::println);
+                        }
+                    }
+                }
             }
-        } catch (URISyntaxException | IOException | NullPointerException e) {
-            e.printStackTrace();
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
