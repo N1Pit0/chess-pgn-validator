@@ -4,8 +4,6 @@ import lombok.Getter;
 import services.dtos.MoveDto;
 import services.parser.validators.MoveValidator;
 import services.parser.validators.TagValidator;
-import services.utils.filereader.FileReaderUtil;
-import services.utils.filereader.FileReaderUtilImpl;
 
 import java.io.IOException;
 import java.util.List;

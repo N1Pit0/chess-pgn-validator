@@ -3,7 +3,10 @@ package services.parser.validators;
 import services.dtos.MoveDto;
 import services.parser.RegEx;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 
 public class MoveValidator {
@@ -39,7 +42,7 @@ public class MoveValidator {
 
             // Validate SAN moves
             if (!isValidSan(whiteMove) || !isValidSan(blackMove)) {
-                syntaxErrors.add("Invalid move pair: "+ (expectedMoveNumber - 1) + ", " + whiteMove + " " + blackMove);
+                syntaxErrors.add("Invalid move pair: " + (expectedMoveNumber - 1) + ", " + whiteMove + " " + blackMove);
             } else {
                 moveDtos.add(new MoveDto(expectedMoveNumber - 1, whiteMove, blackMove));
             }

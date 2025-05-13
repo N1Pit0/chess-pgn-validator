@@ -2,7 +2,6 @@ package services;
 
 import services.dtos.MoveDto;
 import services.parser.PgnParser;
-import services.parser.SyntaxErrorTracker;
 import services.utils.filereader.FileReaderUtil;
 import services.utils.filereader.FileReaderUtilImpl;
 
@@ -10,35 +9,30 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.stream.Stream;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class PgnValidatorFacade {
 
     private final Semaphore semaphore;
     private final ExecutorService executorService;
-    private FileReaderUtil fileReaderUtil;
+    private final String resourcePath;
+    private final AtomicInteger activeTaskCounter; // Dynamic task tracker
 
-    public PgnValidatorFacade(int maxTasks, int maxThreads) {
+    public PgnValidatorFacade(String resourcePath, ExecutorService executorService, int maxTasks) {
         this.semaphore = new Semaphore(maxTasks);
-        this.executorService = Executors.newFixedThreadPool(maxThreads);
-        String resourcePath = "plays/";
+        this.executorService = executorService;
+        this.resourcePath = resourcePath;
+        this.activeTaskCounter = new AtomicInteger(0); // Initialize counter to 0
 
-        validatePgn(resourcePath);
-
+        validatePgn();
     }
 
-    public void validatePgn(String resourcePath){
-
+    private void validatePgn() {
         try {
             URI resourceUri = Objects.requireNonNull(
                     PgnValidatorFacade.class.getClassLoader().getResource(resourcePath)
@@ -50,53 +44,69 @@ public class PgnValidatorFacade {
             if (files != null) {
                 for (File file : files) {
                     if (file.isFile() && file.getName().endsWith(".pgn")) {
-                        try {
-                            semaphore.acquire(); // Acquire a permit before submitting a task
-                            executorService.submit(() -> {
-                                try {
-                                    try {
-                                        fileReaderUtil = new FileReaderUtilImpl(file);
-                                        processFile(executorService, semaphore);
-                                    } catch (InterruptedException | IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                } finally {
-                                    semaphore.release(); // Release the permit after task completion
-                                }
-                            });
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
+                        semaphore.acquireUninterruptibly();
+                        activeTaskCounter.incrementAndGet();
+                        executorService.submit(()-> {
+                            FileReaderUtil fileReaderUtil = null;
+                            try {
+                                fileReaderUtil = new FileReaderUtilImpl(file);
+                                processFile(executorService, fileReaderUtil);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }finally {
+                                semaphore.release();
+                                activeTaskCounter.decrementAndGet();
+                            }
+
+                        });
                     }
                 }
             }
-
-
         } catch (URISyntaxException | NullPointerException e) {
             e.printStackTrace();
+        } finally {
+            waitForCompletion(); // Wait for all tasks to finish
+            executorService.shutdown(); // Shutdown the ExecutorService
         }
+
     }
 
-    private void processFile(ExecutorService executorService,
-                             Semaphore semaphore) throws InterruptedException, IOException {
-
-        while(!fileReaderUtil.isFileFullyRead()){
-            String[] sections = fileReaderUtil.readSingleGameFromFile();
-
-            semaphore.acquire();
-            executorService.submit(()->{
-                try {
+    private void processFile(ExecutorService executorService, FileReaderUtil fileReaderUtil) {
+        try {
+            while (!fileReaderUtil.isFileFullyRead()) {
+                String[] sections = fileReaderUtil.readSingleGameFromFile();
+                semaphore.acquire();
+                activeTaskCounter.incrementAndGet(); // Increment active task counter
+                executorService.submit(() -> {
                     try {
+                        System.out.println("------------------------");
+                        System.out.println("New Game");
+                        System.out.println("------------------------");
                         PgnParser pgnParser = new PgnParser();
                         List<MoveDto> moveDtoList = pgnParser.parse(sections[0], sections[1]);
                         moveDtoList.forEach(System.out::println);
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
+                    } finally {
+                        semaphore.release();
+                        activeTaskCounter.decrementAndGet(); // Decrement active task counter
                     }
-                }finally {
-                    semaphore.release();
-                }
-            });
+                });
+            }
+        } catch (InterruptedException | IOException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
         }
     }
+
+    private void waitForCompletion() {
+        try {
+            while (activeTaskCounter.get() > 0) { // Wait until all tasks are completed
+                Thread.sleep(100); // Sleep for a short duration to avoid busy waiting
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
 }
