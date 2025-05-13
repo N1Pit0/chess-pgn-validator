@@ -11,24 +11,19 @@ import java.io.IOException;
 import java.util.List;
 
 public class PgnParser {
-    private final FileReaderUtil fileReaderService;
     private final TagValidator tagValidator;
     private final MoveValidator moveValidator;
 
     @Getter
     private final SyntaxErrorTracker errorTracker;
 
-    public PgnParser(String path) {
-        this.fileReaderService = new FileReaderUtilImpl(path);
+    public PgnParser() {
         this.tagValidator = new TagValidator();
         this.moveValidator = new MoveValidator();
         this.errorTracker = new SyntaxErrorTracker();
     }
 
-    public List<MoveDto> parse() throws IOException {
-        String[] sections = fileReaderService.readFile();
-        String tags = sections[0];
-        String moves = sections[1];
+    public List<MoveDto> parse(String tags, String moves){
 
         // Validate tags
         errorTracker.getErrors().addAll(tagValidator.validateTags(tags).values());

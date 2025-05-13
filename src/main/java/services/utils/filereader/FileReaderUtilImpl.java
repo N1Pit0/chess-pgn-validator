@@ -36,4 +36,9 @@ public class FileReaderUtilImpl implements FileReaderUtil{
 
         return new String[]{tags.toString(), moves.toString()};
     }
+
+    @Override
+    public void run() {
+
+    }
 }
