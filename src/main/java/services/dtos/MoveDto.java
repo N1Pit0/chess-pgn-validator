@@ -13,4 +13,5 @@ public class MoveDto {
     private int moveNumber;
     private String whiteMove;
     private String blackMove;
+    private String winner;
 }

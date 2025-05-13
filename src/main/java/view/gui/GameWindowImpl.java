@@ -1,7 +1,7 @@
 package view.gui;
 
-import controller.GameController;
-import controller.GameControllerImpl;
+import controller.ChessGamePlayer;
+import controller.ChessGamePlayerImpl;
 import model.board.Board;
 import services.board.BoardInterface;
 import services.board.BoardService;
@@ -11,7 +11,6 @@ import services.checkmatedetection.CheckmateDetectorImpl;
 import services.enums.PieceColor;
 import services.utils.Clock;
 import view.BoardView;
-import view.mouseListener.CustomBoardMouseListenerImpl;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -63,9 +62,7 @@ public class GameWindowImpl implements GameWindow {
 
         CheckmateDetector checkmateDetector = new CheckmateDetectorImpl();
 
-        GameController gameController = new GameControllerImpl(boardService, checkmateDetector);
-
-        new CustomBoardMouseListenerImpl(boardView, this, gameController);
+        ChessGamePlayer gameController = new ChessGamePlayerImpl(boardService, checkmateDetector);
 
         gameWindow.add(boardView, BorderLayout.CENTER);
 

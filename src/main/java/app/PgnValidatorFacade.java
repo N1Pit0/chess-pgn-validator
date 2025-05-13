@@ -1,4 +1,4 @@
-package services;
+package app;
 
 import services.dtos.MoveDto;
 import services.parser.PgnParserForSingleGame;
@@ -30,11 +30,14 @@ public class PgnValidatorFacade {
                 for (File file : files) {
                     if (file.isFile() && file.getName().endsWith(".pgn")) {
                         FileReaderUtil fileReader = new FileReaderUtilImpl(file);
-                        while(!fileReader.isFileFullyRead()){
+                        while (!fileReader.isFileFullyRead()) {
                             String[] game = fileReader.readSingleGameFromFile();
                             PgnParserForSingleGame singleGame = new PgnParserForSingleGame();
                             List<MoveDto> moveDtoList = singleGame.parse(game[0], game[1]);
                             moveDtoList.forEach(System.out::println);
+                            System.out.println("List of syntax errors");
+                            singleGame.getErrorTracker().getErrors().forEach(System.out::println);
+                            System.out.println("----------------------");
                         }
                     }
                 }

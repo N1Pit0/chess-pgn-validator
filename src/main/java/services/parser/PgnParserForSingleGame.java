@@ -5,7 +5,6 @@ import services.dtos.MoveDto;
 import services.parser.validators.MoveValidator;
 import services.parser.validators.TagValidator;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
